@@ -56,18 +56,16 @@ export default function Hero({ onOpenSchemeModal }) {
         return;
       }
 
-      // If requested frame is still downloading, find nearest loaded frame
+      // If requested frame is still downloading, find nearest loaded frame without overwriting lastDrawnIndex target
       for (let offset = 1; offset < TOTAL_FRAMES; offset++) {
         const prev = index - offset;
         if (prev >= 0 && images[prev] && images[prev].complete && images[prev].naturalWidth > 0) {
           ctx.drawImage(images[prev], 0, 0, 1280, 720);
-          lastDrawnIndex = prev;
           return;
         }
         const next = index + offset;
         if (next < TOTAL_FRAMES && images[next] && images[next].complete && images[next].naturalWidth > 0) {
           ctx.drawImage(images[next], 0, 0, 1280, 720);
-          lastDrawnIndex = next;
           return;
         }
       }
@@ -78,13 +76,20 @@ export default function Hero({ onOpenSchemeModal }) {
     firstImg.src = getFrameSrc(0);
     images[0] = firstImg;
     firstImg.onload = () => {
-      drawFrame(0);
+      if (firstImg.decode) {
+        firstImg.decode().then(() => drawFrame(0)).catch(() => drawFrame(0));
+      } else {
+        drawFrame(0);
+      }
     };
 
-    // Background progressive loader for all remaining frames
+    // Background progressive loader for all remaining frames with async decode
     for (let i = 1; i < TOTAL_FRAMES; i++) {
       const img = new Image();
       img.src = getFrameSrc(i);
+      if (img.decode) {
+        img.decode().catch(() => {});
+      }
       images[i] = img;
     }
 
@@ -130,10 +135,10 @@ export default function Hero({ onOpenSchemeModal }) {
         return;
       }
 
-      // Snappy, silky smooth lerp factor (0.24 pairs effortlessly with Lenis smooth scroll)
+      // Responsive, ultra-smooth lerp factor (0.55 tracks Lenis smooth scroll seamlessly with 0 lag)
       const diff = targetProgress - currentProgress;
-      if (Math.abs(diff) > 0.0003) {
-        currentProgress += diff * 0.24;
+      if (Math.abs(diff) > 0.0001) {
+        currentProgress += diff * 0.55;
       } else {
         currentProgress = targetProgress;
       }
