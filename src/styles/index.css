@@ -1,0 +1,433 @@
+/* ==========================================================================
+   KV GOLD - ULTRA LUXURY DESIGN SYSTEM
+   Theme: Royal Maroon (#7A0019) & Metallic Gold (#D4AF37)
+   Target: Tamil Nadu & South India Sovereign Wealth & Jewellery Investors
+   ========================================================================== */
+
+:root {
+  /* Core Luxury Palette */
+  --color-primary: #7A0019;
+  --color-primary-dark: #4A000F;
+  --color-primary-light: #9E0E28;
+  --color-primary-glow: rgba(122, 0, 25, 0.45);
+  --color-primary-subtle: rgba(122, 0, 25, 0.15);
+
+  --color-gold: #D4AF37;
+  --color-gold-light: #F9E79F;
+  --color-gold-bright: #FFF2B2;
+  --color-gold-champagne: #FFF7DB;
+  --color-gold-dark: #8F6D19;
+  --color-gold-glow: rgba(212, 175, 55, 0.35);
+  --color-gold-glow-intense: rgba(249, 231, 159, 0.55);
+
+  --color-bg: #12060A;
+  --color-bg-alt: #18090E;
+  --color-bg-card: rgba(26, 9, 15, 0.72);
+  --color-bg-card-hover: rgba(38, 12, 22, 0.88);
+  --color-bg-glass: rgba(18, 6, 10, 0.82);
+
+  --color-text: #FFF8E7;
+  --color-text-muted: #D9C8AA;
+  --color-text-dim: #998366;
+
+  /* Typography */
+  --font-serif: 'Cinzel', serif;
+  --font-haute: 'Cormorant Garamond', Georgia, serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Borders & Shadows */
+  --border-gold-subtle: 1px solid rgba(212, 175, 55, 0.2);
+  --border-gold: 1px solid rgba(212, 175, 55, 0.35);
+  --border-gold-bright: 1px solid rgba(249, 231, 159, 0.65);
+  --border-maroon: 1px solid rgba(122, 0, 25, 0.4);
+
+  --shadow-luxury: 0 20px 50px -10px rgba(0, 0, 0, 0.7), 0 0 30px -5px rgba(122, 0, 25, 0.3);
+  --shadow-gold-hover: 0 20px 45px -10px rgba(212, 175, 55, 0.3), 0 0 25px rgba(122, 0, 25, 0.4);
+  --shadow-glow: 0 0 40px rgba(212, 175, 55, 0.25);
+
+  /* Gradients */
+  --gold-gradient: linear-gradient(135deg, #FFE89F 0%, #D4AF37 50%, #946F17 100%);
+  --gold-gradient-rich: linear-gradient(135deg, #FFF5CC 0%, #F9E79F 25%, #D4AF37 60%, #8A6818 100%);
+  --gold-gradient-horizontal: linear-gradient(90deg, #99731B 0%, #F9E79F 50%, #D4AF37 100%);
+  --maroon-gradient: linear-gradient(135deg, #7A0019 0%, #3B000B 100%);
+  --maroon-gold-banner: linear-gradient(135deg, rgba(122, 0, 25, 0.95) 0%, rgba(35, 7, 14, 0.95) 100%);
+
+  /* Layout */
+  --max-width: 1320px;
+  --transition-luxury: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* CSS Reset & Global Baseline */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  color-scheme: dark;
+  background-color: var(--color-bg);
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0D0407;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-gold) 0%, var(--color-primary) 100%);
+  border-radius: 6px;
+  border: 2px solid #0D0407;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-light);
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-primary);
+  color: var(--color-gold-light);
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+/* Typography Utilities */
+.gold-gradient-text {
+  background: var(--gold-gradient-rich);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.gold-gradient-text-alt {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFF3C4 35%, #D4AF37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Section Header Styles */
+.section-badge-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1.15rem;
+  border-radius: 9999px;
+  background: rgba(122, 0, 25, 0.4);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  backdrop-filter: blur(12px);
+  margin-bottom: 1.25rem;
+}
+
+.section-badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--color-gold);
+  box-shadow: 0 0 10px var(--color-gold);
+  animation: pulseGold 2s infinite ease-in-out;
+}
+
+.section-badge-text {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold-light);
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin-bottom: 1.25rem;
+}
+
+.section-subtitle {
+  font-size: clamp(1rem, 1.3vw, 1.18rem);
+  color: var(--color-text-muted);
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+/* Luxury Buttons */
+.btn-gold-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.95rem 2.25rem;
+  background: var(--gold-gradient);
+  color: #1A070D;
+  font-family: var(--font-sans);
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  border: 1px solid var(--color-gold-light);
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 10px 30px -5px rgba(212, 175, 55, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+  transition: var(--transition-luxury);
+  text-decoration: none;
+}
+
+.btn-gold-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 80%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-25deg);
+  transition: 0.75s ease;
+}
+
+.btn-gold-primary:hover::before {
+  left: 140%;
+}
+
+.btn-gold-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px -5px rgba(212, 175, 55, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+  color: #0E0306;
+}
+
+.btn-luxury-secondary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.95rem 2.25rem;
+  background: rgba(26, 9, 15, 0.65);
+  color: var(--color-gold-light);
+  font-family: var(--font-sans);
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  backdrop-filter: blur(14px);
+  cursor: pointer;
+  transition: var(--transition-luxury);
+  text-decoration: none;
+}
+
+.btn-luxury-secondary:hover {
+  background: rgba(122, 0, 25, 0.4);
+  border-color: var(--color-gold);
+  color: #FFF;
+  box-shadow: 0 10px 30px rgba(122, 0, 25, 0.35);
+  transform: translateY(-2px);
+}
+
+/* Glassmorphic Luxury Card */
+.luxury-card {
+  background: var(--color-bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: var(--border-gold-subtle);
+  border-radius: 12px;
+  box-shadow: var(--shadow-luxury);
+  transition: var(--transition-luxury);
+  position: relative;
+  overflow: hidden;
+}
+
+.luxury-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(249, 231, 159, 0.5), transparent);
+}
+
+.luxury-card:hover {
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: var(--shadow-gold-hover);
+  transform: translateY(-5px);
+}
+
+/* Micro-animations */
+@keyframes pulseGold {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.5;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1deg);
+  }
+}
+
+@keyframes goldGlow {
+  0%, 100% {
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 50px rgba(212, 175, 55, 0.45);
+  }
+}
+
+/* ==========================================================================
+   ₹100 CRORE LUXURY TYPOGRAPHY & SHIMMER EFFECTS
+   ========================================================================== */
+
+.font-haute {
+  font-family: var(--font-haute);
+}
+
+.haute-italic {
+  font-family: var(--font-haute);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* Metallic Gold Foil Shimmer Text */
+.shimmer-gold-text {
+  background: linear-gradient(
+    110deg,
+    #B38728 0%,
+    #FBF5B7 25%,
+    #DAA520 45%,
+    #AA771C 60%,
+    #FBF5B7 80%,
+    #B38728 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: goldFoilSheen 5s linear infinite;
+  display: inline-block;
+}
+
+@keyframes goldFoilSheen {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+/* Luxury Etched Section Divider */
+.luxury-divider-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+}
+
+.luxury-divider-line {
+  flex-grow: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+}
+
+.luxury-divider-diamond {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.luxury-divider-diamond::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  transform: rotate(45deg);
+  background: var(--gold-gradient);
+  border: 1px solid #FFF;
+  box-shadow: 0 0 12px rgba(249, 231, 159, 0.8);
+}

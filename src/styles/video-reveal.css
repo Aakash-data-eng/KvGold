@@ -1,0 +1,505 @@
+/* ==========================================================================
+   KV GOLD - CINEMATIC VIDEO REVEAL & GOLDEN DOUBLE DOORS
+   Door Opening -> Video Reveal -> Normal Autoplay
+   Theme: Royal Burgundy (#2E050F) & Metallic Gold (#D4AF37)
+   ========================================================================== */
+
+.video-reveal-section {
+  position: relative;
+  width: 100%;
+  background: radial-gradient(circle at 50% 20%, #30030B 0%, #150205 55%, #0A0103 100%);
+  color: var(--color-text);
+  padding: 5rem 1.5rem 4.5rem;
+  overflow: clip;
+  box-sizing: border-box;
+}
+
+/* Header */
+.video-reveal-header {
+  max-width: 900px;
+  margin: 0 auto 3rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 5;
+}
+
+.video-reveal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-gold-bright);
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.14);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 0 14px rgba(212, 175, 55, 0.25);
+}
+
+.video-reveal-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  font-weight: 700;
+  color: #FFFBF0;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.85), 0 0 35px rgba(212, 175, 55, 0.35);
+}
+
+.video-reveal-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(0.85rem, 1.1vw, 1.02rem);
+  font-weight: 400;
+  color: var(--color-gold-champagne);
+  letter-spacing: 0.06em;
+  opacity: 0.9;
+  max-width: 680px;
+}
+
+/* ==========================================================================
+   VIDEO STAGE & VIEWPORT
+   ========================================================================== */
+
+.video-reveal-stage {
+  position: relative;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 25px 65px -10px rgba(0, 0, 0, 0.95), 0 0 40px rgba(122, 0, 25, 0.35);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  box-sizing: border-box;
+  background: #080103;
+}
+
+.video-reveal-viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  overflow: hidden;
+  background: #080103;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-reveal-media {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+/* Luxury Film Vignette Overlay */
+.video-reveal-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 65%, rgba(10, 1, 3, 0.75) 100%),
+              linear-gradient(to bottom, rgba(16, 2, 6, 0.35) 0%, transparent 20%, transparent 80%, rgba(16, 2, 6, 0.5) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Video Control Overlays (Mute & Replay) */
+.video-controls-overlay {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 10;
+}
+
+.video-control-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  background: rgba(26, 4, 10, 0.82);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  color: #FFF8E7;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+}
+
+.video-control-btn:hover {
+  background: rgba(45, 8, 18, 0.95);
+  border-color: var(--color-gold-bright);
+  color: #FFFFFF;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  transform: translateY(-2px);
+}
+
+.video-control-btn.replay-btn {
+  background: linear-gradient(135deg, rgba(122, 0, 25, 0.85) 0%, rgba(55, 4, 12, 0.9) 100%);
+  border-color: rgba(249, 231, 159, 0.6);
+}
+
+/* ==========================================================================
+   GOLDEN VAULT DOUBLE DOORS REVEAL
+   ========================================================================== */
+
+.video-vault-doors {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  pointer-events: auto;
+  overflow: hidden;
+  transition: opacity 0.6s ease 1.2s, visibility 0.6s ease 1.2s;
+}
+
+.video-vault-doors.door-state-open {
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* Individual Door Panels */
+.vault-door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50.5%; /* Slight overlap in center */
+  height: 100%;
+  will-change: transform;
+}
+
+.vault-door-left {
+  left: 0;
+  transform: translate3d(0, 0, 0);
+  transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+  border-right: 1px solid rgba(212, 175, 55, 0.4);
+}
+
+.vault-door-right {
+  right: 0;
+  transform: translate3d(0, 0, 0);
+  transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+  border-left: 1px solid rgba(212, 175, 55, 0.4);
+}
+
+/* Door Opening States */
+.door-state-opening .vault-door-left,
+.door-state-open .vault-door-left {
+  transform: translate3d(-102%, 0, 0);
+}
+
+.door-state-opening .vault-door-right,
+.door-state-open .vault-door-right {
+  transform: translate3d(102%, 0, 0);
+}
+
+/* Door Surface Styling */
+.vault-door-surface {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #2D050E 0%, #150206 50%, #20040A 100%);
+  border: 2px solid rgba(212, 175, 55, 0.35);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.95);
+}
+
+/* Inner Recessed Frame */
+.vault-door-frame {
+  position: absolute;
+  inset: 24px;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  background: radial-gradient(circle at 50% 50%, rgba(45, 7, 16, 0.7) 0%, rgba(18, 2, 5, 0.9) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.8), 0 0 20px rgba(122, 0, 25, 0.2);
+}
+
+/* Filigree Corners */
+.vault-filigree {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-color: rgba(249, 231, 159, 0.6);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.vault-filigree.top-left {
+  top: 8px;
+  left: 8px;
+  border-width: 2px 0 0 2px;
+}
+
+.vault-filigree.bottom-left {
+  bottom: 8px;
+  left: 8px;
+  border-width: 0 0 2px 2px;
+}
+
+.vault-filigree.top-right {
+  top: 8px;
+  right: 8px;
+  border-width: 2px 2px 0 0;
+}
+
+.vault-filigree.bottom-right {
+  bottom: 8px;
+  right: 8px;
+  border-width: 0 2px 2px 0;
+}
+
+/* Golden Door Crest Monogram */
+.vault-door-crest {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0.9;
+}
+
+.vault-crest-ring {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid rgba(212, 175, 55, 0.6);
+  background: radial-gradient(circle, rgba(122, 0, 25, 0.4) 0%, rgba(20, 2, 6, 0.8) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.3), inset 0 0 15px rgba(249, 231, 159, 0.2);
+}
+
+.vault-crest-letters {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #FFF8E7;
+  letter-spacing: 0.05em;
+  background: var(--gold-gradient-rich);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.vault-crest-label {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-gold-light);
+  opacity: 0.85;
+}
+
+/* Golden Vertical Vault Handles */
+.vault-door-handle {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 5;
+}
+
+.handle-left {
+  right: 18px;
+}
+
+.handle-right {
+  left: 18px;
+}
+
+.vault-handle-pillar {
+  width: 14px;
+  height: 10px;
+  background: var(--gold-gradient);
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+.vault-handle-gold-bar {
+  width: 10px;
+  height: 130px;
+  background: linear-gradient(180deg, #FFE89F 0%, #D4AF37 50%, #8A6818 100%);
+  border-radius: 5px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8), 0 0 12px rgba(212, 175, 55, 0.5);
+  border: 1px solid rgba(255, 245, 204, 0.6);
+}
+
+/* Center Seam Golden Glow */
+.vault-center-seam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  background: linear-gradient(180deg, transparent 0%, #FFF2B2 30%, #D4AF37 50%, #FFF2B2 70%, transparent 100%);
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.95), 0 0 30px rgba(249, 231, 159, 0.6);
+  z-index: 25;
+  transition: opacity 0.4s ease;
+}
+
+.door-state-opening .vault-center-seam,
+.door-state-open .vault-center-seam {
+  opacity: 0;
+}
+
+/* Centered Intro Text */
+.vault-intro-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.8rem;
+  border-radius: 999px;
+  background: rgba(30, 4, 10, 0.92);
+  border: 1px solid rgba(249, 231, 159, 0.6);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85), 0 0 25px rgba(212, 175, 55, 0.5);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  white-space: nowrap;
+}
+
+.vault-intro-dot {
+  color: var(--color-gold-bright);
+  font-size: 0.85rem;
+  filter: drop-shadow(0 0 6px var(--color-gold));
+}
+
+.vault-intro-text {
+  font-family: var(--font-serif);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #FFFDF5;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
+
+.door-state-opening .vault-intro-badge,
+.door-state-open .vault-intro-badge {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.9);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .vault-door-frame {
+    inset: 16px;
+  }
+
+  .vault-crest-ring {
+    width: 68px;
+    height: 68px;
+  }
+
+  .vault-crest-letters {
+    font-size: 1.55rem;
+  }
+
+  .vault-handle-gold-bar {
+    height: 105px;
+  }
+}
+
+@media (max-width: 768px) {
+  .video-reveal-section {
+    padding: 3.5rem 1rem 3rem;
+  }
+
+  .video-reveal-header {
+    margin-bottom: 2rem;
+  }
+
+  .video-reveal-stage {
+    border-radius: 16px;
+  }
+
+  .video-controls-overlay {
+    bottom: 14px;
+    right: 14px;
+  }
+
+  .video-control-btn {
+    padding: 0.45rem 0.8rem;
+    font-size: 0.68rem;
+  }
+
+  .vault-door-frame {
+    inset: 10px;
+  }
+
+  .vault-filigree {
+    width: 18px;
+    height: 18px;
+  }
+
+  .vault-crest-ring {
+    width: 52px;
+    height: 52px;
+  }
+
+  .vault-crest-letters {
+    font-size: 1.25rem;
+  }
+
+  .vault-crest-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+  }
+
+  .vault-handle-gold-bar {
+    height: 75px;
+    width: 8px;
+  }
+
+  .handle-left {
+    right: 10px;
+  }
+
+  .handle-right {
+    left: 10px;
+  }
+
+  .vault-intro-badge {
+    padding: 0.6rem 1.1rem;
+    gap: 0.5rem;
+  }
+
+  .vault-intro-text {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+  }
+}

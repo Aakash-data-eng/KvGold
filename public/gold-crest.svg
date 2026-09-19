@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE79A" />
+      <stop offset="40%" stop-color="#D4AF37" />
+      <stop offset="80%" stop-color="#AA7C11" />
+      <stop offset="100%" stop-color="#553D00" />
+    </linearGradient>
+    <radialGradient id="maroonGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7A0019" />
+      <stop offset="100%" stop-color="#12060A" />
+    </radialGradient>
+  </defs>
+  <rect width="100" height="100" rx="24" fill="url(#maroonGlow)" stroke="url(#goldGrad)" stroke-width="2"/>
+  <!-- Crown / Royal Crest -->
+  <path d="M28 36 L50 20 L72 36 L66 68 L34 68 Z" fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="28" cy="34" r="3" fill="url(#goldGrad)"/>
+  <circle cx="50" cy="18" r="4" fill="url(#goldGrad)"/>
+  <circle cx="72" cy="34" r="3" fill="url(#goldGrad)"/>
+  <!-- KV Monogram -->
+  <text x="50" y="58" font-family="'Cinzel', serif" font-size="22" font-weight="bold" fill="url(#goldGrad)" text-anchor="middle" letter-spacing="1">KV</text>
+  <line x1="38" y1="62" x2="62" y2="62" stroke="url(#goldGrad)" stroke-width="1.5"/>
+</svg>

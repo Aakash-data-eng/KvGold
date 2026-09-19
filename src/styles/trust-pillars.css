@@ -1,0 +1,196 @@
+/* ==========================================================================
+   KV GOLD - GOLD TRANSPARENCY PILLARS STYLES
+   ========================================================================== */
+
+.pillars-section {
+  position: relative;
+  width: 100%;
+  padding: 5.5rem 1.5rem;
+  background: radial-gradient(circle at 50% 30%, #1F0309 0%, #110104 60%, #080002 100%);
+  color: #F7E7CE;
+  overflow: hidden;
+  z-index: 5;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.pillars-ambient-glow {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(85px);
+  z-index: 1;
+}
+
+.pillars-ambient-glow.center-glow {
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.14) 0%, rgba(122, 0, 25, 0.08) 50%, transparent 75%);
+}
+
+.pillars-wrapper {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+/* Header */
+.pillars-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pillars-header.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pillars-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--color-gold-bright, #F9E79F);
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+}
+
+.eyebrow-spark {
+  color: var(--color-gold, #D4AF37);
+  font-size: 0.8rem;
+}
+
+.pillars-main-title {
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: clamp(1.85rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #FFFFFF 0%, #F5E6BE 40%, #D4AF37 75%, #AA7C11 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.75rem;
+  line-height: 1.2;
+}
+
+.pillars-subtitle {
+  font-size: clamp(0.92rem, 1.5vw, 1.1rem);
+  color: rgba(247, 231, 206, 0.8);
+  letter-spacing: 0.05em;
+  font-weight: 300;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* 4 Pillars Grid */
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.75rem;
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s,
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+}
+
+.pillars-grid.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pillar-card {
+  background: rgba(26, 6, 12, 0.65);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 18px;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.pillar-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(249, 231, 159, 0.75);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85), 0 0 25px rgba(212, 175, 55, 0.25);
+  background: rgba(35, 7, 16, 0.85);
+}
+
+.pillar-icon-ring {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #3D040E 0%, #180206 100%);
+  border: 1.5px solid rgba(212, 175, 55, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gold-bright, #F9E79F);
+  margin-bottom: 1.25rem;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+.pillar-card-title {
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #FFF;
+  margin-bottom: 0.65rem;
+  line-height: 1.35;
+}
+
+.pillar-card-desc {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: rgba(247, 231, 206, 0.8);
+  margin-bottom: 1.25rem;
+  flex-grow: 1;
+}
+
+.pillar-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--color-gold-bright, #F9E79F);
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.18);
+}
+
+.pillar-check-icon {
+  color: var(--color-gold, #D4AF37);
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+  .pillars-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .pillars-section {
+    padding: 4rem 1rem;
+  }
+
+  .pillars-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}

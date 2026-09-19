@@ -1,0 +1,277 @@
+/* ==========================================================================
+   SCROLL-DRIVEN VIDEO HERO SECTION - SOVEREIGN PIECE
+   Theme: Midnight Charcoal, Royal Maroon & Radiant 22K Sovereign Gold
+   ========================================================================== */
+
+/* Outer scroll track: 340vh on desktop, 260vh on mobile for fluid scrubbing */
+.hero-product-scroll-track {
+  position: relative;
+  width: 100%;
+  height: 340vh;
+  background-color: #0b0306;
+}
+
+@media (max-width: 768px) {
+  .hero-product-scroll-track {
+    height: 260vh;
+  }
+}
+
+/* Sticky stage pins the viewport smoothly while the user scrubs through */
+.hero-product-sticky-stage {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0b0306;
+  z-index: 10;
+}
+
+/* --------------------------------------------------------------------------
+   AMBIENT LIGHTING & GOLD DUST PARTICLES
+   -------------------------------------------------------------------------- */
+.hero-ambient-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 70% 55% at 50% 50%,
+    rgba(212, 175, 55, 0.16) 0%,
+    rgba(122, 0, 25, 0.08) 45%,
+    transparent 75%
+  );
+}
+
+.hero-gold-dust-container {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.dust-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: #FFF2B2;
+  box-shadow: 0 0 6px rgba(249, 231, 159, 0.8);
+  pointer-events: none;
+  animation: floatDust 12s infinite ease-in-out;
+}
+
+.p-1 { width: 2px; height: 2px; top: 22%; left: 18%; opacity: 0.45; animation-duration: 14s; }
+.p-2 { width: 3px; height: 3px; top: 40%; left: 75%; opacity: 0.35; animation-duration: 18s; animation-delay: -3s; }
+.p-3 { width: 1.5px; height: 1.5px; top: 65%; left: 28%; opacity: 0.5; animation-duration: 11s; animation-delay: -5s; }
+.p-4 { width: 2.5px; height: 2.5px; top: 30%; left: 52%; opacity: 0.4; animation-duration: 16s; animation-delay: -7s; }
+.p-5 { width: 2px; height: 2px; top: 80%; left: 82%; opacity: 0.3; animation-duration: 13s; animation-delay: -2s; }
+.p-6 { width: 1.5px; height: 1.5px; top: 15%; left: 88%; opacity: 0.45; animation-duration: 15s; animation-delay: -9s; }
+
+@keyframes floatDust {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateY(-28px) translateX(12px);
+    opacity: 0.6;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   CANVAS LAYER & HARDWARE ACCELERATION
+   -------------------------------------------------------------------------- */
+.hero-video-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-scrub-video,
+.hero-scrub-canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  filter: brightness(0.94) contrast(1.08);
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* Soft dark/burgundy edge blending so the canvas integrates seamlessly */
+.hero-video-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at center, transparent 38%, rgba(11, 3, 6, 0.35) 65%, rgba(11, 3, 6, 0.94) 100%),
+    linear-gradient(180deg, rgba(11, 3, 6, 0.7) 0%, transparent 16%, transparent 80%, #0b0306 100%);
+}
+
+/* --------------------------------------------------------------------------
+   PHASED STORYTELLING TEXT OVERLAYS (Zero Overlap Guaranteed)
+   -------------------------------------------------------------------------- */
+.hero-story-overlay {
+  position: absolute;
+  z-index: 4;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+/* Phase 1: Left Intro Badge & Headline (Scroll 0% only - Removed immediately on scroll) */
+.hero-phase-1 {
+  top: 18%;
+  left: 5%;
+  max-width: 540px;
+}
+
+@media (min-width: 1024px) {
+  .hero-phase-1 {
+    left: 8%;
+    top: 22%;
+  }
+}
+
+.hero-subtle-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1.1rem;
+  border-radius: 999px;
+  background: rgba(122, 0, 25, 0.5);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  backdrop-filter: blur(12px);
+  margin-bottom: 1.1rem;
+}
+
+.hero-subtle-badge-text {
+  font-family: 'Mukta Malar', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-gold-light);
+}
+
+.hero-phase-title {
+  font-family: 'Anek Tamil', 'Mukta Malar', var(--font-serif);
+  font-size: clamp(2rem, 3.8vw, 3.3rem);
+  font-weight: 800;
+  color: #FFF9EE;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  margin-bottom: 0.95rem;
+  text-shadow: 0 4px 25px rgba(0, 0, 0, 0.9);
+}
+
+.hero-phase-desc {
+  font-family: 'Mukta Malar', var(--font-sans);
+  font-size: clamp(0.98rem, 1.25vw, 1.15rem);
+  color: var(--color-text-muted);
+  line-height: 1.75;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+  max-width: 500px;
+}
+
+/* Phase 2: Poetic Tamil Heritage Quote on Right (Pure Text - NO Background Box) */
+.hero-phase-2 {
+  bottom: 18%;
+  right: 6%;
+  max-width: 560px;
+  text-align: right;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .hero-phase-2 {
+    right: 6%;
+    left: 6%;
+    text-align: center;
+    bottom: 15%;
+    max-width: 100%;
+  }
+}
+
+.hero-quote-serif {
+  font-family: 'Anek Tamil', 'Mukta Malar', serif;
+  font-style: normal;
+  font-size: clamp(1.35rem, 2.5vw, 2.15rem);
+  font-weight: 700;
+  color: #FFF9EE;
+  line-height: 1.55;
+  margin-bottom: 0.9rem;
+  text-shadow: 0 4px 25px rgba(0, 0, 0, 0.95), 0 0 20px rgba(0, 0, 0, 0.9);
+}
+
+.hero-quote-caption {
+  font-family: 'Mukta Malar', var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-gold-bright);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95);
+}
+
+/* --------------------------------------------------------------------------
+   PHASE 3: PURE TEXT AT FULL SCROLL (NO BACKGROUND BOX)
+   100% unobstructed, crystal-clear view of the entire gold necklace!
+   -------------------------------------------------------------------------- */
+.hero-finale-text-overlay {
+  position: absolute;
+  bottom: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  text-align: center;
+  pointer-events: none;
+  transition: opacity 0.3s ease-out;
+  width: 100%;
+  max-width: 960px;
+  padding: 0 1.5rem;
+}
+
+.hero-finale-title {
+  font-family: 'Anek Tamil', 'Mukta Malar', var(--font-serif);
+  font-size: clamp(1.45rem, 3vw, 2.35rem);
+  font-weight: 800;
+  color: #FFF9EE;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.95), 0 0 25px rgba(212, 175, 55, 0.45);
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #FFF9EE 0%, #F9E79F 50%, #D4AF37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-finale-sub {
+  font-family: 'Mukta Malar', sans-serif;
+  font-size: clamp(0.85rem, 1.1vw, 1.05rem);
+  font-weight: 600;
+  color: var(--color-gold-bright);
+  letter-spacing: 0.05em;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.95);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .hero-phase-1 {
+    top: 14%;
+    left: 5%;
+    right: 5%;
+  }
+
+  .hero-phase-title {
+    font-size: 1.85rem;
+  }
+}

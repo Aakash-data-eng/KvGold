@@ -1,0 +1,12 @@
+/* ==========================================================================
+   KV GOLD - "WHY KV GOLD?" CINEMATIC VIDEO SECTION STYLES
+   Reuses exact golden double-door animation system & luxury vault styling
+   ========================================================================== */
+
+.why-kv-gold-video-section {
+  position: relative;
+  width: 100%;
+  background: radial-gradient(circle at 50% 25%, #2E040E 0%, #140205 55%, #090103 100%);
+  border-top: 1px solid rgba(212, 175, 55, 0.22);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.22);
+}

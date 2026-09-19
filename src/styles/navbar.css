@@ -1,0 +1,259 @@
+/* ==========================================================================
+   NAVBAR & LUXURY KV GOLD BRAND EMBLEM WITH TAMIL GOLD QUOTES
+   ========================================================================== */
+
+.nav-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Main Navbar Bar */
+.main-navbar {
+  background: rgba(14, 4, 8, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.22);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-scrolled {
+  background: rgba(10, 2, 5, 0.96);
+  border-bottom-color: rgba(212, 175, 55, 0.35);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.75), 0 0 25px rgba(122, 0, 25, 0.25);
+}
+
+/* Centered 3-Column Layout: Left Tamil Quote | Centered KV GOLD Logo | Right Tamil Quote */
+.navbar-centered-layout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 0;
+  width: 100%;
+  transition: padding 0.3s ease;
+}
+
+.nav-scrolled .navbar-centered-layout {
+  padding: 0.65rem 0;
+}
+
+/* ==========================================================================
+   LEFT & RIGHT ROYAL TAMIL GOLD QUOTES
+   ========================================================================== */
+.nav-quote-wing {
+  flex: 1;
+  display: none;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+@media (min-width: 960px) {
+  .nav-quote-wing {
+    display: flex;
+  }
+}
+
+.nav-quote-left {
+  justify-content: flex-start;
+}
+
+.nav-quote-right {
+  justify-content: flex-end;
+}
+
+.quote-sparkle {
+  color: var(--color-gold-bright);
+  font-size: 0.9rem;
+  opacity: 0.85;
+  text-shadow: 0 0 10px rgba(249, 231, 159, 0.7);
+  animation: pulseSparkle 3s infinite ease-in-out;
+}
+
+@keyframes pulseSparkle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 1;
+  }
+}
+
+.quote-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.quote-text-right {
+  text-align: right;
+}
+
+.quote-tamil-primary {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #FFF9EE;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+  background: linear-gradient(135deg, #FFF8E7 0%, #F9E79F 60%, #D4AF37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.quote-tamil-secondary {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(249, 231, 159, 0.72);
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+
+/* ==========================================================================
+   CENTERED KV GOLD BRAND EMBLEM
+   ========================================================================== */
+.brand-logo-centered {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.95rem;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  margin: 0 auto;
+  flex-shrink: 0;
+}
+
+/* Double-beveled gold seal / crest frame */
+.brand-crest-frame {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  padding: 2px;
+  background: linear-gradient(135deg, #FFE89F 0%, #D4AF37 40%, #5E0013 70%, #D4AF37 100%);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), 0 0 18px rgba(212, 175, 55, 0.25);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+
+.brand-crest-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background: radial-gradient(circle at 35% 30%, #4D0010 0%, #1D0408 80%, #100205 100%);
+  border: 1px solid rgba(255, 235, 170, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Diagonal specular light reflection / shimmer sweep */
+.brand-crest-shimmer {
+  position: absolute;
+  top: -50%;
+  left: -150%;
+  width: 120%;
+  height: 200%;
+  background: linear-gradient(
+    115deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.35) 45%,
+    rgba(249, 231, 159, 0.5) 50%,
+    transparent 65%
+  );
+  transform: rotate(25deg);
+  opacity: 0;
+  transition: transform 0.75s ease, opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.brand-logo-centered:hover .brand-crest-shimmer {
+  opacity: 1;
+  transform: rotate(25deg) translateX(300%);
+}
+
+.brand-logo-centered:hover .brand-crest-frame {
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7), 0 0 28px rgba(212, 175, 55, 0.45);
+}
+
+/* Monogram 'KV' */
+.brand-monogram {
+  font-family: var(--font-serif);
+  font-size: 1.32rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, #FFF6D6 0%, #F9E79F 35%, #D4AF37 70%, #AA8222 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  position: relative;
+  z-index: 2;
+}
+
+/* Brand Name & Tagline Typography */
+.brand-text-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.brand-name {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  line-height: 1.05;
+  background: linear-gradient(135deg, #FFF7DC 0%, #F9E79F 30%, #D4AF37 75%, #967018 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: filter 0.3s ease;
+}
+
+.brand-logo-centered:hover .brand-name {
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
+}
+
+.brand-tagline {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(249, 231, 159, 0.75);
+  margin-top: 0.2rem;
+  transition: color 0.3s ease;
+}
+
+.brand-logo-centered:hover .brand-tagline {
+  color: var(--color-gold-bright);
+}
+
+/* ==========================================================================
+   MOBILE TAMIL HERITAGE QUOTE STRIP
+   ========================================================================== */
+.mobile-tamil-quote-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.32rem 1rem;
+  background: rgba(122, 0, 25, 0.35);
+  border-top: 1px solid rgba(212, 175, 55, 0.18);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-gold-light);
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+@media (min-width: 960px) {
+  .mobile-tamil-quote-bar {
+    display: none;
+  }
+}

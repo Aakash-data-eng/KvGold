@@ -1,0 +1,239 @@
+/* ==========================================================================
+   KV GOLD - GOLD BUYING & SELLING SERVICE STYLES
+   ========================================================================== */
+
+.buying-section {
+  position: relative;
+  width: 100%;
+  padding: 5.5rem 1.5rem;
+  background: radial-gradient(circle at 50% 40%, #22030A 0%, #110104 60%, #070002 100%);
+  color: #F7E7CE;
+  overflow: hidden;
+  z-index: 5;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.buying-ambient-glow {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(85px);
+  z-index: 1;
+}
+
+.buying-ambient-glow.center-glow {
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, rgba(122, 0, 25, 0.1) 50%, transparent 75%);
+}
+
+.buying-wrapper {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+.buying-card-container {
+  background: rgba(22, 5, 10, 0.75);
+  border: 1.5px solid rgba(212, 175, 55, 0.38);
+  border-radius: 24px;
+  padding: 3.5rem 2.5rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 35px rgba(212, 175, 55, 0.18);
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.buying-card-container.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Header */
+.buying-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.buying-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--color-gold-bright, #F9E79F);
+  text-transform: uppercase;
+  margin-bottom: 0.85rem;
+}
+
+.buying-title {
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: clamp(1.85rem, 3.5vw, 2.7rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #FFFFFF 0%, #F5E6BE 40%, #D4AF37 75%, #AA7C11 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.75rem;
+  line-height: 1.2;
+}
+
+.buying-subtitle {
+  font-size: clamp(0.92rem, 1.5vw, 1.1rem);
+  color: rgba(247, 231, 206, 0.82);
+  letter-spacing: 0.05em;
+  font-weight: 300;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* 3 Core Features Grid */
+.buying-features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.buying-feature-box {
+  background: rgba(35, 7, 16, 0.6);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 16px;
+  padding: 1.85rem 1.35rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.buying-feature-box:hover {
+  transform: translateY(-4px);
+  border-color: rgba(249, 231, 159, 0.65);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.2);
+}
+
+.feature-icon-ring {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #3D040E 0%, #180206 100%);
+  border: 1.5px solid rgba(212, 175, 55, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gold-bright, #F9E79F);
+  margin-bottom: 1.1rem;
+}
+
+.feature-title {
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #FFF;
+  margin-bottom: 0.55rem;
+}
+
+.feature-desc {
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: rgba(247, 231, 206, 0.8);
+}
+
+/* Actions Row */
+.buying-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-bottom: 2.25rem;
+}
+
+.buying-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.95rem 2rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.buying-phone-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.95rem 1.8rem;
+  border-radius: 999px;
+  background: rgba(122, 0, 25, 0.4);
+  border: 1.5px solid rgba(212, 175, 55, 0.4);
+  color: var(--color-gold-bright, #F9E79F);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.buying-phone-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(249, 231, 159, 0.8);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(212, 175, 55, 0.3);
+  background: rgba(122, 0, 25, 0.65);
+}
+
+/* Bottom Seal Banner */
+.buying-seal-banner {
+  text-align: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.18);
+}
+
+.seal-text {
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--color-gold-bright, #F9E79F);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.seal-sub {
+  font-size: 0.78rem;
+  color: rgba(247, 231, 206, 0.65);
+  letter-spacing: 0.04em;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .buying-features-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .buying-card-container {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .buying-actions-row {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .buying-cta-btn,
+  .buying-phone-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

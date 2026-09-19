@@ -1,0 +1,724 @@
+/* ==========================================================================
+   KV GOLD - EXPLORE OUR GOLD COLLECTION
+   Two Independent Horizontal Auto-Scrolling Rows Inside ONE Single Section
+   Row 1: CHAIN MODELS (RIGHT -> LEFT)
+   Row 2: OTHER GOLD ORNAMENTS (LEFT -> RIGHT)
+   Theme: Royal Burgundy (#34030D) & Metallic Gold (#D4AF37)
+   ========================================================================== */
+
+/* Main Section Wrapper */
+.gold-collection-section {
+  position: relative;
+  width: 100%;
+  background: radial-gradient(circle at 50% 15%, #35030D 0%, #180207 45%, #0A0103 100%);
+  color: var(--color-text);
+  padding: 5.5rem 0 4.5rem;
+  overflow: clip;
+  box-sizing: border-box;
+}
+
+/* Atmospheric Ambient Lights */
+.gold-ambient-glow {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1100px;
+  height: 550px;
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(60px);
+}
+
+.gold-ambient-top {
+  top: 10%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(212, 175, 55, 0.12) 0%, rgba(122, 0, 25, 0.2) 55%, transparent 75%);
+}
+
+.gold-ambient-bottom {
+  bottom: 12%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(122, 0, 25, 0.22) 0%, rgba(212, 175, 55, 0.08) 50%, transparent 75%);
+}
+
+/* ==========================================================================
+   MAIN SECTION HEADER
+   ========================================================================== */
+
+.gold-main-header {
+  max-width: 1280px;
+  margin: 0 auto 3.5rem;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 5;
+  box-sizing: border-box;
+}
+
+.gold-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+
+.gold-brand-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.gold-tag-line {
+  width: 32px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-gold));
+}
+
+.gold-tag-text {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-gold-champagne);
+  opacity: 0.85;
+}
+
+.gold-all-explore-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: transparent;
+  border: none;
+  color: var(--color-gold-bright);
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0.35rem 0.6rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.gold-all-explore-btn:hover {
+  color: #FFFFFF;
+  text-shadow: 0 0 10px rgba(249, 231, 159, 0.7);
+  transform: translateX(3px);
+}
+
+.gold-title-wrap {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.gold-title-sparkle {
+  color: var(--color-gold-bright);
+  filter: drop-shadow(0 0 8px var(--color-gold));
+  margin-bottom: 0.2rem;
+  animation: sparkleGlitz 3.5s ease-in-out infinite alternate;
+}
+
+@keyframes sparkleGlitz {
+  0% { transform: scale(0.9) rotate(-8deg); opacity: 0.7; }
+  100% { transform: scale(1.18) rotate(12deg); opacity: 1; }
+}
+
+.gold-main-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.1rem, 3.8vw, 3.4rem);
+  font-weight: 700;
+  color: #FFFBF0;
+  letter-spacing: 0.05em;
+  line-height: 1.15;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.85), 0 0 35px rgba(212, 175, 55, 0.35);
+}
+
+.gold-main-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(0.82rem, 1.1vw, 1.02rem);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-gold-champagne);
+  opacity: 0.92;
+  margin-top: 0.2rem;
+}
+
+/* ==========================================================================
+   ROW BLOCKS & SUBHEADINGS
+   ========================================================================== */
+
+.gold-row-block {
+  position: relative;
+  width: 100%;
+  z-index: 5;
+}
+
+.gold-sub-header {
+  max-width: 1280px;
+  margin: 0 auto 1.4rem;
+  padding: 0 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.gold-sub-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.gold-sub-badge {
+  font-family: var(--font-serif);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-gold-bright);
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+}
+
+.gold-sub-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 1.9vw, 1.65rem);
+  font-weight: 700;
+  color: #FFFBF0;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+}
+
+.gold-sub-desc {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--color-gold-light);
+  letter-spacing: 0.05em;
+  opacity: 0.88;
+  margin-top: 0.15rem;
+}
+
+.gold-direction-hint {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-gold);
+  opacity: 0.75;
+  background: rgba(30, 4, 10, 0.6);
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+/* Inter-Row Divider */
+.gold-row-divider {
+  max-width: 900px;
+  margin: 3.5rem auto 2.8rem;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  position: relative;
+  z-index: 5;
+  box-sizing: border-box;
+}
+
+.gold-row-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.35), transparent);
+}
+
+.gold-row-divider-gem {
+  color: var(--color-gold-bright);
+  font-size: 0.85rem;
+  filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.8));
+}
+
+/* ==========================================================================
+   BILLBOARD MARQUEE & INDEPENDENT MOTIONS
+   ========================================================================== */
+
+.gold-billboard-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 0.8rem 0 1.2rem;
+}
+
+/* Edge Fade Masks on Both Sides */
+.gold-fade-edge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.gold-fade-left {
+  left: 0;
+  background: linear-gradient(to right, #180207 15%, rgba(24, 2, 7, 0.85) 50%, transparent 100%);
+}
+
+.gold-fade-right {
+  right: 0;
+  background: linear-gradient(to left, #180207 15%, rgba(24, 2, 7, 0.85) 50%, transparent 100%);
+}
+
+/* Marquee Stage with CSS Mask */
+.gold-marquee-stage {
+  width: 100%;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent 0%, black 7%, black 93%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 7%, black 93%, transparent 100%);
+}
+
+.gold-marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  width: max-content;
+  will-change: transform;
+}
+
+/* ==========================================================================
+   ROW 1: CHAIN MODELS (RIGHT -> LEFT)
+   ========================================================================== */
+.track-chains {
+  animation: marqueeChainsRightToLeft 52s linear infinite;
+}
+
+@keyframes marqueeChainsRightToLeft {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(calc(-100% / 3), 0, 0);
+  }
+}
+
+/* Hover pauses ONLY Row 1 */
+.gold-row-chains .gold-marquee-stage:hover .track-chains,
+.gold-row-chains .gold-billboard-wrapper:hover .track-chains {
+  animation-play-state: paused;
+}
+
+/* ==========================================================================
+   ROW 2: OTHER GOLD ORNAMENTS (LEFT -> RIGHT)
+   ========================================================================== */
+.track-ornaments {
+  animation: marqueeOrnamentsLeftToRight 48s linear infinite;
+}
+
+@keyframes marqueeOrnamentsLeftToRight {
+  0% {
+    transform: translate3d(calc(-100% / 3), 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Hover pauses ONLY Row 2 */
+.gold-row-ornaments .gold-marquee-stage:hover .track-ornaments,
+.gold-row-ornaments .gold-billboard-wrapper:hover .track-ornaments {
+  animation-play-state: paused;
+}
+
+.gold-marquee-track.track-paused {
+  animation-play-state: paused;
+}
+
+/* ==========================================================================
+   REUSABLE LUXURY PRODUCT CARD COMPONENT
+   ========================================================================== */
+
+.gold-product-card {
+  width: 195px;
+  height: 310px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.15rem 0.95rem 1.35rem;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(46, 7, 16, 0.9) 0%, rgba(22, 3, 7, 0.95) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.24);
+  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.8), 0 0 15px rgba(122, 0, 25, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  box-sizing: border-box;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s ease,
+              box-shadow 0.4s ease,
+              background 0.4s ease;
+}
+
+/* Card Hover State */
+.gold-product-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  border-color: rgba(249, 231, 159, 0.78);
+  background: linear-gradient(180deg, rgba(62, 10, 22, 0.94) 0%, rgba(28, 4, 10, 0.98) 100%);
+  box-shadow: 0 20px 45px -8px rgba(0, 0, 0, 0.9),
+              0 0 30px rgba(212, 175, 55, 0.4),
+              inset 0 0 20px rgba(249, 231, 159, 0.1);
+}
+
+/* Image Box */
+.gold-card-img-box {
+  width: 100%;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.gold-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.7));
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.gold-product-card:hover .gold-card-img {
+  transform: scale(1.08);
+}
+
+/* Shimmer Highlight */
+.gold-card-shimmer {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 245, 204, 0.15) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.gold-product-card:hover .gold-card-shimmer {
+  opacity: 1;
+}
+
+/* Card Typography */
+.gold-card-meta {
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.55rem;
+}
+
+.gold-card-tamil {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #FFF8E7;
+  line-height: 1.25;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  transition: color 0.3s ease;
+}
+
+.gold-product-card:hover .gold-card-tamil {
+  color: #FFFFFF;
+  text-shadow: 0 0 12px rgba(255, 245, 204, 0.75);
+}
+
+.gold-card-ornament {
+  font-size: 0.7rem;
+  color: var(--color-gold);
+  line-height: 1;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.6));
+}
+
+.gold-card-english {
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-gold-light);
+  line-height: 1.2;
+  opacity: 0.92;
+}
+
+.gold-card-glow-rim {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  box-shadow: inset 0 0 12px rgba(249, 231, 159, 0.25);
+}
+
+.gold-product-card:hover .gold-card-glow-rim {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   BOTTOM BAR & HERITAGE
+   ========================================================================== */
+
+.gold-collection-bottom-bar {
+  max-width: 900px;
+  margin: 3.2rem auto 0;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  position: relative;
+  z-index: 5;
+  box-sizing: border-box;
+}
+
+.gold-bottom-divider {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  width: 100%;
+}
+
+.gold-div-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.35), transparent);
+}
+
+.gold-dots-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gold-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.3);
+  transition: all 0.3s ease;
+}
+
+.gold-dot.active {
+  width: 7px;
+  height: 7px;
+  background: var(--color-gold-bright);
+  box-shadow: 0 0 10px var(--color-gold);
+}
+
+.gold-bottom-tagline {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-gold-champagne);
+  opacity: 0.85;
+}
+
+.gold-tag-line-left,
+.gold-tag-line-right {
+  width: 24px;
+  height: 1px;
+  background: rgba(212, 175, 55, 0.4);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN SYSTEM
+   ========================================================================== */
+
+/* Tablets (1024px to 769px) */
+@media (max-width: 1024px) {
+  .gold-collection-section {
+    padding: 4.5rem 0 3.5rem;
+  }
+
+  .gold-sub-header {
+    padding: 0 1.5rem;
+  }
+
+  .gold-product-card {
+    width: 172px;
+    height: 275px;
+    padding: 1rem 0.85rem 1.2rem;
+  }
+
+  .gold-card-img-box {
+    height: 135px;
+  }
+
+  .gold-card-tamil {
+    font-size: 0.85rem;
+  }
+
+  .gold-card-english {
+    font-size: 0.7rem;
+  }
+
+  .gold-marquee-track {
+    gap: 18px;
+  }
+
+  .track-chains {
+    animation-duration: 45s;
+  }
+
+  .track-ornaments {
+    animation-duration: 42s;
+  }
+
+  .gold-fade-edge {
+    width: 80px;
+  }
+}
+
+/* Mobile Devices (<= 768px) */
+@media (max-width: 768px) {
+  .gold-collection-section {
+    padding: 3.5rem 0 2.8rem;
+  }
+
+  .gold-main-header {
+    padding: 0 1.2rem;
+    margin-bottom: 2.2rem;
+  }
+
+  .gold-top-bar {
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: center;
+    margin-bottom: 0.8rem;
+  }
+
+  .gold-tag-text {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+  }
+
+  .gold-main-title {
+    font-size: 1.85rem;
+  }
+
+  .gold-main-subtitle {
+    font-size: 0.74rem;
+    letter-spacing: 0.12em;
+  }
+
+  .gold-sub-header {
+    padding: 0 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .gold-sub-title {
+    font-size: 1.2rem;
+  }
+
+  .gold-sub-desc {
+    font-size: 0.72rem;
+  }
+
+  .gold-direction-hint {
+    display: none;
+  }
+
+  .gold-row-divider {
+    margin: 2.5rem auto 2rem;
+    padding: 0 1.2rem;
+  }
+
+  /* Compact Mobile Cards */
+  .gold-product-card {
+    width: 145px;
+    height: 235px;
+    padding: 0.85rem 0.7rem 1rem;
+    border-radius: 14px;
+  }
+
+  .gold-card-img-box {
+    height: 115px;
+  }
+
+  .gold-card-tamil {
+    font-size: 0.78rem;
+    line-height: 1.2;
+  }
+
+  .gold-card-ornament {
+    font-size: 0.6rem;
+  }
+
+  .gold-card-english {
+    font-size: 0.65rem;
+  }
+
+  .gold-marquee-track {
+    gap: 14px;
+  }
+
+  .track-chains {
+    animation-duration: 38s;
+  }
+
+  .track-ornaments {
+    animation-duration: 35s;
+  }
+
+  .gold-fade-edge {
+    width: 45px;
+  }
+
+  .gold-collection-bottom-bar {
+    margin-top: 2rem;
+    padding: 0 1.2rem;
+  }
+
+  .gold-bottom-tagline {
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-align: center;
+  }
+}
+
+/* Accessibility: Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .gold-marquee-track {
+    animation: none !important;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    padding: 0 1.5rem;
+  }
+
+  .gold-marquee-stage {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+  .gold-fade-edge {
+    display: none;
+  }
+}
