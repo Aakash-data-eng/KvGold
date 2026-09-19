@@ -11,9 +11,10 @@ export default function Founders({ onOpenSchemeModal }) {
     const section = sectionRef.current;
     if (!section) return;
 
-    let rafId;
+    let rafId = null;
 
     const updateScrollProgress = () => {
+      rafId = null;
       const rect = section.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       
@@ -31,6 +32,7 @@ export default function Founders({ onOpenSchemeModal }) {
     };
 
     const handleScroll = () => {
+      if (rafId) return;
       rafId = requestAnimationFrame(updateScrollProgress);
     };
 
@@ -41,7 +43,7 @@ export default function Founders({ onOpenSchemeModal }) {
       window.removeEventListener('scroll', handleScroll);
       if (rafId) cancelAnimationFrame(rafId);
     };
-  }, [hasShimmered]);
+  }, []);
 
   return (
     <section

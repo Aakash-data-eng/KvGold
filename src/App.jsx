@@ -20,16 +20,49 @@ import './styles/index.css';
 
 export default function App() {
   const [preloaderDone, setPreloaderDone] = useState(false);
+  const lenisRef = useRef(null);
+
+  // Enforce manual scroll restoration so page refresh ALWAYS opens at scrollY = 0 (Top of Page)
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    // Force immediate scroll to top on initial page load / refresh
+    window.scrollTo(0, 0);
+
+    return () => {
+      if ('scrollRestoration' in window.history) {
+        window.history.scrollRestoration = 'auto';
+      }
+    };
+  }, []);
 
   // Initialize Lenis Butter-Smooth Scrolling
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.0,
+      duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       wheelMultiplier: 1.0,
-      touchMultiplier: 1.6,
+      touchMultiplier: 1.5,
     });
+
+    lenisRef.current = lenis;
+
+    // Handle hash on initial load or reset to top
+    if (window.location.hash) {
+      const hashTarget = document.querySelector(window.location.hash);
+      if (hashTarget) {
+        setTimeout(() => {
+          lenis.scrollTo(hashTarget, { offset: -80, immediate: false });
+        }, 300);
+      } else {
+        lenis.scrollTo(0, { immediate: true });
+      }
+    } else {
+      lenis.scrollTo(0, { immediate: true });
+    }
 
     let animationFrameId;
 
@@ -40,9 +73,27 @@ export default function App() {
 
     animationFrameId = requestAnimationFrame(raf);
 
+    // Smooth anchor navigation handling for #links
+    const handleAnchorClick = (e) => {
+      const anchor = e.target.closest('a[href^="#"]');
+      if (!anchor) return;
+      const href = anchor.getAttribute('href');
+      if (href && href.startsWith('#') && href.length > 1) {
+        const targetEl = document.querySelector(href);
+        if (targetEl) {
+          e.preventDefault();
+          lenis.scrollTo(targetEl, { offset: -80, duration: 1.2 });
+        }
+      }
+    };
+
+    document.addEventListener('click', handleAnchorClick);
+
     return () => {
+      document.removeEventListener('click', handleAnchorClick);
       cancelAnimationFrame(animationFrameId);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
 
