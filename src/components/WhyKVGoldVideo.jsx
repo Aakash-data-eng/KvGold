@@ -16,46 +16,46 @@ export default function WhyKVGoldVideo() {
     const section = sectionRef.current;
     if (!section) return;
 
-    // IntersectionObserver triggers when 35% of section enters viewport
+    // IntersectionObserver triggers when 25% of section enters viewport
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasTriggeredRef.current) {
-          hasTriggeredRef.current = true;
+        if (entry.isIntersecting) {
+          if (!hasTriggeredRef.current) {
+            hasTriggeredRef.current = true;
 
-          // Phase 1: Small cinematic pause (~350ms)
-          const pauseTimer = setTimeout(() => {
-            // Phase 2: Doors open smoothly (1.5s animation)
-            setDoorState('opening');
+            // Phase 1: Small cinematic pause (~350ms)
+            setTimeout(() => {
+              // Phase 2: Doors open smoothly (1.5s animation)
+              setDoorState('opening');
 
-            // Phase 3: Start video playback when doors are opening (~800ms)
-            const videoTimer = setTimeout(() => {
-              if (videoRef.current) {
-                videoRef.current.play().catch((err) => {
-                  console.warn('Autoplay prevented by browser policy:', err);
-                });
-              }
-            }, 800);
+              // Phase 3: Start video playback when doors are opening (~800ms)
+              setTimeout(() => {
+                if (videoRef.current) {
+                  videoRef.current.play().catch(() => {});
+                }
+              }, 800);
 
-            // Phase 4: Mark doors fully open
-            const openTimer = setTimeout(() => {
-              setDoorState('open');
-            }, 1550);
-
-            return () => {
-              clearTimeout(videoTimer);
-              clearTimeout(openTimer);
-            };
-          }, 350);
-
-          return () => clearTimeout(pauseTimer);
+              // Phase 4: Mark doors fully open
+              setTimeout(() => {
+                setDoorState('open');
+              }, 1550);
+            }, 350);
+          } else if (videoRef.current && videoRef.current.paused && doorState === 'open') {
+            videoRef.current.play().catch(() => {});
+          }
+        } else {
+          // Offscreen pause to save GPU resources while scrolling past
+          if (videoRef.current && !videoRef.current.paused) {
+            videoRef.current.pause();
+          }
         }
       },
-      { threshold: 0.35 }
+      { threshold: 0.25 }
     );
 
     observer.observe(section);
     return () => observer.disconnect();
-  }, []);
+  }, [doorState]);
 
   const handleEnded = () => {
     setIsCompleted(true);
@@ -106,7 +106,7 @@ export default function WhyKVGoldVideo() {
             className="video-reveal-media"
             muted={isMuted}
             playsInline
-            preload="auto"
+            preload="metadata"
             onEnded={handleEnded}
           />
 

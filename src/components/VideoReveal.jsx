@@ -18,44 +18,43 @@ export default function VideoReveal() {
     // IntersectionObserver triggers when 35% of the video section enters viewport
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasTriggeredRef.current) {
-          hasTriggeredRef.current = true;
+        if (entry.isIntersecting) {
+          if (!hasTriggeredRef.current) {
+            hasTriggeredRef.current = true;
 
-          // Phase 1: Small cinematic pause (~350ms)
-          const pauseTimer = setTimeout(() => {
-            // Phase 2: Doors open smoothly (1.5s animation)
-            setDoorState('opening');
+            // Phase 1: Small cinematic pause (~350ms)
+            setTimeout(() => {
+              // Phase 2: Doors open smoothly (1.5s animation)
+              setDoorState('opening');
 
-            // Phase 3: Start video playback when doors are opening (~800ms)
-            const videoTimer = setTimeout(() => {
-              if (videoRef.current) {
-                videoRef.current.play().catch((err) => {
-                  // Fallback if browser requires user click
-                  console.warn('Autoplay prevented by browser policy:', err);
-                });
-              }
-            }, 800);
+              // Phase 3: Start video playback when doors are opening (~800ms)
+              setTimeout(() => {
+                if (videoRef.current) {
+                  videoRef.current.play().catch(() => {});
+                }
+              }, 800);
 
-            // Phase 4: Mark doors fully open
-            const openTimer = setTimeout(() => {
-              setDoorState('open');
-            }, 1550);
-
-            return () => {
-              clearTimeout(videoTimer);
-              clearTimeout(openTimer);
-            };
-          }, 350);
-
-          return () => clearTimeout(pauseTimer);
+              // Phase 4: Mark doors fully open
+              setTimeout(() => {
+                setDoorState('open');
+              }, 1550);
+            }, 350);
+          } else if (videoRef.current && videoRef.current.paused && doorState === 'open') {
+            videoRef.current.play().catch(() => {});
+          }
+        } else {
+          // Offscreen pause to save GPU resources while scrolling past
+          if (videoRef.current && !videoRef.current.paused) {
+            videoRef.current.pause();
+          }
         }
       },
-      { threshold: 0.35 }
+      { threshold: 0.25 }
     );
 
     observer.observe(section);
     return () => observer.disconnect();
-  }, []);
+  }, [doorState]);
 
   // Monitor playback progress to cleanly conclude before any unwanted pricing screen
   const handleTimeUpdate = () => {
@@ -117,7 +116,7 @@ export default function VideoReveal() {
             className="video-reveal-media"
             muted={isMuted}
             playsInline
-            preload="auto"
+            preload="metadata"
             onTimeUpdate={handleTimeUpdate}
             onEnded={handleEnded}
           />
@@ -196,7 +195,7 @@ export default function VideoReveal() {
                   <div className="vault-crest-ring">
                     <span className="vault-crest-letters">KV</span>
                   </div>
-                  <span className="vault-crest-label">HAUTE JOAILLERIE</span>
+                  <span className="vault-crest-label">TRUSTED SELLER</span>
                 </div>
               </div>
 

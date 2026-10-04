@@ -82,30 +82,29 @@ export default function TestimonialsCard({
 
   const activeItem = items[activeIndex];
 
-  // IntersectionObserver for scroll reveal
+  // IntersectionObserver for scroll visibility
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
 
     observer.observe(section);
     return () => observer.disconnect();
   }, []);
 
-  // Reset autoplay timer helper
+  // Reset autoplay timer helper (Only runs when section is visible)
   const resetAutoplayTimer = () => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
+      timerRef.current = null;
     }
-    if (autoPlay && !isPaused && items.length > 1) {
+    if (autoPlay && isVisible && !isPaused && items.length > 1 && !document.hidden) {
       timerRef.current = setInterval(() => {
         setDirection(1);
         setActiveIndex((prev) => (prev + 1) % items.length);
@@ -116,10 +115,18 @@ export default function TestimonialsCard({
   // Autoplay Effect
   useEffect(() => {
     resetAutoplayTimer();
+
+    const handleVisibilityChange = () => {
+      resetAutoplayTimer();
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [autoPlay, autoPlayInterval, isPaused, items.length]);
+  }, [autoPlay, autoPlayInterval, isPaused, isVisible, items.length]);
 
   const handleNext = () => {
     setDirection(1);
@@ -169,14 +176,20 @@ export default function TestimonialsCard({
         <div className={`testimonials-header ${isVisible ? 'is-revealed' : ''}`}>
           <div className="testimonials-eyebrow">
             <span className="eyebrow-spark">✦</span>
-            <span>CUSTOMER STORIES</span>
+            <span>CUSTOMER STORIES • வாடிக்கையாளர் அனுபவங்கள்</span>
             <span className="eyebrow-spark">✦</span>
           </div>
 
-          <h2 className="testimonials-title">WHAT OUR CUSTOMERS SAY</h2>
+          <h2 className="testimonials-title">TRUST IS BUILT ONE CUSTOMER AT A TIME.</h2>
+          <h3 style={{ fontSize: '1.1rem', color: 'var(--color-gold-bright, #F9E79F)', margin: '0.2rem 0 0.6rem', fontFamily: 'var(--font-sans, sans-serif)', fontWeight: 600 }}>
+            நம்பிக்கை ஒவ்வொரு வாடிக்கையாளருடனும் உருவாகிறது.
+          </h3>
 
           <p className="testimonials-subtitle">
-            Real experiences from customers who trust KV GOLD with their gold journey.
+            Real experiences from customers who have chosen KV GOLD for their gold journey.
+          </p>
+          <p style={{ fontSize: '0.86rem', color: 'rgba(247, 231, 206, 0.75)', margin: '0.3rem 0 0' }}>
+            தங்கள் தங்கப் பயணத்திற்காக KV GOLD-ஐ தேர்வு செய்த வாடிக்கையாளர்களின் உண்மையான அனுபவங்கள்.
           </p>
         </div>
 

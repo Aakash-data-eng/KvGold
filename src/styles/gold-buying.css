@@ -6,7 +6,7 @@
   position: relative;
   width: 100%;
   padding: 5.5rem 1.5rem;
-  background: radial-gradient(circle at 50% 40%, #22030A 0%, #110104 60%, #070002 100%);
+  background: radial-gradient(circle at 50% 40%, rgba(34, 3, 10, 0.65) 0%, rgba(17, 1, 4, 0.68) 60%, rgba(7, 0, 2, 0.72) 100%);
   color: #F7E7CE;
   overflow: hidden;
   z-index: 5;
@@ -18,7 +18,6 @@
   position: absolute;
   pointer-events: none;
   border-radius: 50%;
-  filter: blur(85px);
   z-index: 1;
 }
 
@@ -237,3 +236,419 @@
     justify-content: center;
   }
 }
+
+/* ==========================================================================
+   ENHANCED WHAT WE DO & BILINGUAL SECTIONS
+   ========================================================================== */
+.buying-subtitle-tamil {
+  font-size: 0.92rem;
+  color: var(--color-gold-bright, #F9E79F);
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+
+.what-we-do-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.service-block-card {
+  background: rgba(30, 6, 14, 0.7);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 18px;
+  padding: 1.75rem 1.5rem;
+  position: relative;
+  transition: all 0.35s ease;
+}
+
+.service-block-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(249, 231, 159, 0.7);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.2);
+}
+
+.service-block-num {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--color-gold, #D4AF37);
+  margin-bottom: 0.75rem;
+}
+
+.service-block-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(122, 0, 25, 0.5);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gold-bright, #F9E79F);
+  margin-bottom: 1rem;
+}
+
+.service-block-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #FFF;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.05em;
+}
+
+.service-block-desc {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: rgba(247, 231, 206, 0.85);
+  margin-bottom: 0.35rem;
+}
+
+.service-block-desc-ta {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: rgba(249, 231, 159, 0.75);
+  margin-bottom: 1.25rem;
+}
+
+.service-block-cta {
+  background: transparent;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 20px;
+  padding: 0.45rem 1rem;
+  color: var(--color-gold-bright, #F9E79F);
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.service-block-cta:hover {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: var(--color-gold-bright, #F9E79F);
+}
+
+.cta-ta {
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+/* WE BUY GOLD BOX */
+.we-buy-gold-box {
+  background: rgba(25, 4, 10, 0.8);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 20px;
+  padding: 2.25rem 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.we-buy-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--color-gold-bright, #F9E79F);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.we-buy-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #FFF;
+  margin-bottom: 0.25rem;
+}
+
+.we-buy-title-ta {
+  font-size: 1.05rem;
+  color: var(--color-gold-bright, #F9E79F);
+  margin-bottom: 0.75rem;
+}
+
+.we-buy-desc {
+  font-size: 0.9rem;
+  color: rgba(247, 231, 206, 0.85);
+  margin-bottom: 0.35rem;
+}
+
+.we-buy-desc-ta {
+  font-size: 0.84rem;
+  color: rgba(247, 231, 206, 0.7);
+  margin-bottom: 1.25rem;
+}
+
+.fair-rate-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: rgba(122, 0, 25, 0.35);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  font-size: 0.88rem;
+  margin-bottom: 2rem;
+}
+
+.fair-spark {
+  color: var(--color-gold-bright, #F9E79F);
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
+.fair-rate-ta {
+  font-size: 0.8rem;
+  color: rgba(249, 231, 159, 0.8);
+  margin-top: 0.3rem;
+}
+
+/* 6-STEP VALUATION GRID */
+.valuation-process-section {
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  padding-top: 1.5rem;
+}
+
+.process-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-gold-bright, #F9E79F);
+  letter-spacing: 0.1em;
+}
+
+.process-sub-ta {
+  font-size: 0.85rem;
+  color: rgba(247, 231, 206, 0.7);
+  margin-bottom: 1.25rem;
+}
+
+.valuation-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.valuation-step-card {
+  background: rgba(12, 2, 5, 0.7);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.step-num {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--color-gold, #D4AF37);
+  display: block;
+}
+
+.step-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #FFF;
+  margin-top: 0.2rem;
+}
+
+.step-ta {
+  font-size: 0.75rem;
+  color: var(--color-gold-bright, #F9E79F);
+  display: block;
+}
+
+.step-desc {
+  font-size: 0.78rem;
+  color: rgba(247, 231, 206, 0.65);
+  margin-top: 0.3rem;
+}
+
+.no-obligation-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(46, 204, 113, 0.12);
+  border: 1px solid rgba(46, 204, 113, 0.35);
+  color: #2ECC71;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+/* MADE FOR YOU BOX */
+.made-for-you-box {
+  background: rgba(25, 4, 10, 0.8);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 20px;
+  padding: 2.25rem 2rem;
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.made-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--color-gold-bright, #F9E79F);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.made-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #FFF;
+  margin-bottom: 0.25rem;
+}
+
+.made-title-ta {
+  font-size: 1.05rem;
+  color: var(--color-gold-bright, #F9E79F);
+  margin-bottom: 0.75rem;
+}
+
+.made-desc {
+  font-size: 0.9rem;
+  color: rgba(247, 231, 206, 0.85);
+  max-width: 780px;
+  margin: 0 auto 0.35rem;
+}
+
+.made-desc-ta {
+  font-size: 0.84rem;
+  color: rgba(247, 231, 206, 0.7);
+  max-width: 780px;
+  margin: 0 auto 1.75rem;
+}
+
+.custom-flow-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  background: rgba(12, 2, 5, 0.6);
+  padding: 1.25rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.custom-flow-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.35rem 0.65rem;
+}
+
+.flow-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #FFF;
+}
+
+.flow-label-ta {
+  font-size: 0.7rem;
+  color: var(--color-gold-bright, #F9E79F);
+}
+
+.flow-arrow {
+  color: var(--color-gold, #D4AF37);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.made-cta-btn {
+  padding: 0.85rem 1.8rem;
+  font-size: 0.88rem;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 580px) {
+  .made-cta-btn {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    flex-direction: column;
+    gap: 0.35rem;
+    text-align: center;
+  }
+  .made-cta-btn .cta-ta {
+    display: block;
+    font-size: 0.76rem;
+    margin-left: 0;
+  }
+}
+
+/* BUY WITH CONFIDENCE CHECKLIST */
+.buy-confidence-box {
+  background: rgba(20, 3, 8, 0.65);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 18px;
+  padding: 2rem 1.75rem;
+  margin-bottom: 2.5rem;
+}
+
+.confidence-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #FFF;
+  margin-bottom: 0.35rem;
+}
+
+.confidence-desc {
+  font-size: 0.88rem;
+  color: rgba(247, 231, 206, 0.8);
+  margin-bottom: 1.25rem;
+}
+
+.confidence-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.1rem;
+}
+
+.confidence-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.88rem;
+  color: #FFF;
+}
+
+.check-gold {
+  color: var(--color-gold-bright, #F9E79F);
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.item-ta {
+  display: block;
+  font-size: 0.78rem;
+  color: rgba(247, 231, 206, 0.7);
+  margin-top: 0.1rem;
+}
+
+@media (max-width: 768px) {
+  .what-we-do-grid,
+  .valuation-steps-grid,
+  .confidence-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

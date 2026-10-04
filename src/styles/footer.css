@@ -1,12 +1,12 @@
 /* ==========================================================================
-   KV GOLD - REFINED COMPACT LUXURY FOOTER & SOCIAL FLIP BUTTON STYLES
+   KV GOLD - REFINED LUXURY FOOTER & DITHERED CINEMATIC BRAND SIGNATURE
    ========================================================================== */
 
 .footer-section {
   position: relative;
   width: 100%;
   padding: 4.5rem 1.5rem 2.5rem;
-  background: radial-gradient(circle at 50% 30%, #200309 0%, #110104 55%, #070002 100%);
+  background: radial-gradient(circle at 50% 30%, rgba(32, 3, 9, 0.72) 0%, rgba(17, 1, 4, 0.78) 55%, rgba(7, 0, 2, 0.82) 100%);
   color: #F7E7CE;
   overflow: hidden;
   z-index: 5;
@@ -18,7 +18,6 @@
   position: absolute;
   pointer-events: none;
   border-radius: 50%;
-  filter: blur(85px);
   z-index: 1;
 }
 
@@ -72,7 +71,7 @@
   flex-direction: column;
 }
 
-/* AREA 1 — BRAND (Compact & Refined) */
+/* AREA 1 — BRAND */
 .footer-brand-logo {
   display: inline-flex;
   align-items: center;
@@ -290,8 +289,6 @@
   background: rgba(22, 5, 10, 0.85);
   border: 1px solid rgba(212, 175, 55, 0.35);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7), 0 0 15px rgba(212, 175, 55, 0.12);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
 }
 
 .social-border-lines {
@@ -302,23 +299,17 @@
   pointer-events: none;
 }
 
-.border-line-top {
+.border-line-top,
+.border-line-bottom {
   position: absolute;
-  top: 0;
   left: 0;
   width: 100%;
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(249, 231, 159, 0.7), transparent);
 }
 
-.border-line-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(249, 231, 159, 0.7), transparent);
-}
+.border-line-top { top: 0; }
+.border-line-bottom { bottom: 0; }
 
 .social-flip-node {
   position: relative;
@@ -366,7 +357,6 @@
   box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
 }
 
-/* Tooltip */
 .social-flip-tooltip {
   position: absolute;
   left: 50%;
@@ -404,7 +394,7 @@
   width: 100%;
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.45), transparent);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   overflow: hidden;
 }
 
@@ -422,6 +412,119 @@
   0% { left: -100%; opacity: 0; }
   30% { opacity: 1; }
   100% { left: 180%; opacity: 0; }
+}
+
+/* ==========================================================================
+   DITHERED CINEMATIC BRAND SIGNATURE STYLES
+   ========================================================================== */
+
+.footer-dither-stage {
+  position: relative;
+  width: 100%;
+  min-height: 290px;
+  margin: 1.5rem 0 2rem;
+  background: linear-gradient(180deg, #090306 0%, #12060B 50%, #070204 100%);
+  border-radius: 18px;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.85), 0 12px 35px rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --mouse-opacity: 0;
+}
+
+.footer-dither-stage.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Ambient Warm Gold Radial Bloom */
+.dither-ambient-bloom {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 68%, rgba(212, 175, 55, 0.16) 0%, rgba(122, 0, 25, 0.12) 45%, transparent 75%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Interactive Cursor Spotlight Glow */
+.dither-pointer-spotlight {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle 210px at var(--mouse-x) var(--mouse-y), rgba(249, 231, 159, 0.28) 0%, rgba(212, 175, 55, 0.10) 45%, transparent 75%);
+  opacity: var(--mouse-opacity);
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Dithered Metallic Gold Dot Field Layer with Seamless Leftward Drift */
+.dither-dot-field {
+  position: absolute;
+  inset: -20px;
+  background-image: radial-gradient(circle, rgba(243, 231, 194, 0.58) 1px, transparent 1.5px);
+  background-size: 9px 9px;
+  background-repeat: repeat;
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.22) 20%, rgba(0, 0, 0, 0.8) 60%, rgba(0, 0, 0, 1) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.22) 20%, rgba(0, 0, 0, 0.8) 60%, rgba(0, 0, 0, 1) 100%);
+  animation: ditherDriftSlow 42s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.88;
+}
+
+@keyframes ditherDriftSlow {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-180px, 0, 0);
+  }
+}
+
+/* SVG Wordmark Stage Container */
+.dither-wordmark-container {
+  position: relative;
+  z-index: 3;
+  width: 92%;
+  max-width: 1050px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.8rem 0 1.2rem;
+}
+
+.dither-wordmark-svg {
+  width: 100%;
+  height: auto;
+  max-height: 180px;
+  display: block;
+  overflow: visible;
+}
+
+/* Tagline Subtitle */
+.dither-tagline {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.dither-tagline-text {
+  font-family: var(--font-sans, sans-serif);
+  font-size: clamp(0.7rem, 1.1vw, 0.84rem);
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-gold-bright, #F9E79F);
+  opacity: 0.9;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
 }
 
 /* --------------------------------------------------------------------------
@@ -449,7 +552,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   Responsive Layout
+   Responsive Layout & Accessibility
    -------------------------------------------------------------------------- */
 @media (max-width: 900px) {
   .footer-main-grid {
@@ -458,7 +561,9 @@
     margin-bottom: 2rem;
   }
 
-  .footer-area-brand {
+  .footer-area-brand,
+  .footer-area-links,
+  .footer-area-contact {
     text-align: center;
     align-items: center;
   }
@@ -467,22 +572,26 @@
     max-width: 100%;
   }
 
-  .footer-area-links,
-  .footer-area-contact {
-    text-align: center;
-    align-items: center;
-  }
-
-  .contact-item {
-    justify-content: center;
-  }
-
-  .locations-block {
-    align-items: center;
-  }
-
+  .contact-item,
+  .locations-block,
   .footer-connect-social {
     justify-content: center;
+    align-items: center;
+  }
+
+  .footer-dither-stage {
+    min-height: 220px;
+    margin: 1.25rem 0 1.5rem;
+  }
+
+  .dither-wordmark-container {
+    width: 96%;
+    padding: 1.2rem 0 0.8rem;
+  }
+
+  .dither-tagline-text {
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
   }
 
   .footer-bottom-row {
@@ -497,6 +606,11 @@
     padding: 3.5rem 1rem 2rem;
   }
 
+  .footer-dither-stage {
+    min-height: 180px;
+    border-radius: 14px;
+  }
+
   .social-flip-bar {
     gap: 0.4rem;
     padding: 0.4rem 0.65rem;
@@ -509,5 +623,15 @@
 
   .social-flip-front {
     font-size: 0.85rem;
+  }
+}
+
+/* prefers-reduced-motion fallback */
+@media (prefers-reduced-motion: reduce) {
+  .dither-dot-field {
+    animation: none !important;
+  }
+  .divider-sheen-line {
+    animation: none !important;
   }
 }

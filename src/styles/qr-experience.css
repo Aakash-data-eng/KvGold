@@ -1,0 +1,435 @@
+/* ==========================================================================
+   KV GOLD — CINEMATIC QR & 3D GOLD MASCOT STATE MACHINE STYLES
+   ========================================================================== */
+
+.qr-experience-section {
+  position: relative;
+  width: 100%;
+  padding: 5.5rem 1.5rem 6.5rem;
+  background: radial-gradient(circle at 50% 50%, rgba(35, 4, 12, 0.78) 0%, rgba(16, 2, 5, 0.85) 60%, rgba(8, 1, 3, 0.9) 100%);
+  color: #F7E7CE;
+  overflow: hidden;
+  z-index: 6;
+  border-top: 1px solid rgba(212, 175, 55, 0.25);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+}
+
+.qr-ambient-glow {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.qr-ambient-glow.center-glow {
+  top: 50%;
+  left: 35%;
+  transform: translate(-50%, -50%);
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.14) 0%, rgba(122, 0, 25, 0.08) 50%, transparent 75%);
+}
+
+.qr-ambient-glow.right-glow {
+  top: 50%;
+  right: 15%;
+  transform: translateY(-50%);
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(249, 231, 159, 0.12) 0%, transparent 70%);
+}
+
+.qr-particles-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.qr-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(249, 231, 159, 0.6);
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.8);
+  animation: qrParticleFloat 6s ease-in-out infinite alternate;
+}
+
+.qp1 { top: 20%; left: 15%; animation-delay: 0s; }
+.qp2 { top: 70%; left: 40%; animation-delay: 1.5s; }
+.qp3 { top: 30%; right: 25%; animation-delay: 3s; }
+.qp4 { top: 80%; right: 10%; animation-delay: 4.5s; }
+
+@keyframes qrParticleFloat {
+  0% { transform: translateY(0) scale(1); opacity: 0.3; }
+  100% { transform: translateY(-18px) scale(1.4); opacity: 0.9; }
+}
+
+.qr-wrapper {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+.qr-main-container {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 3.5rem;
+  align-items: center;
+  background: rgba(20, 4, 9, 0.75);
+  border: 1.5px solid rgba(212, 175, 55, 0.38);
+  border-radius: 24px;
+  padding: 3.5rem 3rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 40px rgba(212, 175, 55, 0.18);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.qr-main-container.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Text Column */
+.qr-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--color-gold-bright, #F9E79F);
+  text-transform: uppercase;
+  margin-bottom: 0.85rem;
+}
+
+.qr-main-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.85rem, 3.4vw, 2.7rem);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #FFF;
+  line-height: 1.25;
+  margin-bottom: 0.35rem;
+}
+
+.qr-main-title-ta {
+  font-size: 1.15rem;
+  color: var(--color-gold-bright, #F9E79F);
+  margin-bottom: 1.15rem;
+  font-weight: 600;
+}
+
+.qr-support-desc {
+  font-size: 0.96rem;
+  color: rgba(247, 231, 206, 0.88);
+  line-height: 1.6;
+  margin-bottom: 0.25rem;
+}
+
+.qr-support-desc-ta {
+  font-size: 0.86rem;
+  color: rgba(247, 231, 206, 0.7);
+  line-height: 1.55;
+}
+
+/* Stage Column & Dedicated QR Interaction Zone */
+.qr-stage-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-interaction-zone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 2.5rem;
+  border-radius: 28px;
+  cursor: default; /* 100% NON-CLICKABLE */
+}
+
+/* ==========================================================================
+   "SCAN THE QR" ELEGANT TYPOGRAPHY CALLOUT (POSITIONED STRICTLY ABOVE QR CODE)
+   Fades & glides in ONLY when Mascot points toward QR code!
+   ========================================================================== */
+.scan-qr-delight-text {
+  text-align: center;
+  margin-bottom: 1.1rem;
+  opacity: 0;
+  transform: translateY(10px) scale(0.94);
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  min-height: 42px;
+}
+
+.scan-qr-delight-text.text-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.delight-en {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--color-gold-bright, #F9E79F);
+  text-shadow: 0 0 15px rgba(249, 231, 159, 0.6);
+  display: block;
+}
+
+.delight-ta {
+  font-size: 0.82rem;
+  color: rgba(247, 231, 206, 0.85);
+  display: block;
+  margin-top: 0.15rem;
+}
+
+.qr-stage-inner {
+  position: relative;
+  width: 270px;
+  height: 270px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   3D GOLD MASCOT ACTOR (100% HIDDEN IN IDLE, ENTERS FROM RIGHT ON HOVER)
+   ========================================================================== */
+.qr-gold-mascot {
+  position: absolute;
+  right: -60px;
+  bottom: -15px;
+  width: 230px;
+  height: 260px;
+  z-index: 3; /* Positioned beside & slightly overlaying outer frame, NEVER covering QR path */
+  pointer-events: none;
+  transform-origin: bottom right;
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+}
+
+/* STATE 1: IDLE — 100% Hidden away off-screen to the right */
+.mascot-state-idle {
+  opacity: 0;
+  transform: translateX(180px) translateY(30px) scale(0.6) rotate(15deg);
+}
+
+/* STATE 2: NOTICE — QR glows, character prepares entrance from hidden spot */
+.mascot-state-notice {
+  opacity: 0;
+  transform: translateX(160px) translateY(20px) scale(0.65) rotate(12deg);
+}
+
+/* STATE 3: ENTERING — Steps & moves smoothly out into view */
+.mascot-state-entering {
+  opacity: 0.85;
+  transform: translateX(60px) translateY(-10px) scale(0.88) rotate(4deg);
+}
+
+/* STATE 4: LOOKING_AT_USER — Arrives & turns face directly toward visitor/cursor (Eye contact!) */
+.mascot-state-looking_at_user {
+  opacity: 1;
+  transform: translateX(-40px) translateY(-22px) scale(1.02) rotate(0deg);
+}
+
+.mascot-state-looking_at_user .mascot-head-container {
+  transform: rotateY(0deg) rotateX(0deg) scale(1.04);
+}
+
+/* STATE 5: LOOKING_AT_QR — Turns head toward QR code */
+.mascot-state-looking_at_qr {
+  opacity: 1;
+  transform: translateX(-46px) translateY(-25px) scale(1.04) rotate(-5deg);
+}
+
+.mascot-state-looking_at_qr .mascot-head-container {
+  transform: rotateY(-10deg) rotateZ(-3deg);
+}
+
+/* STATE 6: POINTING — Raises hand pointing directly to QR code */
+.mascot-state-pointing {
+  opacity: 1;
+  transform: translateX(-54px) translateY(-30px) scale(1.08) rotate(-7deg);
+}
+
+.mascot-state-pointing .mascot-head-container {
+  transform: rotateY(-6deg) translateY(-2px);
+}
+
+/* STATE 7: HOLDING — Holds pose with organic breathing motion */
+.mascot-state-holding {
+  opacity: 1;
+  transform: translateX(-54px) translateY(-30px) scale(1.08) rotate(-7deg);
+  animation: mascotHoldBreathing 3.5s ease-in-out infinite alternate;
+}
+
+@keyframes mascotHoldBreathing {
+  0% {
+    transform: translateX(-54px) translateY(-30px) scale(1.08) rotate(-7deg);
+  }
+  50% {
+    transform: translateX(-60px) translateY(-36px) scale(1.1) rotate(-9deg);
+  }
+  100% {
+    transform: translateX(-50px) translateY(-26px) scale(1.06) rotate(-5deg);
+  }
+}
+
+/* STATE 8: EXITING — Steps back smoothly and fades out */
+.mascot-state-exiting {
+  opacity: 0;
+  transform: translateX(180px) translateY(30px) scale(0.6) rotate(15deg);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+}
+
+.mascot-head-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mascot-img-render {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 18px rgba(212, 175, 55, 0.38));
+}
+
+/* ==========================================================================
+   FOREGROUND LUXURY QR CARD FRAME (STATIC & 100% NON-CLICKABLE)
+   ========================================================================== */
+.qr-card-frame {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  background: linear-gradient(145deg, #1C050B 0%, #100206 100%);
+  border: 1.5px solid rgba(212, 175, 55, 0.5);
+  border-radius: 20px;
+  padding: 1rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 175, 55, 0.2);
+  z-index: 2;
+  cursor: default; /* 100% NON-CLICKABLE */
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.qr-card-frame.frame-active {
+  border-color: var(--color-gold-bright, #F9E79F);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), 0 0 45px rgba(249, 231, 159, 0.38);
+}
+
+.qr-frame-sheen {
+  position: absolute;
+  inset: -1px;
+  border-radius: 20px;
+  background: linear-gradient(90deg, transparent 0%, rgba(249, 231, 159, 0.35) 50%, transparent 100%);
+  opacity: 0;
+  pointer-events: none;
+  animation: frameSheenLoop 4s linear infinite;
+}
+
+@keyframes frameSheenLoop {
+  0% { opacity: 0; transform: translateX(-100%); }
+  25% { opacity: 0.7; }
+  50% { opacity: 0; transform: translateX(100%); }
+  100% { opacity: 0; transform: translateX(100%); }
+}
+
+/* Golden Corner Detailing */
+.qr-corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: var(--color-gold-bright, #F9E79F);
+  border-style: solid;
+  pointer-events: none;
+}
+.top-l { top: 6px; left: 6px; border-width: 2px 0 0 2px; }
+.top-r { top: 6px; right: 6px; border-width: 2px 2px 0 0; }
+.bot-l { bottom: 6px; left: 6px; border-width: 0 0 2px 2px; }
+.bot-r { bottom: 6px; right: 6px; border-width: 0 2px 2px 0; }
+
+.qr-canvas-box {
+  width: 100%;
+  height: 100%;
+  background: #160309;
+  border-radius: 14px;
+  padding: 0.45rem;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-svg-matrix {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.qr-sparkle-star {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  color: var(--color-gold-bright, #F9E79F);
+  font-size: 1.1rem;
+  animation: starPulse 2.5s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes starPulse {
+  0%, 100% { transform: scale(0.9) rotate(0deg); opacity: 0.7; }
+  50% { transform: scale(1.3) rotate(20deg); opacity: 1; }
+}
+
+/* Responsive Layout */
+@media (max-width: 960px) {
+  .qr-main-container {
+    grid-template-columns: 1fr;
+    padding: 2.5rem 1.5rem;
+    gap: 2.5rem;
+  }
+  .qr-text-col {
+    text-align: center;
+  }
+  /* Mobile entrance position */
+  .mascot-state-holding,
+  .mascot-state-pointing {
+    opacity: 1;
+    transform: translateX(-20px) translateY(-15px) scale(0.85) rotate(-3deg);
+  }
+}
+
+@media (max-width: 480px) {
+  .qr-stage-inner {
+    width: 220px;
+    height: 220px;
+  }
+  .qr-card-frame {
+    width: 210px;
+    height: 210px;
+  }
+  .qr-gold-mascot {
+    width: 180px;
+    height: 190px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .qr-gold-mascot {
+    animation: none !important;
+    transition: none !important;
+  }
+  .mascot-state-idle {
+    opacity: 1;
+    transform: translateX(-30px) translateY(-20px) scale(0.9);
+  }
+}
+

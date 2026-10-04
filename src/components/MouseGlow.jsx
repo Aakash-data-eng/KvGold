@@ -18,6 +18,14 @@ export default function MouseGlow() {
     let currentX = -500;
     let currentY = -500;
     let isVisible = false;
+    let isAnimating = false;
+
+    const startAnimation = () => {
+      if (!isAnimating) {
+        isAnimating = true;
+        animationFrameId = requestAnimationFrame(render);
+      }
+    };
 
     const handleMouseMove = (e) => {
       targetX = e.clientX;
@@ -26,6 +34,7 @@ export default function MouseGlow() {
         isVisible = true;
         glowEl.style.opacity = '1';
       }
+      startAnimation();
     };
 
     const handleMouseLeave = () => {
@@ -34,23 +43,28 @@ export default function MouseGlow() {
     };
 
     const render = () => {
-      // GPU transform translation with zero React re-renders
-      currentX += (targetX - currentX) * 0.12;
-      currentY += (targetY - currentY) * 0.12;
+      const dx = targetX - currentX;
+      const dy = targetY - currentY;
+
+      currentX += dx * 0.18;
+      currentY += dy * 0.18;
 
       glowEl.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
 
-      animationFrameId = requestAnimationFrame(render);
+      if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
+        animationFrameId = requestAnimationFrame(render);
+      } else {
+        isAnimating = false;
+      }
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     document.addEventListener('mouseleave', handleMouseLeave);
-    animationFrameId = requestAnimationFrame(render);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
   }, []);
 

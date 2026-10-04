@@ -7,7 +7,7 @@
 .video-reveal-section {
   position: relative;
   width: 100%;
-  background: radial-gradient(circle at 50% 20%, #30030B 0%, #150205 55%, #0A0103 100%);
+  background: radial-gradient(circle at 50% 20%, rgba(48, 3, 11, 0.65) 0%, rgba(21, 2, 5, 0.68) 55%, rgba(10, 1, 3, 0.72) 100%);
   color: var(--color-text);
   padding: 5rem 1.5rem 4.5rem;
   overflow: clip;

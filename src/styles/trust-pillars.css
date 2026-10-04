@@ -6,7 +6,7 @@
   position: relative;
   width: 100%;
   padding: 5.5rem 1.5rem;
-  background: radial-gradient(circle at 50% 30%, #1F0309 0%, #110104 60%, #080002 100%);
+  background: radial-gradient(circle at 50% 30%, rgba(31, 3, 9, 0.65) 0%, rgba(17, 1, 4, 0.68) 60%, rgba(8, 0, 2, 0.72) 100%);
   color: #F7E7CE;
   overflow: hidden;
   z-index: 5;
@@ -18,7 +18,6 @@
   position: absolute;
   pointer-events: none;
   border-radius: 50%;
-  filter: blur(85px);
   z-index: 1;
 }
 

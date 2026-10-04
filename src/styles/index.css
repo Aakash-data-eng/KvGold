@@ -69,27 +69,14 @@ html {
   font-size: 16px;
   color-scheme: dark;
   background-color: var(--color-bg);
-  scroll-behavior: smooth;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 section[id], footer[id] {
   scroll-margin-top: 80px;
-}
-
-html.lenis, html.lenis body {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
 }
 
 body {
@@ -97,9 +84,13 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   line-height: 1.65;
+  width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 /* Custom Scrollbar */
@@ -239,6 +230,19 @@ body {
   box-shadow: 0 10px 30px -5px rgba(212, 175, 55, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.6);
   transition: var(--transition-luxury);
   text-decoration: none;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 580px) {
+  .btn-gold-primary {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    flex-wrap: wrap;
+    white-space: normal;
+    text-align: center;
+    font-size: 0.88rem;
+  }
 }
 
 .btn-gold-primary::before {
@@ -283,6 +287,19 @@ body {
   cursor: pointer;
   transition: var(--transition-luxury);
   text-decoration: none;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 580px) {
+  .btn-luxury-secondary {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    flex-wrap: wrap;
+    white-space: normal;
+    text-align: center;
+    font-size: 0.88rem;
+  }
 }
 
 .btn-luxury-secondary:hover {

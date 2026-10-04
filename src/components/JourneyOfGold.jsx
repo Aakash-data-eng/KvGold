@@ -60,6 +60,7 @@ export default function JourneyOfGold({ onOpenSchemeModal }) {
   const rowRefs = useRef([]);
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0);
   const [isMobile, setIsMobile] = useState(() => {
     if (typeof window !== 'undefined') {
       return window.innerWidth <= 768;
@@ -76,11 +77,12 @@ export default function JourneyOfGold({ onOpenSchemeModal }) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Scroll storytelling logic
+  // Scroll storytelling logic (IntersectionObserver-driven to eliminate layout thrashing)
   useEffect(() => {
+    const section = sectionRef.current;
     const timeline = timelineRef.current;
     const svgLaser = svgLaserRef.current;
-    if (!timeline) return;
+    if (!timeline || !section) return;
 
     let pathLength = 1000;
     if (svgLaser && svgLaser.getTotalLength) {
@@ -89,40 +91,58 @@ export default function JourneyOfGold({ onOpenSchemeModal }) {
       svgLaser.style.strokeDashoffset = `${pathLength}`;
     }
 
+    let isSectionVisible = false;
     let rafId = null;
 
+    // 1. Observe Section Visibility so scroll handler returns immediately when offscreen
+    const sectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        isSectionVisible = entry.isIntersecting;
+        if (isSectionVisible) {
+          handleScroll();
+        }
+      },
+      { rootMargin: '200px 0px 200px 0px' }
+    );
+    sectionObserver.observe(section);
+
+    // 2. Observe Row Elements to set activeIndex with 0 layout recalculations
+    const rowObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = Number(entry.target.getAttribute('data-row-idx'));
+            if (!isNaN(idx) && idx !== activeIndexRef.current) {
+              activeIndexRef.current = idx;
+              setActiveIndex(idx);
+            }
+          }
+        });
+      },
+      { rootMargin: '-30% 0px -40% 0px', threshold: 0.1 }
+    );
+
+    rowRefs.current.forEach((row, idx) => {
+      if (row) {
+        row.setAttribute('data-row-idx', String(idx));
+        rowObserver.observe(row);
+      }
+    });
+
     const handleScroll = () => {
-      if (rafId) return;
+      if (!isSectionVisible || rafId) return;
 
       rafId = requestAnimationFrame(() => {
         rafId = null;
-        const viewportCenter = window.innerHeight * 0.52;
+        if (!isSectionVisible) return;
 
-        // 1. Calculate closest active row
-        let closestIdx = 0;
-        let minDistance = Infinity;
-
-        rowRefs.current.forEach((row, idx) => {
-          if (!row) return;
-          const rect = row.getBoundingClientRect();
-          const rowCenter = rect.top + rect.height / 2;
-          const dist = Math.abs(rowCenter - viewportCenter);
-
-          // Bias slightly towards reached items
-          if (rowCenter <= viewportCenter + 120 && dist < minDistance) {
-            minDistance = dist;
-            closestIdx = idx;
-          }
-        });
-
-        setActiveIndex(closestIdx);
-
-        // 2. Animate central SVG laser path down to active row
-        if (svgLaser) {
+        // Animate central SVG laser path down to active row
+        if (svgLaser && timeline) {
           const timelineRect = timeline.getBoundingClientRect();
+          const viewportCenter = window.innerHeight * 0.52;
           const timelineTop = timelineRect.top;
           const timelineHeight = timelineRect.height;
-          
+
           if (timelineHeight > 0) {
             const scrolledWithin = viewportCenter - timelineTop;
             const progress = Math.min(Math.max(scrolledWithin / timelineHeight, 0), 1);
@@ -135,9 +155,10 @@ export default function JourneyOfGold({ onOpenSchemeModal }) {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleScroll, { passive: true });
-    handleScroll();
 
     return () => {
+      sectionObserver.disconnect();
+      rowObserver.disconnect();
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
       if (rafId) cancelAnimationFrame(rafId);

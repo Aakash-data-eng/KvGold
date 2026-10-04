@@ -187,9 +187,12 @@ export default function GoldCollection({ onOpenSchemeModal }) {
           <div className="gold-title-sparkle" aria-hidden="true">
             <Sparkles size={18} />
           </div>
-          <h2 className="gold-main-title">EXPLORE OUR GOLD COLLECTION</h2>
+          <h2 className="gold-main-title">A COLLECTION FOR EVERY OCCASION</h2>
           <p className="gold-main-subtitle">
-            Traditional Designs. Timeless Value.
+            From timeless chains and elegant necklaces to everyday earrings, bangles, rings and traditional pieces, discover jewellery that fits your style and your moment.
+          </p>
+          <p className="gold-main-subtitle-tamil" style={{ marginTop: '0.4rem', fontSize: '0.86rem', color: 'rgba(249, 231, 159, 0.8)', maxWidth: '760px', margin: '0.4rem auto 0', lineHeight: '1.5' }}>
+            என்றும் அழகு குறையாத சங்கிலிகள் மற்றும் நெக்லஸ்கள் முதல், தினசரி அணியும் காதணிகள், வளையல்கள், மோதிரங்கள் மற்றும் பாரம்பரிய நகைகள் வரை — உங்கள் ஸ்டைலுக்கும், உங்கள் தருணத்திற்கும் பொருந்தும் தங்க நகையை தேர்வு செய்யுங்கள்.
           </p>
         </div>
       </div>

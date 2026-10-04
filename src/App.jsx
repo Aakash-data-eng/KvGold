@@ -1,26 +1,39 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Lenis from 'lenis';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Testimonials from './components/Testimonials';
 import GoldTrustPillars from './components/GoldTrustPillars';
+import KVGoldScrollExplore from './components/KVGoldScrollExplore';
 import GoldBuyingService from './components/GoldBuyingService';
 import GoldCollection from './components/GoldCollection';
 import JourneyOfGold from './components/JourneyOfGold';
 import VideoReveal from './components/VideoReveal';
 import JourneyConclusion from './components/JourneyConclusion';
+import GoldTreeExperience from './components/GoldTreeExperience';
 import Founders from './components/Founders';
 import WhyKVGoldVideo from './components/WhyKVGoldVideo';
+import KVGoldQRExperience from './components/KVGoldQRExperience';
+import KVGoldDigitalVisitingCard from './components/KVGoldDigitalVisitingCard';
 import Footer from './components/Footer';
 import Preloader from './components/Preloader';
 import MouseGlow from './components/MouseGlow';
-import GoldParticleCanvas from './components/GoldParticleCanvas';
+import KVGoldCinematicBackground from './components/KVGoldCinematicBackground';
 import { Phone, MessageCircle } from 'lucide-react';
 import './styles/index.css';
 
 export default function App() {
   const [preloaderDone, setPreloaderDone] = useState(false);
-  const lenisRef = useRef(null);
+  const [isVisitingCardRoute, setIsVisitingCardRoute] = useState(false);
+
+  // Check for standalone /visiting-card or #visiting-card route on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const isCardPath = window.location.pathname === '/visiting-card' || window.location.hash === '#visiting-card';
+      if (isCardPath) {
+        setIsVisitingCardRoute(true);
+      }
+    }
+  }, []);
 
   // Enforce manual scroll restoration so page refresh ALWAYS opens at scrollY = 0 (Top of Page)
   useEffect(() => {
@@ -31,49 +44,7 @@ export default function App() {
     // Force immediate scroll to top on initial page load / refresh
     window.scrollTo(0, 0);
 
-    return () => {
-      if ('scrollRestoration' in window.history) {
-        window.history.scrollRestoration = 'auto';
-      }
-    };
-  }, []);
-
-  // Initialize Lenis Butter-Smooth Scrolling
-  useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.1,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.5,
-    });
-
-    lenisRef.current = lenis;
-
-    // Handle hash on initial load or reset to top
-    if (window.location.hash) {
-      const hashTarget = document.querySelector(window.location.hash);
-      if (hashTarget) {
-        setTimeout(() => {
-          lenis.scrollTo(hashTarget, { offset: -80, immediate: false });
-        }, 300);
-      } else {
-        lenis.scrollTo(0, { immediate: true });
-      }
-    } else {
-      lenis.scrollTo(0, { immediate: true });
-    }
-
-    let animationFrameId;
-
-    function raf(time) {
-      lenis.raf(time);
-      animationFrameId = requestAnimationFrame(raf);
-    }
-
-    animationFrameId = requestAnimationFrame(raf);
-
-    // Smooth anchor navigation handling for #links
+    // Smooth anchor navigation handling for #links using native browser scroll
     const handleAnchorClick = (e) => {
       const anchor = e.target.closest('a[href^="#"]');
       if (!anchor) return;
@@ -82,7 +53,7 @@ export default function App() {
         const targetEl = document.querySelector(href);
         if (targetEl) {
           e.preventDefault();
-          lenis.scrollTo(targetEl, { offset: -80, duration: 1.2 });
+          targetEl.scrollIntoView({ behavior: 'smooth' });
         }
       }
     };
@@ -90,10 +61,10 @@ export default function App() {
     document.addEventListener('click', handleAnchorClick);
 
     return () => {
+      if ('scrollRestoration' in window.history) {
+        window.history.scrollRestoration = 'auto';
+      }
       document.removeEventListener('click', handleAnchorClick);
-      cancelAnimationFrame(animationFrameId);
-      lenis.destroy();
-      lenisRef.current = null;
     };
   }, []);
 
@@ -107,14 +78,27 @@ export default function App() {
 
   return (
     <div className="kv-gold-app">
+      {/* Standalone Digital Visiting Card Page Route if URL matches /visiting-card */}
+      {isVisitingCardRoute && (
+        <KVGoldDigitalVisitingCard
+          onClose={() => {
+            setIsVisitingCardRoute(false);
+            if (window.history.pushState) {
+              window.history.pushState(null, '', '/');
+            }
+          }}
+          onOpenSchemeModal={handleOpenModal}
+        />
+      )}
+
       {/* Cinematic Luxury Preloader Screen */}
       <Preloader onComplete={() => setPreloaderDone(true)} />
 
+      {/* ULTRA PREMIUM 3D GOLD UNIVERSE (3D MOLTEN GOLD RIVER + MULTI-RIBBONS + LIGHT TRAILS + SHIMMER + BURGUNDY VELVET CLOUDS) */}
+      <KVGoldCinematicBackground />
+
       {/* Interactive Apple Vision Pro-Style Mouse Follow Glow */}
       <MouseGlow />
-
-      {/* Persistent Gold Stardust & Particle Atmosphere Canvas */}
-      <GoldParticleCanvas />
 
       {/* Top Navbar with live ticker */}
       <Navbar onOpenSchemeModal={handleOpenModal} />
@@ -123,20 +107,11 @@ export default function App() {
       <main style={{ position: 'relative', zIndex: 2 }}>
         <Hero onOpenSchemeModal={handleOpenModal} />
 
-        {/* Other sections temporarily withheld as requested - ready for future enablement */}
-        {/*
-        <Trust />
-        <Plans onOpenSchemeModal={handleOpenModal} />
-        <About />
-        <Gallery onOpenSchemeModal={handleOpenModal} />
-        <HowItWorks />
-        <Testimonials />
-        <Stats />
-        <CTA onOpenSchemeModal={handleOpenModal} />
-        */}
-
         {/* Core Transparency & Trust Pillars */}
         <GoldTrustPillars />
+
+        {/* Cinematic Gateway: SCROLL TO EXPLORE KV GOLD */}
+        <KVGoldScrollExplore />
 
         {/* Unified Gold Collection: Row 1 (Chain Models) + Row 2 (Other Gold Ornaments) */}
         <GoldCollection onOpenSchemeModal={handleOpenModal} />
@@ -150,6 +125,9 @@ export default function App() {
         {/* The Journey Continues / CTA Section */}
         <JourneyConclusion onOpenSchemeModal={handleOpenModal} />
 
+        {/* THE GOLD TREE: Ultra-Premium Interactive Jewellery Experience */}
+        <GoldTreeExperience onOpenSchemeModal={handleOpenModal} />
+
         {/* Cinematic Golden Double Door Opening & Autoplay Brand Film Reveal */}
         <VideoReveal />
 
@@ -161,6 +139,12 @@ export default function App() {
 
         {/* Customer Reviews & Testimonials Section (VengeanceUI Stacked Deck Interaction) */}
         <Testimonials />
+
+        {/* ================================================================
+            KV GOLD — CINEMATIC QR VISITING CARD EXPERIENCE
+            Positioned in the empty wide space immediately ABOVE the footer
+            ================================================================ */}
+        <KVGoldQRExperience onOpenSchemeModal={handleOpenModal} />
       </main>
 
       {/* Footer */}

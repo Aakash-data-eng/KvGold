@@ -4,42 +4,101 @@ import '../styles/founders.css';
 
 export default function Founders({ onOpenSchemeModal }) {
   const sectionRef = useRef(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const headerRef = useRef(null);
+  const ownerMetaRef = useRef(null);
+  const cofounderMetaRef = useRef(null);
+  const closingBarRef = useRef(null);
+  const ambientGlowRef = useRef(null);
+  const duoRowRef = useRef(null);
+
+  const hasShimmeredRef = useRef(false);
   const [hasShimmered, setHasShimmered] = useState(false);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
+    let isSectionVisible = false;
     let rafId = null;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isSectionVisible = entry.isIntersecting;
+        if (isSectionVisible) {
+          updateScrollProgress();
+        }
+      },
+      { rootMargin: '150px 0px 150px 0px' }
+    );
+    observer.observe(section);
 
     const updateScrollProgress = () => {
       rafId = null;
+      if (!isSectionVisible) return;
+
       const rect = section.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      
+
       // Calculate scroll progress (0 when section top enters viewport, 1 when middle is in view)
       const totalDistance = windowHeight + rect.height;
       const currentPos = windowHeight - rect.top;
       const rawProgress = currentPos / totalDistance;
-      const clampedProgress = Math.min(1, Math.max(0, rawProgress * 1.4));
+      const progress = Math.min(1, Math.max(0, rawProgress * 1.4));
 
-      setScrollProgress(clampedProgress);
+      // Direct CSS Variable Update (Zero React Re-renders on Scroll)
+      section.style.setProperty('--scroll-p', progress);
 
-      if (clampedProgress > 0.45 && !hasShimmered) {
+      // Direct DOM style updates for child elements
+      if (ambientGlowRef.current) {
+        ambientGlowRef.current.style.transform = `translate(-50%, -50%) scale(${0.75 + progress * 0.45})`;
+        ambientGlowRef.current.style.opacity = String(Math.min(1, progress * 1.5));
+      }
+
+      if (headerRef.current) {
+        headerRef.current.style.opacity = String(Math.min(1, progress * 2.2));
+        headerRef.current.style.transform = `translateY(${(1 - Math.min(1, progress * 2)) * -25}px)`;
+      }
+
+      const metaOpacity = Math.min(1, Math.max(0, (progress - 0.25) * 2.5));
+      const metaTranslate = (1 - metaOpacity) * 20;
+
+      if (ownerMetaRef.current) {
+        ownerMetaRef.current.style.opacity = String(metaOpacity);
+        ownerMetaRef.current.style.transform = `translateY(${metaTranslate}px)`;
+      }
+
+      if (cofounderMetaRef.current) {
+        cofounderMetaRef.current.style.opacity = String(metaOpacity);
+        cofounderMetaRef.current.style.transform = `translateY(${metaTranslate}px)`;
+      }
+
+      if (duoRowRef.current) {
+        if (progress > 0.18) {
+          duoRowRef.current.classList.add('is-revealed');
+        }
+      }
+
+      if (closingBarRef.current) {
+        const closingOpacity = Math.min(1, Math.max(0, (progress - 0.45) * 2));
+        closingBarRef.current.style.opacity = String(closingOpacity);
+        closingBarRef.current.style.transform = `translateY(${(1 - closingOpacity) * 20}px)`;
+      }
+
+      if (progress > 0.45 && !hasShimmeredRef.current) {
+        hasShimmeredRef.current = true;
         setHasShimmered(true);
       }
     };
 
     const handleScroll = () => {
-      if (rafId) return;
+      if (!isSectionVisible || rafId) return;
       rafId = requestAnimationFrame(updateScrollProgress);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    updateScrollProgress();
 
     return () => {
+      observer.disconnect();
       window.removeEventListener('scroll', handleScroll);
       if (rafId) cancelAnimationFrame(rafId);
     };
@@ -51,9 +110,6 @@ export default function Founders({ onOpenSchemeModal }) {
       id="founders"
       ref={sectionRef}
       aria-label="Leadership - The People Behind KV Gold"
-      style={{
-        '--scroll-p': scrollProgress,
-      }}
     >
       {/* Ambient Floating Gold Particles */}
       <div className="founders-particles-layer" aria-hidden="true">
@@ -67,25 +123,16 @@ export default function Founders({ onOpenSchemeModal }) {
 
       {/* Ambient Radial Glows */}
       <div
+        ref={ambientGlowRef}
         className="founders-ambient-glow center-glow"
         aria-hidden="true"
-        style={{
-          transform: `translate(-50%, -50%) scale(${0.75 + scrollProgress * 0.45})`,
-          opacity: Math.min(1, scrollProgress * 1.5),
-        }}
       />
       <div className="founders-ambient-glow left-glow" aria-hidden="true" />
       <div className="founders-ambient-glow right-glow" aria-hidden="true" />
 
       <div className="founders-wrapper">
         {/* Section Header */}
-        <div
-          className="founders-header"
-          style={{
-            opacity: Math.min(1, scrollProgress * 2.2),
-            transform: `translateY(${(1 - Math.min(1, scrollProgress * 2)) * -25}px)`,
-          }}
-        >
+        <div className="founders-header" ref={headerRef}>
           <div className="founders-badge">
             <Sparkles size={14} />
             <span>LEADERSHIP & VISION</span>
@@ -121,7 +168,7 @@ export default function Founders({ onOpenSchemeModal }) {
               <h3 className={`center-brand-title ${hasShimmered ? 'shimmer-active' : ''}`}>
                 KV GOLD
               </h3>
-              <p className="center-brand-sub">HAUTE JOAILLERIE & SOVEREIGN WEALTH</p>
+              <p className="center-brand-sub">TRUSTED SELLER • SOVEREIGN WEALTH</p>
               <div className="center-divider-gold">
                 <span className="center-line" />
                 <span className="center-dot" />
@@ -134,7 +181,7 @@ export default function Founders({ onOpenSchemeModal }) {
           </div>
 
           {/* TWO FOUNDERS ROW: MOVES INWARD TOWARD CENTER BELOW THE BRANDING */}
-          <div className={`founders-duo-row ${scrollProgress > 0.18 ? 'is-revealed' : ''}`}>
+          <div className="founders-duo-row" ref={duoRowRef}>
             
             {/* LEFT: OWNER / FOUNDER */}
             <div className="founder-col founder-col-owner">
@@ -152,13 +199,7 @@ export default function Founders({ onOpenSchemeModal }) {
                 </div>
 
                 {/* Founder Editorial Meta */}
-                <div
-                  className="founder-meta"
-                  style={{
-                    opacity: Math.min(1, Math.max(0, (scrollProgress - 0.25) * 2.5)),
-                    transform: `translateY(${(1 - Math.min(1, Math.max(0, (scrollProgress - 0.25) * 2.5))) * 20}px)`,
-                  }}
-                >
+                <div className="founder-meta" ref={ownerMetaRef}>
                   <div className="founder-role-tag">
                     <span className="founder-tag-dot" />
                     <span className="founder-role-title">OWNER / FOUNDER</span>
@@ -216,13 +257,7 @@ export default function Founders({ onOpenSchemeModal }) {
                 </div>
 
                 {/* Co-Founder Editorial Meta */}
-                <div
-                  className="founder-meta"
-                  style={{
-                    opacity: Math.min(1, Math.max(0, (scrollProgress - 0.25) * 2.5)),
-                    transform: `translateY(${(1 - Math.min(1, Math.max(0, (scrollProgress - 0.25) * 2.5))) * 20}px)`,
-                  }}
-                >
+                <div className="founder-meta" ref={cofounderMetaRef}>
                   <div className="founder-role-tag">
                     <span className="founder-tag-dot" />
                     <span className="founder-role-title">CO-FOUNDER</span>
@@ -269,13 +304,7 @@ export default function Founders({ onOpenSchemeModal }) {
         </div>
 
         {/* Section Closing Heritage Statement */}
-        <div
-          className="founders-closing-bar"
-          style={{
-            opacity: Math.min(1, Math.max(0, (scrollProgress - 0.45) * 2)),
-            transform: `translateY(${(1 - Math.min(1, Math.max(0, (scrollProgress - 0.45) * 2))) * 20}px)`,
-          }}
-        >
+        <div className="founders-closing-bar" ref={closingBarRef}>
           <div className="founders-closing-divider">
             <span className="founders-div-line" />
             <span className="founders-div-crest">❖</span>

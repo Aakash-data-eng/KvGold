@@ -56,7 +56,7 @@ export default function Hero({ onOpenSchemeModal }) {
         return;
       }
 
-      // If requested frame is still downloading, find nearest loaded frame without overwriting lastDrawnIndex target
+      // If requested frame is still downloading, find nearest loaded frame
       for (let offset = 1; offset < TOTAL_FRAMES; offset++) {
         const prev = index - offset;
         if (prev >= 0 && images[prev] && images[prev].complete && images[prev].naturalWidth > 0) {
@@ -71,27 +71,32 @@ export default function Hero({ onOpenSchemeModal }) {
       }
     };
 
-    // Load Frame 1 immediately for instant render on first paint
+    // Load Frame 1 immediately for instant paint
     const firstImg = new Image();
     firstImg.src = getFrameSrc(0);
     images[0] = firstImg;
     firstImg.onload = () => {
-      if (firstImg.decode) {
-        firstImg.decode().then(() => drawFrame(0)).catch(() => drawFrame(0));
-      } else {
-        drawFrame(0);
+      drawFrame(0);
+    };
+
+    // Progressive Chunk Loader (loads 15 frames immediately, then remaining frames in background idle chunks)
+    const loadFrameChunk = (start, end) => {
+      for (let i = start; i < end && i < TOTAL_FRAMES; i++) {
+        if (!images[i]) {
+          const img = new Image();
+          img.src = getFrameSrc(i);
+          images[i] = img;
+        }
       }
     };
 
-    // Background progressive loader for all remaining frames with async decode
-    for (let i = 1; i < TOTAL_FRAMES; i++) {
-      const img = new Image();
-      img.src = getFrameSrc(i);
-      if (img.decode) {
-        img.decode().catch(() => {});
-      }
-      images[i] = img;
-    }
+    // Immediate initial crisp chunk
+    loadFrameChunk(1, 15);
+
+    // Staggered idle background chunks (Zero network/decoding contention)
+    const idleTimer1 = setTimeout(() => loadFrameChunk(15, 45), 400);
+    const idleTimer2 = setTimeout(() => loadFrameChunk(45, 80), 900);
+    const idleTimer3 = setTimeout(() => loadFrameChunk(80, TOTAL_FRAMES), 1400);
 
     // ------------------------------------------------------------------------
     // SCROLL TRACKING & SNAPPY RAF INTERPOLATION
@@ -220,6 +225,7 @@ export default function Hero({ onOpenSchemeModal }) {
 
     // Passive, zero-reflow scroll handler
     const onScroll = () => {
+      if (!isHeroVisible) return;
       const scrollY = window.scrollY || window.pageYOffset || 0;
       targetProgress = Math.min(Math.max(scrollY / maxScroll, 0), 1);
       triggerTick();
@@ -230,6 +236,9 @@ export default function Hero({ onOpenSchemeModal }) {
     onScroll();
 
     return () => {
+      clearTimeout(idleTimer1);
+      clearTimeout(idleTimer2);
+      clearTimeout(idleTimer3);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', updateDimensions);
       observer.disconnect();
@@ -272,16 +281,20 @@ export default function Hero({ onOpenSchemeModal }) {
         <div className="hero-story-overlay hero-phase-1" ref={phase1Ref}>
           <div className="hero-subtle-badge">
             <Award size={14} style={{ color: 'var(--color-gold-bright)' }} />
-            <span className="hero-subtle-badge-text">✦ 100% தூய 916 BIS ஹால்மார்க் தங்கம் ✦</span>
+            <span className="hero-subtle-badge-text">✦ TRUSTED SELLER • நம்பிக்கையான விற்பனையாளர் ✦</span>
           </div>
 
           <h1 className="hero-phase-title">
-            நம்பிக்கையின் சிகரம்.{' '}
-            <span className="shimmer-gold-text">தூய 22 கேரட் தங்கம்.</span>
+            GOLD YOU CAN TRUST.{' '}
+            <span className="shimmer-gold-text">SERVICE YOU CAN COUNT ON.</span>
           </h1>
 
           <p className="hero-phase-desc">
-            பரம்பரை பொற்கொல்லர்களின் கைவண்ணத்தில் உருவான ராஜ மாங்காய் இலை ஆரம். கீழே ஸ்க்ரோல் செய்து இந்த நிகரற்ற தங்கக் கலைப்படைப்பை தரிசியுங்கள்.
+            At KV GOLD, we make every gold decision simpler and more transparent — whether you're buying jewellery, selling your gold, or creating something uniquely yours.
+          </p>
+
+          <p className="hero-phase-desc-tamil" style={{ marginTop: '0.4rem', fontSize: '0.88rem', color: 'rgba(249, 231, 159, 0.85)', letterSpacing: '0.02em' }}>
+            நம்பிக்கையுடன் வாங்குங்கள் • தெளிவுடன் விற்குங்கள் • உங்கள் விருப்பத்திற்கேற்ற தனிப்பயனாக்கம்
           </p>
         </div>
 

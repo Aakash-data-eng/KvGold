@@ -10,7 +10,7 @@
   position: relative;
   width: 100%;
   padding: 7.5rem 1.5rem 7rem;
-  background: radial-gradient(circle at 50% 30%, #24030A 0%, #120104 55%, #070002 100%);
+  background: radial-gradient(circle at 50% 30%, rgba(36, 3, 10, 0.65) 0%, rgba(18, 1, 4, 0.68) 55%, rgba(7, 0, 2, 0.72) 100%);
   color: #F7E7CE;
   overflow: hidden;
   z-index: 5;
@@ -56,7 +56,6 @@
   position: absolute;
   pointer-events: none;
   border-radius: 50%;
-  filter: blur(85px);
   z-index: 1;
 }
 
@@ -176,7 +175,6 @@
   height: 280px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, rgba(122, 0, 25, 0.12) 60%, transparent 75%);
-  filter: blur(25px);
   pointer-events: none;
   z-index: 0;
 }

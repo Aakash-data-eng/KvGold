@@ -1,0 +1,367 @@
+/* ==========================================================================
+   KV GOLD — DIGITAL VISITING CARD STYLES
+   ========================================================================== */
+
+.vcard-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(8, 2, 5, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.vcard-card-frame {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  background: linear-gradient(145deg, #1C050B 0%, #100206 60%, #080103 100%);
+  border: 1.5px solid rgba(212, 175, 55, 0.45);
+  border-radius: 24px;
+  padding: 2.75rem 2rem 2rem;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(212, 175, 55, 0.22);
+  color: #F7E7CE;
+  overflow: hidden;
+  animation: vcardPop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes vcardPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.vcard-close-btn {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(122, 0, 25, 0.4);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  color: var(--color-gold-bright, #F9E79F);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  z-index: 10;
+}
+
+.vcard-close-btn:hover {
+  background: rgba(122, 0, 25, 0.7);
+  transform: rotate(90deg);
+}
+
+.vcard-glow-bg {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Header */
+.vcard-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.vcard-crest-emblem {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 0.85rem;
+}
+
+.vcard-crest-ring {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #3D040E 0%, #150105 100%);
+  border: 1.5px solid var(--color-gold, #D4AF37);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+.vcard-monogram {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #FFF2B2 0%, #D4AF37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.vcard-spark {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  color: var(--color-gold-bright, #F9E79F);
+  font-size: 0.9rem;
+}
+
+.vcard-brand-name {
+  font-family: 'Cinzel', serif;
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  background: linear-gradient(135deg, #FFFFFF 0%, #F9E79F 40%, #D4AF37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.25rem;
+}
+
+.vcard-tagline {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--color-gold-bright, #F9E79F);
+  text-transform: uppercase;
+  margin-bottom: 0.85rem;
+}
+
+.vcard-trust-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(122, 0, 25, 0.45);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-gold-bright, #F9E79F);
+}
+
+/* Quotes Block */
+.vcard-quotes-block {
+  text-align: center;
+  background: rgba(10, 2, 4, 0.6);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 14px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.vcard-quote-en {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #FFF;
+
+}
+
+.vcard-quote-ta {
+  font-size: 0.8rem;
+  color: rgba(249, 231, 159, 0.85);
+  margin-top: 0.25rem;
+}
+
+/* Actions */
+.vcard-primary-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.vcard-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.25rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-save {
+  background: linear-gradient(135deg, #D4AF37 0%, #AA7C11 100%);
+  color: #100206;
+  border: none;
+  box-shadow: 0 4px 18px rgba(212, 175, 55, 0.35);
+}
+
+.btn-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(249, 231, 159, 0.5);
+}
+
+.btn-call {
+  background: rgba(122, 0, 25, 0.45);
+  border: 1.5px solid var(--color-gold, #D4AF37);
+  color: var(--color-gold-bright, #F9E79F);
+}
+
+.btn-call:hover {
+  background: rgba(122, 0, 25, 0.75);
+  border-color: var(--color-gold-bright, #F9E79F);
+}
+
+.btn-whatsapp {
+  background: #25D366;
+  color: #FFF;
+  border: none;
+}
+
+.btn-whatsapp:hover {
+  background: #1EBE5A;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+}
+
+/* Services */
+.vcard-services-section {
+  margin-bottom: 1.75rem;
+}
+
+.vcard-section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--color-gold-bright, #F9E79F);
+  margin-bottom: 0.85rem;
+  text-transform: uppercase;
+}
+
+.vcard-services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.vcard-service-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(25, 4, 10, 0.7);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 12px;
+  padding: 0.75rem 0.85rem;
+}
+
+.service-icon {
+  color: var(--color-gold-bright, #F9E79F);
+  flex-shrink: 0;
+}
+
+.service-title {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #FFF;
+  display: block;
+}
+
+.service-ta {
+  font-size: 0.7rem;
+  color: rgba(247, 231, 206, 0.7);
+  display: block;
+}
+
+/* Contact Details */
+.vcard-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  background: rgba(12, 2, 5, 0.7);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 16px;
+  padding: 1.15rem;
+  margin-bottom: 1.75rem;
+}
+
+.contact-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.row-icon {
+  color: var(--color-gold, #D4AF37);
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+.row-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: rgba(249, 231, 159, 0.7);
+  display: block;
+}
+
+.row-val {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #FFF;
+  text-decoration: none;
+  display: block;
+}
+
+.row-sub {
+  font-size: 0.74rem;
+  color: var(--color-gold-bright, #F9E79F);
+  display: block;
+  margin-top: 0.1rem;
+}
+
+/* Footer */
+.vcard-footer {
+  text-align: center;
+}
+
+.vcard-explore-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 1.5px solid rgba(212, 175, 55, 0.4);
+  border-radius: 999px;
+  padding: 0.8rem 1.5rem;
+  color: var(--color-gold-bright, #F9E79F);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.vcard-explore-btn:hover {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: var(--color-gold-bright, #F9E79F);
+}
+
+@media (max-width: 480px) {
+  .vcard-card-frame {
+    padding: 2.25rem 1.25rem 1.5rem;
+  }
+
+  .vcard-services-grid {
+    grid-template-columns: 1fr;
+  }
+}
