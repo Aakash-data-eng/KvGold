@@ -248,16 +248,14 @@ export default function KVGoldQRExperience() {
                   <div className="qr-corner bot-l" />
                   <div className="qr-corner bot-r" />
 
-                  {/* High Contrast Scannable White QR Box */}
+                  {/* High Contrast Scannable White QR Box displaying User Provided Official QR Image */}
                   <div className="qr-canvas-box">
-                    {qrSvgHtml ? (
-                      <div
-                        className="qr-svg-wrapper"
-                        dangerouslySetInnerHTML={{ __html: qrSvgHtml }}
-                      />
-                    ) : (
-                      <div className="qr-loading-placeholder">Loading QR...</div>
-                    )}
+                    <img
+                      src="/kvgold-qr-official.png"
+                      alt="KV GOLD Digital Visiting Card Official QR Code"
+                      className="official-qr-image"
+                      draggable={false}
+                    />
                   </div>
 
                   {/* Sparkle Accent */}
