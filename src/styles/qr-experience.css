@@ -156,7 +156,7 @@
 
 /* ==========================================================================
    "SCAN THE QR" ELEGANT TYPOGRAPHY CALLOUT (POSITIONED STRICTLY ABOVE QR CODE)
-   Fades & glides in ONLY when Mascot points toward QR code!
+   Fades & glides in ONLY when Mascot arrives and points to the QR code!
    ========================================================================== */
 .scan-qr-delight-text {
   text-align: center;
@@ -166,6 +166,7 @@
   transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
   min-height: 42px;
+  z-index: 20;
 }
 
 .scan-qr-delight-text.text-visible {
@@ -197,95 +198,99 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: visible;
 }
 
 /* ==========================================================================
-   3D GOLD MASCOT ACTOR (100% HIDDEN IN IDLE, ENTERS FROM RIGHT ON HOVER)
+   BEHIND-THE-QR 3D GOLD MASCOT ACTOR
+   Strictly layered at z-index: 2 (BEHIND the foreground QR Card z-index: 10)!
+   Initial State: Hidden directly behind the opaque QR Card Frame.
+   Active State: Steps out and peeks from BEHIND the right edge of the card.
    ========================================================================== */
 .qr-gold-mascot {
   position: absolute;
-  right: -60px;
-  bottom: -15px;
-  width: 230px;
-  height: 260px;
-  z-index: 3; /* Positioned beside & slightly overlaying outer frame, NEVER covering QR path */
+  right: 0;
+  bottom: -5px;
+  width: 220px;
+  height: 250px;
+  z-index: 2; /* STRICTLY LAYERED BEHIND QR CARD FRAME (z-index: 10) */
   pointer-events: none;
-  transform-origin: bottom right;
-  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+  transform-origin: bottom center;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease;
 }
 
-/* STATE 1: IDLE — 100% Hidden away off-screen to the right */
+/* STATE 1: IDLE — Hidden directly behind the QR Card Frame */
 .mascot-state-idle {
   opacity: 0;
-  transform: translateX(180px) translateY(30px) scale(0.6) rotate(15deg);
+  transform: translateX(0) translateY(20px) scale(0.65);
 }
 
-/* STATE 2: NOTICE — QR glows, character prepares entrance from hidden spot */
+/* STATE 2: NOTICE — Subtle shift, preparing to step out from behind the card */
 .mascot-state-notice {
-  opacity: 0;
-  transform: translateX(160px) translateY(20px) scale(0.65) rotate(12deg);
+  opacity: 0.35;
+  transform: translateX(30px) translateY(10px) scale(0.75);
 }
 
-/* STATE 3: ENTERING — Steps & moves smoothly out into view */
+/* STATE 3: ENTERING — Steps out from BEHIND the right edge of the QR Card */
 .mascot-state-entering {
   opacity: 0.85;
-  transform: translateX(60px) translateY(-10px) scale(0.88) rotate(4deg);
+  transform: translateX(85px) translateY(-5px) scale(0.92);
 }
 
-/* STATE 4: LOOKING_AT_USER — Arrives & turns face directly toward visitor/cursor (Eye contact!) */
+/* STATE 4: LOOKING_AT_USER — Arrives & turns face directly toward visitor (Eye contact!) */
 .mascot-state-looking_at_user {
   opacity: 1;
-  transform: translateX(-40px) translateY(-22px) scale(1.02) rotate(0deg);
+  transform: translateX(110px) translateY(-12px) scale(1);
 }
 
 .mascot-state-looking_at_user .mascot-head-container {
-  transform: rotateY(0deg) rotateX(0deg) scale(1.04);
+  transform: rotateY(0deg) rotateX(0deg) scale(1.02);
 }
 
-/* STATE 5: LOOKING_AT_QR — Turns head toward QR code */
+/* STATE 5: LOOKING_AT_QR — Turns gaze toward the QR code */
 .mascot-state-looking_at_qr {
   opacity: 1;
-  transform: translateX(-46px) translateY(-25px) scale(1.04) rotate(-5deg);
+  transform: translateX(112px) translateY(-14px) scale(1.02);
 }
 
 .mascot-state-looking_at_qr .mascot-head-container {
-  transform: rotateY(-10deg) rotateZ(-3deg);
+  transform: rotateY(-8deg) rotateZ(-2deg);
 }
 
-/* STATE 6: POINTING — Raises hand pointing directly to QR code */
+/* STATE 6: POINTING — Raises hand pointing directly toward the QR code */
 .mascot-state-pointing {
   opacity: 1;
-  transform: translateX(-54px) translateY(-30px) scale(1.08) rotate(-7deg);
+  transform: translateX(115px) translateY(-18px) scale(1.05);
 }
 
 .mascot-state-pointing .mascot-head-container {
   transform: rotateY(-6deg) translateY(-2px);
 }
 
-/* STATE 7: HOLDING — Holds pose with organic breathing motion */
+/* STATE 7: HOLDING — Holds pose with subtle organic breathing motion */
 .mascot-state-holding {
   opacity: 1;
-  transform: translateX(-54px) translateY(-30px) scale(1.08) rotate(-7deg);
+  transform: translateX(115px) translateY(-18px) scale(1.05);
   animation: mascotHoldBreathing 3.5s ease-in-out infinite alternate;
 }
 
 @keyframes mascotHoldBreathing {
   0% {
-    transform: translateX(-54px) translateY(-30px) scale(1.08) rotate(-7deg);
+    transform: translateX(115px) translateY(-18px) scale(1.05);
   }
   50% {
-    transform: translateX(-60px) translateY(-36px) scale(1.1) rotate(-9deg);
+    transform: translateX(118px) translateY(-22px) scale(1.07);
   }
   100% {
-    transform: translateX(-50px) translateY(-26px) scale(1.06) rotate(-5deg);
+    transform: translateX(112px) translateY(-15px) scale(1.04);
   }
 }
 
-/* STATE 8: EXITING — Steps back smoothly and fades out */
+/* STATE 8: EXITING — Steps back smoothly behind the QR card frame */
 .mascot-state-exiting {
   opacity: 0;
-  transform: translateX(180px) translateY(30px) scale(0.6) rotate(15deg);
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+  transform: translateX(0) translateY(20px) scale(0.65);
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease;
 }
 
 .mascot-head-container {
@@ -299,11 +304,13 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 18px rgba(212, 175, 55, 0.38));
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 15px rgba(212, 175, 55, 0.35));
 }
 
 /* ==========================================================================
-   FOREGROUND LUXURY QR CARD FRAME (STATIC & 100% NON-CLICKABLE)
+   FOREGROUND LUXURY QR CARD FRAME
+   Strictly layered at z-index: 10 (Renders ABOVE the Mascot Layer z-index: 2!)
+   Contains Crisp, High Contrast, 100% Scannable White QR Code
    ========================================================================== */
 .qr-card-frame {
   position: relative;
@@ -312,10 +319,11 @@
   background: linear-gradient(145deg, #1C050B 0%, #100206 100%);
   border: 1.5px solid rgba(212, 175, 55, 0.5);
   border-radius: 20px;
-  padding: 1rem;
+  padding: 0.85rem;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 175, 55, 0.2);
-  z-index: 2;
+  z-index: 10; /* FOREGROUND LAYER ABOVE MASCOT */
   cursor: default; /* 100% NON-CLICKABLE */
+  pointer-events: none;
   transition: border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
@@ -355,22 +363,41 @@
 .bot-l { bottom: 6px; left: 6px; border-width: 0 0 2px 2px; }
 .bot-r { bottom: 6px; right: 6px; border-width: 0 2px 2px 0; }
 
+/* 100% High Contrast White Scannable QR Canvas Box */
 .qr-canvas-box {
   width: 100%;
   height: 100%;
-  background: #160309;
-  border-radius: 14px;
-  padding: 0.45rem;
-  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+  background: #FFFFFF; /* High contrast clean white quiet zone canvas */
+  border-radius: 12px;
+  padding: 0.35rem;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.qr-svg-wrapper {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.qr-svg-matrix {
+.qr-svg-wrapper svg {
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  display: block;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  shape-rendering: crispEdges;
+}
+
+.qr-loading-placeholder {
+  color: #333;
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 
 .qr-sparkle-star {
@@ -398,11 +425,13 @@
   .qr-text-col {
     text-align: center;
   }
-  /* Mobile entrance position */
+  /* Mobile entrance position: Peeks out to the right of the card */
   .mascot-state-holding,
-  .mascot-state-pointing {
+  .mascot-state-pointing,
+  .mascot-state-looking_at_user,
+  .mascot-state-looking_at_qr {
     opacity: 1;
-    transform: translateX(-20px) translateY(-15px) scale(0.85) rotate(-3deg);
+    transform: translateX(75px) translateY(-10px) scale(0.85);
   }
 }
 
@@ -416,8 +445,15 @@
     height: 210px;
   }
   .qr-gold-mascot {
-    width: 180px;
+    width: 170px;
     height: 190px;
+  }
+  .mascot-state-holding,
+  .mascot-state-pointing,
+  .mascot-state-looking_at_user,
+  .mascot-state-looking_at_qr {
+    opacity: 1;
+    transform: translateX(60px) translateY(-8px) scale(0.78);
   }
 }
 
@@ -429,7 +465,8 @@
   }
   .mascot-state-idle {
     opacity: 1;
-    transform: translateX(-30px) translateY(-20px) scale(0.9);
+    transform: translateX(80px) translateY(-10px) scale(0.9);
   }
 }
+
 
