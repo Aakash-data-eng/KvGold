@@ -42,10 +42,13 @@ export default function KVGoldCinematicBackground() {
       targetMouseY = (e.clientY - height / 2) * 0.35;
     };
 
+    let lastFrameTime = 0;
+
     const handleResize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, 1.25);
       width = window.innerWidth;
       height = window.innerHeight;
+      const isMobileScreen = width < 768;
+      dpr = isMobileScreen ? 1.0 : Math.min(window.devicePixelRatio || 1, 1.25);
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       ctx.scale(dpr, dpr);
@@ -76,11 +79,11 @@ export default function KVGoldCinematicBackground() {
     const FOV = 480;
     const isMobile = width < 768;
 
-    // 1. 3D Molten Gold River Grid (Diagonally Orientated Terrain)
-    const cols = isMobile ? 22 : 38;
-    const rows = isMobile ? 16 : 26;
-    const spacingX = isMobile ? 55 : 68;
-    const spacingY = isMobile ? 44 : 54;
+    // 1. 3D Molten Gold River Grid (Diagonally Orientated Terrain - Mobile Tier)
+    const cols = isMobile ? 16 : 38;
+    const rows = isMobile ? 12 : 26;
+    const spacingX = isMobile ? 65 : 68;
+    const spacingY = isMobile ? 52 : 54;
 
     const gridPoints = [];
     for (let r = 0; r < rows; r++) {
@@ -95,8 +98,8 @@ export default function KVGoldCinematicBackground() {
       }
     }
 
-    // 2. 3D Gold Particle Storm Pool (90% faint, 8% medium, 2% bright)
-    const particleCount = isMobile ? 55 : 125;
+    // 2. 3D Gold Particle Storm Pool (Optimized for Mobile)
+    const particleCount = isMobile ? 30 : 125;
     const particles = Array.from({ length: particleCount }, (_, i) => {
       const typeRand = Math.random();
       let opacityBase = 0.18;
@@ -127,8 +130,8 @@ export default function KVGoldCinematicBackground() {
       };
     });
 
-    // 3. 3D Rotating Metallic Gold Shards (Floating Fragments)
-    const shardCount = isMobile ? 5 : 12;
+    // 3. 3D Rotating Metallic Gold Shards (Floating Fragments - Mobile Tier)
+    const shardCount = isMobile ? 3 : 12;
     const shards = Array.from({ length: shardCount }, () => ({
       x: (Math.random() - 0.5) * width * 1.5,
       y: (Math.random() - 0.5) * height * 1.5,
@@ -143,8 +146,8 @@ export default function KVGoldCinematicBackground() {
       opacity: Math.random() * 0.4 + 0.2,
     }));
 
-    // 4. Gold Light Trails (Travelling Laser Reflections)
-    const streakCount = isMobile ? 4 : 8;
+    // 4. Gold Light Trails (Travelling Laser Reflections - Mobile Tier)
+    const streakCount = isMobile ? 2 : 8;
     const streaks = Array.from({ length: streakCount }, () => ({
       x: (Math.random() - 0.5) * width,
       y: (Math.random() - 0.5) * height,
@@ -164,8 +167,15 @@ export default function KVGoldCinematicBackground() {
     // -------------------------------------------------------------------------
     // CENTRALIZED 3D RENDER ENGINE
     // -------------------------------------------------------------------------
-    const render = () => {
+    const render = (now) => {
       if (!isTabVisible) return;
+
+      // Mobile FPS throttle (~30fps for smooth background without blocking main thread scroll)
+      if (isMobile && now && now - lastFrameTime < 32) {
+        animFrameId = requestAnimationFrame(render);
+        return;
+      }
+      lastFrameTime = now || 0;
 
       ctx.clearRect(0, 0, width, height);
 

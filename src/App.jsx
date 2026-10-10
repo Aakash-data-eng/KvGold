@@ -1,4 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Testimonials from './components/Testimonials';
@@ -13,17 +18,19 @@ import GoldTreeExperience from './components/GoldTreeExperience';
 import Founders from './components/Founders';
 import WhyKVGoldVideo from './components/WhyKVGoldVideo';
 import KVGoldQRExperience from './components/KVGoldQRExperience';
+import StoreLocatorDoorstep from './components/StoreLocatorDoorstep';
 import KVGoldDigitalVisitingCard from './components/KVGoldDigitalVisitingCard';
 import Footer from './components/Footer';
-import Preloader from './components/Preloader';
+import CinematicSiteIntro from './components/CinematicSiteIntro';
 import MouseGlow from './components/MouseGlow';
 import KVGoldCinematicBackground from './components/KVGoldCinematicBackground';
 import { Phone, MessageCircle } from 'lucide-react';
 import './styles/index.css';
 
 export default function App() {
-  const [preloaderDone, setPreloaderDone] = useState(false);
+  const [introDone, setIntroDone] = useState(false);
   const [isVisitingCardRoute, setIsVisitingCardRoute] = useState(false);
+  const lenisRef = useRef(null);
 
   // Check for standalone /visiting-card or #visiting-card route on mount
   useEffect(() => {
@@ -35,7 +42,52 @@ export default function App() {
     }
   }, []);
 
-  // Enforce manual scroll restoration so page refresh ALWAYS opens at scrollY = 0 (Top of Page)
+  // Initialize Lenis Smooth Scroll Engine + GSAP Ticker Synchronization
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.05,
+      touchMultiplier: 1.8,
+    });
+
+    lenisRef.current = lenis;
+
+    // Connect Lenis to ScrollTrigger update
+    lenis.on('scroll', ScrollTrigger.update);
+
+    // Synchronize Lenis RAF loop with GSAP Ticker for 120Hz liquid-smooth rendering
+    const updateTicker = (time) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(updateTicker);
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      gsap.ticker.remove(updateTicker);
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
+
+  // Lock Lenis scroll while intro is playing, unlock once intro completes
+  useEffect(() => {
+    if (lenisRef.current) {
+      if (introDone) {
+        lenisRef.current.start();
+      } else {
+        lenisRef.current.stop();
+      }
+    }
+  }, [introDone]);
+
+  // Enforce manual scroll restoration & smooth anchor navigation handling
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
@@ -44,7 +96,7 @@ export default function App() {
     // Force immediate scroll to top on initial page load / refresh
     window.scrollTo(0, 0);
 
-    // Smooth anchor navigation handling for #links using native browser scroll
+    // Smooth anchor navigation handling for #links using Lenis scroll
     const handleAnchorClick = (e) => {
       const anchor = e.target.closest('a[href^="#"]');
       if (!anchor) return;
@@ -53,7 +105,12 @@ export default function App() {
         const targetEl = document.querySelector(href);
         if (targetEl) {
           e.preventDefault();
-          targetEl.scrollIntoView({ behavior: 'smooth' });
+          if (lenisRef.current) {
+            const hVar = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 140;
+            lenisRef.current.scrollTo(targetEl, { offset: -hVar - 15, duration: 1.2 });
+          } else {
+            targetEl.scrollIntoView({ behavior: 'smooth' });
+          }
         }
       }
     };
@@ -77,25 +134,26 @@ export default function App() {
   };
 
   return (
-    <div className="kv-gold-app">
-      {/* Standalone Digital Visiting Card Page Route if URL matches /visiting-card */}
-      {isVisitingCardRoute && (
-        <KVGoldDigitalVisitingCard
-          onClose={() => {
-            setIsVisitingCardRoute(false);
-            if (window.history.pushState) {
-              window.history.pushState(null, '', '/');
-            }
-          }}
-          onOpenSchemeModal={handleOpenModal}
-        />
-      )}
+    <>
+      {/* Cinematic Entry Brand Film Intro Overlay */}
+      {!introDone && <CinematicSiteIntro onComplete={() => setIntroDone(true)} />}
 
-      {/* Cinematic Luxury Preloader Screen */}
-      <Preloader onComplete={() => setPreloaderDone(true)} />
+      <div className="kv-gold-app">
+        {/* Standalone Digital Visiting Card Page Route if URL matches /visiting-card */}
+        {isVisitingCardRoute && (
+          <KVGoldDigitalVisitingCard
+            onClose={() => {
+              setIsVisitingCardRoute(false);
+              if (window.history.pushState) {
+                window.history.pushState(null, '', '/');
+              }
+            }}
+            onOpenSchemeModal={handleOpenModal}
+          />
+        )}
 
-      {/* ULTRA PREMIUM 3D GOLD UNIVERSE (3D MOLTEN GOLD RIVER + MULTI-RIBBONS + LIGHT TRAILS + SHIMMER + BURGUNDY VELVET CLOUDS) */}
-      <KVGoldCinematicBackground />
+        {/* ULTRA PREMIUM 3D GOLD UNIVERSE (3D MOLTEN GOLD RIVER + MULTI-RIBBONS + LIGHT TRAILS + SHIMMER + BURGUNDY VELVET CLOUDS) */}
+        <KVGoldCinematicBackground />
 
       {/* Interactive Apple Vision Pro-Style Mouse Follow Glow */}
       <MouseGlow />
@@ -145,6 +203,12 @@ export default function App() {
             Positioned in the empty wide space immediately ABOVE the footer
             ================================================================ */}
         <KVGoldQRExperience onOpenSchemeModal={handleOpenModal} />
+
+        {/* ================================================================
+            KV GOLD — INTERACTIVE STORE LOCATOR & DOORSTEP VALUATION BOOKING
+            Positioned compactly right above the footer
+            ================================================================ */}
+        <StoreLocatorDoorstep />
       </main>
 
       {/* Footer */}
@@ -225,5 +289,6 @@ export default function App() {
         }
       `}</style>
     </div>
-  );
+  </>
+);
 }

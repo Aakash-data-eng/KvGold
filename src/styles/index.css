@@ -1,8 +1,17 @@
+@import './cinematic-intro.css';
+
 /* ==========================================================================
    KV GOLD - ULTRA LUXURY DESIGN SYSTEM
    Theme: Royal Maroon (#7A0019) & Metallic Gold (#D4AF37)
    Target: Tamil Nadu & South India Sovereign Wealth & Jewellery Investors
    ========================================================================== */
+
+.kv-gold-app {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100dvh;
+  position: relative;
+}
 
 :root {
   /* Core Luxury Palette */
@@ -76,7 +85,7 @@ html {
 }
 
 section[id], footer[id] {
-  scroll-margin-top: 80px;
+  scroll-margin-top: calc(var(--header-height, 140px) + 16px);
 }
 
 body {
@@ -453,3 +462,60 @@ body {
   border: 1px solid #FFF;
   box-shadow: 0 0 12px rgba(249, 231, 159, 0.8);
 }
+
+/* ==========================================================================
+   LENIS SMOOTH SCROLLING CORE STYLES & LUXURY VIBE CODED ATMOSPHERE
+   ========================================================================== */
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Global Vibe Coded Glassmorphism Elevation & Ambient Lighting */
+::selection {
+  background: rgba(212, 175, 55, 0.35);
+  color: #FFF2B2;
+  text-shadow: 0 0 8px rgba(249, 231, 159, 0.6);
+}
+
+/* Silky smooth section entrance fade & rise */
+.section-vibe-reveal {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Luxury Gold Glow Cards */
+.vibe-card-glow {
+  position: relative;
+  background: rgba(20, 7, 12, 0.75);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(122, 0, 25, 0.2);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vibe-card-glow:hover {
+  border-color: rgba(249, 231, 159, 0.6);
+  transform: translateY(-4px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 175, 55, 0.3);
+}
+

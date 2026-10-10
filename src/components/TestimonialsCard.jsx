@@ -1,66 +1,66 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Star, Quote, Sparkles, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Star, Quote, Sparkles, ShieldCheck, User } from 'lucide-react';
 import '../styles/testimonials.css';
 
 const defaultTestimonials = [
   {
     id: 1,
     name: 'S. Meenakshi & Sundar',
+    initials: 'SM',
     location: 'R.S. Puram, Coimbatore',
     badge: 'VERIFIED CUSTOMER',
     rating: 5,
-    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80',
     quote:
       'We enrolled in KV Gold’s 11-month plan for our daughter’s upcoming wedding. The 12th-month bonus was credited without any hidden conditions, and when we selected her bridal necklace, there was truly 0% wastage.',
   },
   {
     id: 2,
     name: 'Priya Ramanathan',
+    initials: 'PR',
     location: 'Anna Nagar, Chennai',
     badge: 'VERIFIED CUSTOMER',
     rating: 5,
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80',
     quote:
       'As a working woman investor, I wanted physical gold backing rather than just paper chits. KV Gold locked in my grams at daily rates every month. The passbook on WhatsApp and prompt customer desk gave me complete peace of mind.',
   },
   {
     id: 3,
     name: 'Dr. K. Natarajan',
+    initials: 'KN',
     location: 'KK Nagar, Madurai',
     badge: 'VERIFIED CUSTOMER',
     rating: 5,
-    image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80',
     quote:
       'Traditional jewellers always take high making charges during exchange. With KV Gold, the purity is certified 24K Swiss grade, and the transparency is unmatched. I have recommended it to all my colleagues.',
   },
   {
     id: 4,
     name: 'Anandhi Swaminathan',
+    initials: 'AS',
     location: 'Fairlands, Salem',
     badge: 'VERIFIED CUSTOMER',
     rating: 5,
-    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&q=80',
     quote:
       'This is my third consecutive year saving with KV Gold. For Akshaya Tritiya, I redeemed two sovereign antique bangles with zero hassle. The staff treated my family with the utmost royal courtesy.',
   },
   {
     id: 5,
     name: 'K. Rajesh & Family',
+    initials: 'KR',
     location: 'Gandhipuram, Coimbatore',
     badge: 'KV GOLD CUSTOMER',
     rating: 5,
-    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80',
     quote:
       'KV Gold has restored complete trust in jewellery investment. The monthly gold plan transparency and courteous service make them our family’s primary gold brand for every celebration.',
   },
   {
     id: 6,
     name: 'Deepa Subramanian',
+    initials: 'DS',
     location: 'Saibaba Colony, Coimbatore',
     badge: 'KV GOLD CUSTOMER',
     rating: 5,
-    image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80',
     quote:
       'The craftsmanship of the jewellery and clear digital tracking gave us absolute confidence. A truly prestigious experience from start to finish.',
   },
@@ -75,7 +75,7 @@ export default function TestimonialsCard({
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [isPaused, setIsPaused] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 768);
 
   const sectionRef = useRef(null);
   const timerRef = useRef(null);
@@ -87,11 +87,17 @@ export default function TestimonialsCard({
     const section = sectionRef.current;
     if (!section) return;
 
+    if (window.innerWidth <= 768) {
+      setIsVisible(true);
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsVisible(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
       },
-      { threshold: 0.1 }
+      { threshold: 0.01, rootMargin: '100px 0px 100px 0px' }
     );
 
     observer.observe(section);
@@ -253,13 +259,28 @@ export default function TestimonialsCard({
                         ease: [0.22, 1, 0.36, 1],
                       }}
                     >
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="testimonial-card-img"
-                        draggable={false}
-                      />
-                      <div className="testimonial-card-vignette" aria-hidden="true" />
+                      <div className="testimonial-unprofile-card">
+                        <div className="unprofile-ambient-bg" />
+                        <div className="unprofile-pattern" />
+                        
+                        <div className="unprofile-avatar-box">
+                          <div className="unprofile-avatar-ring">
+                            <User size={48} className="unprofile-avatar-icon" />
+                          </div>
+                          <div className="unprofile-avatar-badge">{item.initials || 'KV'}</div>
+                        </div>
+
+                        <div className="unprofile-meta-content">
+                          <span className="unprofile-brand-eyebrow">KV GOLD • VERIFIED STORY</span>
+                          <h4 className="unprofile-name">{item.name}</h4>
+                          <span className="unprofile-location">{item.location}</span>
+                        </div>
+
+                        <div className="unprofile-trust-tag">
+                          <ShieldCheck size={14} />
+                          <span>24K CERTIFIED REVIEWS</span>
+                        </div>
+                      </div>
                       <div className="testimonial-card-rim" aria-hidden="true" />
                     </motion.div>
                   );

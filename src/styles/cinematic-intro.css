@@ -1,0 +1,171 @@
+/* ==========================================================================
+   KV GOLD — FULL-SCREEN CINEMATIC BRAND FILM INTRO OVERLAY
+   ========================================================================== */
+
+.cinematic-intro-root {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  width: 100svw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 99999999;
+  background-color: #050304;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity;
+  padding: 0;
+  margin: 0;
+}
+
+.cinematic-intro-root.is-finishing {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Deep Burgundy & Gold Atmosphere Foundation */
+.cinematic-intro-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 50%, #6E0016 0%, #26050C 50%, #050304 90%),
+    #050304;
+  z-index: 1;
+}
+
+.cinematic-intro-radial-glow {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(249, 231, 159, 0.28) 0%, rgba(122, 0, 25, 0.22) 50%, transparent 85%);
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Gold Light Bloom Wave for Finish Transition */
+.cinematic-intro-gold-bloom {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(249, 231, 159, 0.9) 0%, rgba(212, 175, 55, 0.5) 40%, transparent 75%);
+  filter: blur(60px);
+  opacity: 0;
+  transform: scale(0.6);
+  pointer-events: none;
+  z-index: 5;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cinematic-intro-gold-bloom.bloom-active {
+  opacity: 1;
+  transform: scale(1.6);
+}
+
+/* Full-Screen Edge-to-Edge Video Wrapper */
+.cinematic-intro-video-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  background-color: transparent;
+}
+
+/* Native Full-Screen Brand Film Video Element */
+.cinematic-intro-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+  transition: transform 0.3s ease;
+}
+
+/* Mobile Portrait Sizing & Framing (100% width fit, zero horizontal crop, full burgundy atmosphere) */
+@media (max-width: 768px) {
+  .cinematic-intro-video-wrap {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cinematic-intro-video {
+    width: 100vw;
+    height: auto;
+    max-width: 100vw;
+    max-height: 88dvh;
+    object-fit: contain;
+    object-position: center center;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    transform: none;
+    margin: auto;
+  }
+}
+
+/* Mobile Landscape Aspect Adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+  .cinematic-intro-video {
+    object-fit: cover;
+    width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    transform: none;
+  }
+}
+
+/* Autoplay Blocked Fallback Action Button */
+.cinematic-intro-blocked-fallback {
+  position: absolute;
+  bottom: clamp(40px, 8vh, 90px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cinematic-intro-play-btn {
+  padding: 0.9rem 2.4rem;
+  font-size: 0.92rem;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #FFE89F 0%, #D4AF37 100%);
+  color: #1A070D;
+  border: 1.5px solid #FFF2B2;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 25px rgba(212, 175, 55, 0.6);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  white-space: nowrap;
+}
+
+.cinematic-intro-play-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 35px rgba(249, 231, 159, 0.85);
+}

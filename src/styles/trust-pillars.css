@@ -178,6 +178,12 @@
 
 /* Responsive Breakpoints */
 @media (max-width: 1024px) {
+  .pillars-header,
+  .pillars-grid {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   .pillars-grid {
     grid-template-columns: repeat(2, 1fr);
   }

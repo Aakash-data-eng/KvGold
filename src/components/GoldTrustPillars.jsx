@@ -34,11 +34,15 @@ const trustPillars = [
 
 export default function GoldTrustPillars() {
   const sectionRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 768);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
+
+    if (window.innerWidth <= 768) {
+      setIsVisible(true);
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -46,7 +50,7 @@ export default function GoldTrustPillars() {
           setIsVisible(true);
         }
       },
-      { threshold: 0.18 }
+      { threshold: 0.01, rootMargin: '100px 0px 100px 0px' }
     );
 
     observer.observe(section);

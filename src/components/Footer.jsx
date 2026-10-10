@@ -8,12 +8,16 @@ export default function Footer() {
   const ditherRef = useRef(null);
   const rectRef = useRef(null);
   const rafRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 768);
 
   // IntersectionObserver for subtle section reveal
   useEffect(() => {
     const footer = footerRef.current;
     if (!footer) return;
+
+    if (window.innerWidth <= 768) {
+      setIsVisible(true);
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -21,7 +25,7 @@ export default function Footer() {
           setIsVisible(true);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.01, rootMargin: '100px 0px 100px 0px' }
     );
 
     observer.observe(footer);
@@ -131,7 +135,7 @@ export default function Footer() {
               <li className="contact-item locations-item">
                 <MapPin size={15} className="contact-icon" />
                 <div className="locations-block">
-                  <span className="locations-text">Chennai • Coimbatore • Madurai • Salem</span>
+                  <span className="locations-text">Coimbatore</span>
                   <span className="delivery-badge">Delivery Available Across Tamil Nadu</span>
                 </div>
               </li>

@@ -420,6 +420,8 @@
 /* Responsive Layout */
 @media (max-width: 960px) {
   .qr-main-container {
+    opacity: 1 !important;
+    transform: none !important;
     grid-template-columns: 1fr;
     padding: 2.5rem 1.5rem;
     gap: 2.5rem;

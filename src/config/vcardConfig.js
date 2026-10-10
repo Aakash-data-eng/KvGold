@@ -12,7 +12,7 @@ export const KV_GOLD_CONTACT = {
   email: 'info@kvgold.in',
   whatsappUrl: 'https://chat.whatsapp.com/LMO9P9TuHJxLToDEeX2YPH?s=cl&p=a&mlu=4&ilr=4',
   website: 'https://kvgold.in',
-  locations: 'Chennai • Coimbatore • Madurai • Salem',
+  locations: 'Coimbatore',
   deliveryNotice: 'Delivery Available Across Tamil Nadu',
   services: [
     { title: 'BUY GOLD JEWELLERY', tamil: 'தங்க நகைகள் வாங்குதல்' },
@@ -44,7 +44,7 @@ TEL;TYPE=WORK,VOICE:+919894352616
 EMAIL;TYPE=WORK:info@kvgold.in
 URL:https://kvgold.in
 NOTE:KV GOLD - Gold You Can Trust. Service You Can Count On.
-ADR;TYPE=WORK:;;Chennai / Coimbatore / Madurai / Salem;Tamil Nadu;;India
+ADR;TYPE=WORK:;;Ramanathapuram;Coimbatore;Tamil Nadu;641045;India
 END:VCARD`;
 
   const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8' });

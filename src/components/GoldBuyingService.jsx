@@ -4,12 +4,16 @@ import '../styles/gold-buying.css';
 
 export default function GoldBuyingService({ onOpenSchemeModal }) {
   const sectionRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 768);
   const [activeTab, setActiveTab] = useState('what-we-do');
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
+
+    if (window.innerWidth <= 768) {
+      setIsVisible(true);
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -17,7 +21,7 @@ export default function GoldBuyingService({ onOpenSchemeModal }) {
           setIsVisible(true);
         }
       },
-      { threshold: 0.12 }
+      { threshold: 0.01, rootMargin: '100px 0px 100px 0px' }
     );
 
     observer.observe(section);

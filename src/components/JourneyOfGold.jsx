@@ -94,11 +94,23 @@ export default function JourneyOfGold({ onOpenSchemeModal }) {
     let isSectionVisible = false;
     let rafId = null;
 
+    let cachedTimelineTopOffset = 0;
+    let cachedTimelineHeight = 0;
+
+    const measureTimeline = () => {
+      if (timeline) {
+        const rect = timeline.getBoundingClientRect();
+        cachedTimelineTopOffset = rect.top + window.scrollY;
+        cachedTimelineHeight = rect.height || timeline.offsetHeight;
+      }
+    };
+
     // 1. Observe Section Visibility so scroll handler returns immediately when offscreen
     const sectionObserver = new IntersectionObserver(
       ([entry]) => {
         isSectionVisible = entry.isIntersecting;
         if (isSectionVisible) {
+          measureTimeline();
           handleScroll();
         }
       },
@@ -107,6 +119,7 @@ export default function JourneyOfGold({ onOpenSchemeModal }) {
     sectionObserver.observe(section);
 
     // 2. Observe Row Elements to set activeIndex with 0 layout recalculations
+    const isMobile = window.innerWidth <= 768;
     const rowObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -119,7 +132,7 @@ export default function JourneyOfGold({ onOpenSchemeModal }) {
           }
         });
       },
-      { rootMargin: '-30% 0px -40% 0px', threshold: 0.1 }
+      { rootMargin: isMobile ? '-5% 0px -10% 0px' : '-15% 0px -20% 0px', threshold: 0.05 }
     );
 
     rowRefs.current.forEach((row, idx) => {
@@ -136,12 +149,11 @@ export default function JourneyOfGold({ onOpenSchemeModal }) {
         rafId = null;
         if (!isSectionVisible) return;
 
-        // Animate central SVG laser path down to active row
+        // Animate central SVG laser path down to active row (Zero layout thrashing)
         if (svgLaser && timeline) {
-          const timelineRect = timeline.getBoundingClientRect();
           const viewportCenter = window.innerHeight * 0.52;
-          const timelineTop = timelineRect.top;
-          const timelineHeight = timelineRect.height;
+          const timelineTop = cachedTimelineTopOffset - window.scrollY;
+          const timelineHeight = cachedTimelineHeight;
 
           if (timelineHeight > 0) {
             const scrolledWithin = viewportCenter - timelineTop;
@@ -153,14 +165,19 @@ export default function JourneyOfGold({ onOpenSchemeModal }) {
       });
     };
 
+    const handleResize = () => {
+      measureTimeline();
+      handleScroll();
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll, { passive: true });
+    window.addEventListener('resize', handleResize, { passive: true });
 
     return () => {
       sectionObserver.disconnect();
       rowObserver.disconnect();
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
+      window.removeEventListener('resize', handleResize);
       if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);

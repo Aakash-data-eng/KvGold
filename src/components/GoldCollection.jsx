@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Sparkles, ArrowRight } from 'lucide-react';
+import { Sparkles, ArrowRight, RotateCw } from 'lucide-react';
+import JewelleryInspectorModal from './JewelleryInspectorModal';
 import '../styles/collection.css';
 
 // Row 1: 10 Chain Models
@@ -131,6 +132,7 @@ const REPEATED_ORNAMENTS = [...OTHER_ORNAMENTS, ...OTHER_ORNAMENTS, ...OTHER_ORN
 export default function GoldCollection({ onOpenSchemeModal }) {
   const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(true);
+  const [inspectItem, setInspectItem] = useState(null);
 
   // Performance optimization: Pause CSS animations when section is off-screen
   useEffect(() => {
@@ -206,7 +208,7 @@ export default function GoldCollection({ onOpenSchemeModal }) {
             <span className="gold-sub-badge">01</span>
             <div>
               <h3 className="gold-sub-title">CHAIN MODELS</h3>
-              <p className="gold-sub-desc">Timeless Chains for Every Style</p>
+              <p className="gold-sub-desc">Timeless Chains for Every Style (Click to Inspect 360°)</p>
             </div>
           </div>
           <span className="gold-direction-hint" aria-hidden="true">
@@ -228,10 +230,7 @@ export default function GoldCollection({ onOpenSchemeModal }) {
                 <ProductCard
                   key={`chain-${chain.id}-${index}`}
                   item={chain}
-                  onClick={() =>
-                    onOpenSchemeModal &&
-                    onOpenSchemeModal(`${chain.english} Scheme`)
-                  }
+                  onClick={() => setInspectItem(chain)}
                 />
               ))}
             </div>
@@ -256,7 +255,7 @@ export default function GoldCollection({ onOpenSchemeModal }) {
             <div>
               <h3 className="gold-sub-title">OTHER GOLD ORNAMENTS</h3>
               <p className="gold-sub-desc">
-                Crafted Treasures for Every Occasion
+                Crafted Treasures for Every Occasion (Click to Inspect 360°)
               </p>
             </div>
           </div>
@@ -279,10 +278,7 @@ export default function GoldCollection({ onOpenSchemeModal }) {
                 <ProductCard
                   key={`ornament-${item.id}-${index}`}
                   item={item}
-                  onClick={() =>
-                    onOpenSchemeModal &&
-                    onOpenSchemeModal(`${item.english} Scheme`)
-                  }
+                  onClick={() => setInspectItem(item)}
                 />
               ))}
             </div>
@@ -311,6 +307,15 @@ export default function GoldCollection({ onOpenSchemeModal }) {
           <span className="gold-tag-line-right" />
         </p>
       </div>
+
+      {/* 360° Interactive Lightbox Inspector Modal */}
+      {inspectItem && (
+        <JewelleryInspectorModal
+          item={inspectItem}
+          onClose={() => setInspectItem(null)}
+          onOpenSchemeModal={onOpenSchemeModal}
+        />
+      )}
     </section>
   );
 }
@@ -323,7 +328,7 @@ function ProductCard({ item, onClick }) {
       onClick={onClick}
       role="button"
       tabIndex={0}
-      aria-label={`${item.tamil} - ${item.english}`}
+      aria-label={`${item.tamil} - ${item.english} (Tap for 360° Inspector)`}
     >
       <div className="gold-card-img-box">
         <img
@@ -333,6 +338,12 @@ function ProductCard({ item, onClick }) {
           loading="lazy"
         />
         <div className="gold-card-shimmer" aria-hidden="true" />
+        
+        {/* 360° Interactive Badge Overlay on Card Hover */}
+        <div className="gold-card-inspect-tag">
+          <RotateCw size={11} className="spin-icon-anim" />
+          <span>360° INSPECT</span>
+        </div>
       </div>
 
       <div className="gold-card-meta">

@@ -216,6 +216,11 @@
 
 /* Responsive */
 @media (max-width: 900px) {
+  .buying-card-container {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   .buying-features-grid {
     grid-template-columns: 1fr;
     gap: 1.25rem;

@@ -21,11 +21,52 @@ export default function Founders({ onOpenSchemeModal }) {
     let isSectionVisible = false;
     let rafId = null;
 
+    let cachedSectionTopOffset = 0;
+    let cachedSectionHeight = 0;
+
+    const measureSection = () => {
+      if (section) {
+        const rect = section.getBoundingClientRect();
+        cachedSectionTopOffset = rect.top + window.scrollY;
+        cachedSectionHeight = rect.height || section.offsetHeight;
+      }
+    };
+
+    const enforceMobileVisibility = () => {
+      if (headerRef.current) {
+        headerRef.current.style.opacity = '1';
+        headerRef.current.style.transform = 'none';
+      }
+      if (ownerMetaRef.current) {
+        ownerMetaRef.current.style.opacity = '1';
+        ownerMetaRef.current.style.transform = 'none';
+      }
+      if (cofounderMetaRef.current) {
+        cofounderMetaRef.current.style.opacity = '1';
+        cofounderMetaRef.current.style.transform = 'none';
+      }
+      if (closingBarRef.current) {
+        closingBarRef.current.style.opacity = '1';
+        closingBarRef.current.style.transform = 'none';
+      }
+      if (duoRowRef.current) {
+        duoRowRef.current.classList.add('is-revealed');
+      }
+      if (ambientGlowRef.current) {
+        ambientGlowRef.current.style.opacity = '1';
+      }
+    };
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         isSectionVisible = entry.isIntersecting;
         if (isSectionVisible) {
-          updateScrollProgress();
+          if (window.innerWidth <= 768) {
+            enforceMobileVisibility();
+          } else {
+            measureSection();
+            updateScrollProgress();
+          }
         }
       },
       { rootMargin: '150px 0px 150px 0px' }
@@ -36,19 +77,25 @@ export default function Founders({ onOpenSchemeModal }) {
       rafId = null;
       if (!isSectionVisible) return;
 
-      const rect = section.getBoundingClientRect();
+      // On mobile screens, keep all elements 100% visible without scroll-linked opacity hiding or reflows
+      if (window.innerWidth <= 768) {
+        enforceMobileVisibility();
+        return;
+      }
+
       const windowHeight = window.innerHeight;
+      const rectTop = cachedSectionTopOffset - window.scrollY;
 
       // Calculate scroll progress (0 when section top enters viewport, 1 when middle is in view)
-      const totalDistance = windowHeight + rect.height;
-      const currentPos = windowHeight - rect.top;
+      const totalDistance = windowHeight + cachedSectionHeight;
+      const currentPos = windowHeight - rectTop;
       const rawProgress = currentPos / totalDistance;
       const progress = Math.min(1, Math.max(0, rawProgress * 1.4));
 
       // Direct CSS Variable Update (Zero React Re-renders on Scroll)
       section.style.setProperty('--scroll-p', progress);
 
-      // Direct DOM style updates for child elements
+      // Direct DOM style updates for child elements (Desktop/Tablet)
       if (ambientGlowRef.current) {
         ambientGlowRef.current.style.transform = `translate(-50%, -50%) scale(${0.75 + progress * 0.45})`;
         ambientGlowRef.current.style.opacity = String(Math.min(1, progress * 1.5));
@@ -91,15 +138,26 @@ export default function Founders({ onOpenSchemeModal }) {
     };
 
     const handleScroll = () => {
-      if (!isSectionVisible || rafId) return;
+      if (!isSectionVisible || window.innerWidth <= 768 || rafId) return;
       rafId = requestAnimationFrame(updateScrollProgress);
     };
 
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        enforceMobileVisibility();
+      } else {
+        measureSection();
+        updateScrollProgress();
+      }
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleResize, { passive: true });
 
     return () => {
       observer.disconnect();
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
       if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);

@@ -555,6 +555,12 @@
    Responsive Layout & Accessibility
    -------------------------------------------------------------------------- */
 @media (max-width: 900px) {
+  .footer-main-grid,
+  .footer-dither-stage {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   .footer-main-grid {
     grid-template-columns: 1fr;
     gap: 2.25rem;

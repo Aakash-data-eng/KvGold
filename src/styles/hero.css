@@ -131,7 +131,7 @@
 
 /* Phase 1: Left Intro Badge & Headline (Scroll 0% only - Removed immediately on scroll) */
 .hero-phase-1 {
-  top: 18%;
+  top: calc(var(--header-height, 120px) + 1.75rem);
   left: 5%;
   max-width: 540px;
 }
@@ -139,7 +139,7 @@
 @media (min-width: 1024px) {
   .hero-phase-1 {
     left: 8%;
-    top: 22%;
+    top: calc(var(--header-height, 120px) + 2.2rem);
   }
 }
 
@@ -264,14 +264,54 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .hero-phase-1 {
-    top: 14%;
+    top: calc(var(--header-height, 140px) + 0.85rem);
     left: 5%;
     right: 5%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-phase-1 {
+    top: calc(var(--header-height, 142px) + 0.65rem);
+    left: 4.5%;
+    right: 4.5%;
+  }
+
+  .hero-subtle-badge {
+    margin-bottom: 0.75rem;
+    padding: 0.3rem 0.85rem;
   }
 
   .hero-phase-title {
-    font-size: 1.85rem;
+    font-size: clamp(1.65rem, 6.5vw, 2.1rem);
+    margin-bottom: 0.65rem;
+    line-height: 1.22;
+  }
+
+  .hero-phase-desc {
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+}
+
+/* Short height viewports / landscape phones */
+@media (max-height: 680px) {
+  .hero-phase-1 {
+    top: calc(var(--header-height, 120px) + 0.4rem);
+  }
+  .hero-subtle-badge {
+    margin-bottom: 0.4rem;
+    padding: 0.2rem 0.75rem;
+  }
+  .hero-phase-title {
+    font-size: clamp(1.35rem, 4.5vh, 1.95rem);
+    margin-bottom: 0.35rem;
+  }
+  .hero-phase-desc {
+    font-size: 0.85rem;
+    line-height: 1.4;
   }
 }

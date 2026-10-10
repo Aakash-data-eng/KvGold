@@ -16,7 +16,6 @@ export default function WhyKVGoldVideo() {
     const section = sectionRef.current;
     if (!section) return;
 
-    // IntersectionObserver triggers when 25% of section enters viewport
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -50,7 +49,7 @@ export default function WhyKVGoldVideo() {
           }
         }
       },
-      { threshold: 0.25 }
+      { threshold: 0.05, rootMargin: '50px 0px 50px 0px' }
     );
 
     observer.observe(section);

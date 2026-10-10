@@ -734,6 +734,13 @@
     gap: 0.75rem;
     align-items: center;
     width: 100%;
+    opacity: 0.9 !important;
+    transform: none !important;
+  }
+
+  .journey-row.is-active {
+    opacity: 1 !important;
+    transform: scale(1.01) !important;
   }
 
   /* Hide empty left column on mobile */

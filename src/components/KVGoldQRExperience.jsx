@@ -9,7 +9,7 @@ export default function KVGoldQRExperience() {
   const characterHeadRef = useRef(null);
   const sequenceTimersRef = useRef([]);
 
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 768);
   // Mascot States: 'IDLE' | 'NOTICE' | 'ENTERING' | 'LOOKING_AT_USER' | 'LOOKING_AT_QR' | 'POINTING' | 'HOLDING' | 'EXITING'
   const [mascotState, setMascotState] = useState('IDLE');
   const [vcardUrl, setVcardUrl] = useState('https://kvgold.in/visiting-card');
@@ -27,20 +27,26 @@ export default function KVGoldQRExperience() {
     const section = sectionRef.current;
     if (!section) return;
 
+    if (window.innerWidth <= 768) {
+      setIsVisible(true);
+    }
+
     let mobileSequencePlayed = false;
 
     // IntersectionObserver triggers section entrance & mobile auto-play once
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsVisible(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setIsVisible(true);
 
-        // Mobile / Touch behavior: Play 1 short cinematic sequence when section enters viewport
-        if (entry.isIntersecting && !mobileSequencePlayed && window.matchMedia('(max-width: 960px)').matches) {
-          mobileSequencePlayed = true;
-          triggerCinematicSequence(3800);
+          // Mobile / Touch behavior: Play 1 short cinematic sequence when section enters viewport
+          if (!mobileSequencePlayed && window.matchMedia('(max-width: 960px)').matches) {
+            mobileSequencePlayed = true;
+            triggerCinematicSequence(3800);
+          }
         }
       },
-      { threshold: 0.25 }
+      { threshold: 0.01, rootMargin: '100px 0px 100px 0px' }
     );
 
     observer.observe(section);
