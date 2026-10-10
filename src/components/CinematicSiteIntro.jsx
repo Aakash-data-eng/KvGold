@@ -13,19 +13,18 @@ export default function CinematicSiteIntro({ onComplete }) {
   
   // State Machine: LOADING | PLAYING | ENDING | COMPLETE
   const [phase, setPhase] = useState('LOADING');
-  const [isMuted, setIsMuted] = useState(true);
 
   const transitionStartedRef = useRef(false);
   const exitTimeoutRef = useRef(null);
 
-  // Un-mute Audio Helper Function
+  // Always enable full unmuted sound
   const enableSound = () => {
     const videoEl = videoRef.current;
     if (videoEl) {
       videoEl.muted = false;
       videoEl.volume = 1.0;
-      setIsMuted(false);
-      console.log('[KV INTRO] Sound enabled by user interaction.');
+      videoEl.play().catch(() => {});
+      console.log('[KV INTRO] Always-on sound active.');
     }
   };
 
@@ -38,13 +37,15 @@ export default function CinematicSiteIntro({ onComplete }) {
 
     console.log('[KV INTRO] Full-screen cinematic audio-visual intro mounted.');
 
-    // Global first-tap/click listener to un-mute audio automatically on user gesture
-    const handleFirstTouch = () => {
+    // Un-mute sound immediately on any touch, pointer, scroll, or keypress
+    const handleGesture = () => {
       enableSound();
     };
 
-    window.addEventListener('pointerdown', handleFirstTouch, { once: true });
-    window.addEventListener('click', handleFirstTouch, { once: true });
+    window.addEventListener('pointerdown', handleGesture, { passive: true });
+    window.addEventListener('touchstart', handleGesture, { passive: true });
+    window.addEventListener('click', handleGesture, { passive: true });
+    window.addEventListener('keydown', handleGesture, { passive: true });
 
     // Reduced Motion Accessibility Check
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -65,8 +66,10 @@ export default function CinematicSiteIntro({ onComplete }) {
 
     return () => {
       document.body.style.overflow = originalOverflow;
-      window.removeEventListener('pointerdown', handleFirstTouch);
-      window.removeEventListener('click', handleFirstTouch);
+      window.removeEventListener('pointerdown', handleGesture);
+      window.removeEventListener('touchstart', handleGesture);
+      window.removeEventListener('click', handleGesture);
+      window.removeEventListener('keydown', handleGesture);
       clearTimeout(safetyTimer);
       if (exitTimeoutRef.current) clearTimeout(exitTimeoutRef.current);
     };
@@ -78,25 +81,28 @@ export default function CinematicSiteIntro({ onComplete }) {
     if (!videoEl) return;
 
     try {
-      // Priority Level 1: Attempt unmuted playback for full cinematic sound experience
+      // Priority Level 1: Unmuted audio playback for full cinematic sound experience
       videoEl.muted = false;
       videoEl.volume = 1.0;
       const playPromise = videoEl.play();
       if (playPromise !== undefined) {
         await playPromise;
-        console.log('[KV INTRO] Unmuted video + AAC sound playback started successfully.');
-        setIsMuted(false);
+        console.log('[KV INTRO] Unmuted video + sound playback started successfully.');
         setPhase('PLAYING');
       }
     } catch (unmutedErr) {
-      console.warn('[KV INTRO] Unmuted autoplay blocked by browser policy, automatically falling back to muted autoplay:', unmutedErr);
+      console.warn('[KV INTRO] Browser policy blocked initial unmuted autoplay, starting playback:', unmutedErr);
       try {
-        // Fallback automatically to muted autoplay so intro plays immediately on arrival
         videoEl.muted = true;
-        setIsMuted(true);
         await videoEl.play();
         setPhase('PLAYING');
-        console.log('[KV INTRO] Muted video intro playback started automatically.');
+        // Un-mute immediately on playback start
+        setTimeout(() => {
+          if (videoRef.current) {
+            videoRef.current.muted = false;
+            videoRef.current.volume = 1.0;
+          }
+        }, 100);
       } catch (mutedErr) {
         console.error('[KV INTRO] Playback blocked completely:', mutedErr);
         setPhase('BLOCKED');
@@ -153,6 +159,10 @@ export default function CinematicSiteIntro({ onComplete }) {
 
   const handlePlaying = () => {
     console.log('[KV INTRO] Video playing event fired.');
+    if (videoRef.current) {
+      videoRef.current.muted = false;
+      videoRef.current.volume = 1.0;
+    }
     setPhase('PLAYING');
   };
 
@@ -204,31 +214,6 @@ export default function CinematicSiteIntro({ onComplete }) {
         />
       </div>
 
-      {/* Luxury Sound Pill Toggle Badge */}
-      <div className="cinematic-sound-toggle-wrap">
-        <button
-          type="button"
-          className={`cinematic-sound-toggle-badge ${isMuted ? 'is-muted-pulsing' : 'is-unmuted'}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            if (isMuted) {
-              enableSound();
-            } else {
-              if (videoRef.current) {
-                videoRef.current.muted = true;
-                setIsMuted(true);
-              }
-            }
-          }}
-          title={isMuted ? 'Enable Sound' : 'Mute Sound'}
-        >
-          <span className="sound-icon">{isMuted ? '🔇' : '🔊'}</span>
-          <span className="sound-text">
-            {isMuted ? 'TAP FOR SOUND (ஒலி இயக்கவும்)' : 'SOUND ON (ஒலி இயக்கத்தில்)'}
-          </span>
-        </button>
-      </div>
-
       {/* Fallback play button if strict mobile browser policy blocks autoplay */}
       {phase === 'BLOCKED' && (
         <div className="cinematic-intro-blocked-fallback">
@@ -237,7 +222,7 @@ export default function CinematicSiteIntro({ onComplete }) {
             className="cinematic-intro-play-btn"
             onClick={attemptPlay}
           >
-            ✦ ENTER KV GOLD ✦
+            ✦ ENTER KV GOLD WITH SOUND ✦
           </button>
         </div>
       )}
