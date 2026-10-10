@@ -13,11 +13,23 @@ export default function CinematicSiteIntro({ onComplete }) {
   
   // State Machine: LOADING | PLAYING | ENDING | COMPLETE
   const [phase, setPhase] = useState('LOADING');
+  const [isMuted, setIsMuted] = useState(true);
 
   const transitionStartedRef = useRef(false);
   const exitTimeoutRef = useRef(null);
 
-  // 1. Mount Lifecycle: Body Scroll Lock & Playback Attempt
+  // Un-mute Audio Helper Function
+  const enableSound = () => {
+    const videoEl = videoRef.current;
+    if (videoEl) {
+      videoEl.muted = false;
+      videoEl.volume = 1.0;
+      setIsMuted(false);
+      console.log('[KV INTRO] Sound enabled by user interaction.');
+    }
+  };
+
+  // 1. Mount Lifecycle: Body Scroll Lock, Un-mute Listeners & Playback Attempt
   useEffect(() => {
     // Enforce body scroll lock during intro
     const originalOverflow = document.body.style.overflow;
@@ -25,6 +37,14 @@ export default function CinematicSiteIntro({ onComplete }) {
     window.scrollTo(0, 0);
 
     console.log('[KV INTRO] Full-screen cinematic audio-visual intro mounted.');
+
+    // Global first-tap/click listener to un-mute audio automatically on user gesture
+    const handleFirstTouch = () => {
+      enableSound();
+    };
+
+    window.addEventListener('pointerdown', handleFirstTouch, { once: true });
+    window.addEventListener('click', handleFirstTouch, { once: true });
 
     // Reduced Motion Accessibility Check
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -45,6 +65,8 @@ export default function CinematicSiteIntro({ onComplete }) {
 
     return () => {
       document.body.style.overflow = originalOverflow;
+      window.removeEventListener('pointerdown', handleFirstTouch);
+      window.removeEventListener('click', handleFirstTouch);
       clearTimeout(safetyTimer);
       if (exitTimeoutRef.current) clearTimeout(exitTimeoutRef.current);
     };
@@ -58,11 +80,12 @@ export default function CinematicSiteIntro({ onComplete }) {
     try {
       // Priority Level 1: Attempt unmuted playback for full cinematic sound experience
       videoEl.muted = false;
-      videoEl.volume = 0.9;
+      videoEl.volume = 1.0;
       const playPromise = videoEl.play();
       if (playPromise !== undefined) {
         await playPromise;
         console.log('[KV INTRO] Unmuted video + AAC sound playback started successfully.');
+        setIsMuted(false);
         setPhase('PLAYING');
       }
     } catch (unmutedErr) {
@@ -70,6 +93,7 @@ export default function CinematicSiteIntro({ onComplete }) {
       try {
         // Fallback automatically to muted autoplay so intro plays immediately on arrival
         videoEl.muted = true;
+        setIsMuted(true);
         await videoEl.play();
         setPhase('PLAYING');
         console.log('[KV INTRO] Muted video intro playback started automatically.');
@@ -150,6 +174,7 @@ export default function CinematicSiteIntro({ onComplete }) {
     <div
       className={`cinematic-intro-root ${phase === 'ENDING' ? 'is-finishing' : ''}`}
       aria-label="KV GOLD Opening Brand Film with Cinematic Audio"
+      onClick={enableSound}
     >
       {/* Background Atmosphere Foundation */}
       <div className="cinematic-intro-bg" />
@@ -177,6 +202,31 @@ export default function CinematicSiteIntro({ onComplete }) {
           onEnded={handleVideoEnded}
           onError={handleVideoError}
         />
+      </div>
+
+      {/* Luxury Sound Pill Toggle Badge */}
+      <div className="cinematic-sound-toggle-wrap">
+        <button
+          type="button"
+          className={`cinematic-sound-toggle-badge ${isMuted ? 'is-muted-pulsing' : 'is-unmuted'}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (isMuted) {
+              enableSound();
+            } else {
+              if (videoRef.current) {
+                videoRef.current.muted = true;
+                setIsMuted(true);
+              }
+            }
+          }}
+          title={isMuted ? 'Enable Sound' : 'Mute Sound'}
+        >
+          <span className="sound-icon">{isMuted ? '🔇' : '🔊'}</span>
+          <span className="sound-text">
+            {isMuted ? 'TAP FOR SOUND (ஒலி இயக்கவும்)' : 'SOUND ON (ஒலி இயக்கத்தில்)'}
+          </span>
+        </button>
       </div>
 
       {/* Fallback play button if strict mobile browser policy blocks autoplay */}

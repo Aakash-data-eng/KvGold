@@ -169,3 +169,65 @@
   transform: scale(1.06);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 35px rgba(249, 231, 159, 0.85);
 }
+
+/* Luxury Sound Pill Toggle Badge Overlay */
+.cinematic-sound-toggle-wrap {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 20;
+}
+
+@media (max-width: 480px) {
+  .cinematic-sound-toggle-wrap {
+    top: 18px;
+    right: 18px;
+  }
+}
+
+.cinematic-sound-toggle-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  background: rgba(18, 5, 11, 0.85);
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  color: var(--color-gold-bright, #FFF2B2);
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), 0 0 12px rgba(212, 175, 55, 0.25);
+}
+
+.cinematic-sound-toggle-badge.is-muted-pulsing {
+  border-color: rgba(249, 231, 159, 0.8);
+  animation: soundBadgePulse 2s infinite ease-in-out;
+}
+
+@keyframes soundBadgePulse {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), 0 0 12px rgba(212, 175, 55, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 6px 20px rgba(122, 0, 25, 0.7), 0 0 22px rgba(249, 231, 159, 0.7);
+    transform: scale(1.04);
+  }
+}
+
+.cinematic-sound-toggle-badge:hover {
+  background: rgba(122, 0, 25, 0.65);
+  border-color: #FFF;
+  color: #FFF;
+  transform: translateY(-2px);
+}
+
+.sound-icon {
+  font-size: 0.88rem;
+}
