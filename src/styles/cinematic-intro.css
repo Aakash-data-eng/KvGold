@@ -178,3 +178,33 @@
   transform: scale(1.06);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 35px rgba(249, 231, 159, 0.85);
 }
+
+/* ==========================================================================
+   6. Dedicated Full-Screen Desktop & Laptop Landscape Presentation
+   ========================================================================== */
+@media (min-width: 1024px), ((min-width: 900px) and (orientation: landscape)) {
+  .cinematic-intro-ambient-backdrop.is-desktop-backdrop {
+    background-image: url('/videos/kv-gold-intro-poster-desktop.jpg');
+    filter: blur(48px) brightness(0.48) saturate(1.2);
+    transform: scale(1.08);
+    opacity: 0.75;
+  }
+
+  .cinematic-intro-video.is-desktop-video {
+    width: 100vw;
+    width: 100svw;
+    height: 100vh;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: center center;
+    margin: 0;
+    padding: 0;
+    -webkit-mask-image: none;
+    mask-image: none;
+    border-radius: 0;
+  }
+}
+
