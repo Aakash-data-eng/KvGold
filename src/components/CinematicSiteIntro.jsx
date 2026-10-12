@@ -2,50 +2,31 @@ import React, { useState, useEffect, useRef } from 'react';
 import '../styles/cinematic-intro.css';
 
 /**
- * KVGoldCinematicIntro — Ultra Premium Full-Screen Brand Entry & Cinematic Audio Experience
+ * KVGoldCinematicIntro — Official Full-Screen Brand Entry & Cinematic Audio Experience
  * 
- * Synchronized H.264 Video + AAC Sound Track.
- * Attempts unmuted audio-visual playback first; automatically falls back to muted playback
- * if browser policy restricts unmuted autoplay, ensuring immediate intro play on user arrival.
+ * Synchronized H.264 Portrait Video (720x1280, 9:16) + AAC Stereo Sound Track.
+ * - Edge-to-edge mobile presentation with zero horizontal/vertical crop.
+ * - Full visibility of KV pentagon emblem, KV GOLD wordmark, tagline, jewellery, and progress indicator.
+ * - Attempts unmuted audio-visual playback first; falls back gracefully to muted playback if browser policy restricts unmuted autoplay.
+ * - Seamless atmospheric burgundy/gold backdrop extension for ultrawide, desktop, tablet and tall phone viewports.
  */
 export default function CinematicSiteIntro({ onComplete }) {
   const videoRef = useRef(null);
   
-  // State Machine: LOADING | PLAYING | ENDING | COMPLETE
+  // State Machine: LOADING | PLAYING | BLOCKED | ENDING | COMPLETE
   const [phase, setPhase] = useState('LOADING');
 
   const transitionStartedRef = useRef(false);
   const exitTimeoutRef = useRef(null);
 
-  // Always enable full unmuted sound
-  const enableSound = () => {
-    const videoEl = videoRef.current;
-    if (videoEl) {
-      videoEl.muted = false;
-      videoEl.volume = 1.0;
-      videoEl.play().catch(() => {});
-      console.log('[KV INTRO] Always-on sound active.');
-    }
-  };
-
-  // 1. Mount Lifecycle: Body Scroll Lock, Un-mute Listeners & Playback Attempt
+  // 1. Mount Lifecycle: Body Scroll Lock & Playback Attempt
   useEffect(() => {
     // Enforce body scroll lock during intro
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     window.scrollTo(0, 0);
 
-    console.log('[KV INTRO] Full-screen cinematic audio-visual intro mounted.');
-
-    // Un-mute sound immediately on any touch, pointer, scroll, or keypress
-    const handleGesture = () => {
-      enableSound();
-    };
-
-    window.addEventListener('pointerdown', handleGesture, { passive: true });
-    window.addEventListener('touchstart', handleGesture, { passive: true });
-    window.addEventListener('click', handleGesture, { passive: true });
-    window.addEventListener('keydown', handleGesture, { passive: true });
+    console.log('[KV INTRO] Official KV GOLD 9:16 portrait cinematic intro mounted.');
 
     // Reduced Motion Accessibility Check
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -53,23 +34,19 @@ export default function CinematicSiteIntro({ onComplete }) {
       startExitTransition();
     }
 
-    // Defensive Safety Timeout (16s) if media pipeline hangs
+    // Defensive Safety Timeout (15s) in case media pipeline hangs
     const safetyTimer = setTimeout(() => {
       if (!transitionStartedRef.current) {
-        console.warn('[KV INTRO] Safety timeout reached. Completing intro.');
+        console.warn('[KV INTRO] Defensive safety timer fired. Completing intro.');
         startExitTransition();
       }
-    }, 16000);
+    }, 15000);
 
     // Trigger playback on mount
     attemptPlay();
 
     return () => {
       document.body.style.overflow = originalOverflow;
-      window.removeEventListener('pointerdown', handleGesture);
-      window.removeEventListener('touchstart', handleGesture);
-      window.removeEventListener('click', handleGesture);
-      window.removeEventListener('keydown', handleGesture);
       clearTimeout(safetyTimer);
       if (exitTimeoutRef.current) clearTimeout(exitTimeoutRef.current);
     };
@@ -81,30 +58,25 @@ export default function CinematicSiteIntro({ onComplete }) {
     if (!videoEl) return;
 
     try {
-      // Priority Level 1: Unmuted audio playback for full cinematic sound experience
+      // Priority 1: Attempt unmuted playback for full cinematic sound experience
       videoEl.muted = false;
       videoEl.volume = 1.0;
       const playPromise = videoEl.play();
       if (playPromise !== undefined) {
         await playPromise;
-        console.log('[KV INTRO] Unmuted video + sound playback started successfully.');
+        console.log('[KV INTRO] Unmuted video + audio playback started successfully.');
         setPhase('PLAYING');
       }
     } catch (unmutedErr) {
-      console.warn('[KV INTRO] Browser policy blocked initial unmuted autoplay, starting playback:', unmutedErr);
+      console.warn('[KV INTRO] Unmuted autoplay restricted by browser policy; falling back to muted autoplay:', unmutedErr);
       try {
+        // Priority 2: Fallback automatically to muted autoplay so intro plays immediately on arrival
         videoEl.muted = true;
         await videoEl.play();
         setPhase('PLAYING');
-        // Un-mute immediately on playback start
-        setTimeout(() => {
-          if (videoRef.current) {
-            videoRef.current.muted = false;
-            videoRef.current.volume = 1.0;
-          }
-        }, 100);
+        console.log('[KV INTRO] Muted video intro playback started automatically.');
       } catch (mutedErr) {
-        console.error('[KV INTRO] Playback blocked completely:', mutedErr);
+        console.error('[KV INTRO] Playback blocked by strict browser policy:', mutedErr);
         setPhase('BLOCKED');
       }
     }
@@ -114,7 +86,7 @@ export default function CinematicSiteIntro({ onComplete }) {
   const startExitTransition = () => {
     if (transitionStartedRef.current) return;
     transitionStartedRef.current = true;
-    console.log('[KV INTRO] Intro finishing. Starting gold light bloom transition.');
+    console.log('[KV INTRO] Video completed. Starting gold bloom transition into website.');
 
     setPhase('ENDING');
 
@@ -122,25 +94,25 @@ export default function CinematicSiteIntro({ onComplete }) {
       try {
         videoRef.current.pause();
       } catch (e) {
-        // Ignore play/pause abort errors
+        // Ignore play/pause abort errors during teardown
       }
     }
 
-    // Hold final frame for 400ms, expand gold bloom, then fade overlay out cleanly
+    // Expand gold bloom for 800ms, then cleanly release overlay and unfreeze Lenis scroll
     exitTimeoutRef.current = setTimeout(() => {
-      console.log('[KV INTRO] Intro transition complete. Revealing website & unlocking scroll.');
+      console.log('[KV INTRO] Transition finished. Revealing main KV GOLD website.');
       setPhase('COMPLETE');
       document.body.style.overflow = '';
       window.scrollTo(0, 0);
       if (onComplete) {
         onComplete();
       }
-    }, 1200); // 1.2s luxury transition
+    }, 1000);
   };
 
   // 4. HTML5 Video Media Event Handlers
   const handleLoadedMetadata = () => {
-    console.log('[KV INTRO] Video metadata loaded. Duration:', videoRef.current?.duration);
+    console.log('[KV INTRO] Video metadata loaded. Duration:', videoRef.current?.duration, 'Dimensions:', videoRef.current?.videoWidth, 'x', videoRef.current?.videoHeight);
   };
 
   const handleLoadedData = () => {
@@ -159,20 +131,24 @@ export default function CinematicSiteIntro({ onComplete }) {
 
   const handlePlaying = () => {
     console.log('[KV INTRO] Video playing event fired.');
-    if (videoRef.current) {
-      videoRef.current.muted = false;
-      videoRef.current.volume = 1.0;
-    }
     setPhase('PLAYING');
   };
 
+  const handleWaiting = () => {
+    console.log('[KV INTRO] Video waiting/buffering.');
+  };
+
+  const handleStalled = () => {
+    console.log('[KV INTRO] Video stream stalled.');
+  };
+
   const handleVideoEnded = () => {
-    console.log('[KV INTRO] video.onended fired naturally. Stopping sound & starting transition.');
-    setTimeout(startExitTransition, 400);
+    console.log('[KV INTRO] Video onended fired naturally. Initiating exit transition.');
+    startExitTransition();
   };
 
   const handleVideoError = (e) => {
-    console.error('[KV INTRO] Video media error:', e);
+    console.error('[KV INTRO] Video media error encountered:', e);
     startExitTransition();
   };
 
@@ -183,22 +159,23 @@ export default function CinematicSiteIntro({ onComplete }) {
   return (
     <div
       className={`cinematic-intro-root ${phase === 'ENDING' ? 'is-finishing' : ''}`}
-      aria-label="KV GOLD Opening Brand Film with Cinematic Audio"
-      onClick={enableSound}
+      aria-label="KV GOLD Opening Brand Film"
     >
-      {/* Background Atmosphere Foundation */}
-      <div className="cinematic-intro-bg" />
-      <div className="cinematic-intro-radial-glow" />
+      {/* Seamless Ambient Backdrop Extension derived from the video frame */}
+      <div className="cinematic-intro-ambient-backdrop" aria-hidden="true" />
 
-      {/* Gold Light Bloom Wave (Triggers on Finish Transition) */}
-      <div className={`cinematic-intro-gold-bloom ${phase === 'ENDING' ? 'bloom-active' : ''}`} />
+      {/* Atmospheric Burgundy & Gold Lighting Gradients */}
+      <div className="cinematic-intro-bg" aria-hidden="true" />
+      <div className="cinematic-intro-radial-glow" aria-hidden="true" />
 
-      {/* Edge-to-Edge Fullscreen Video Wrapper */}
+      {/* Gold Light Bloom Wave for Exit Transition */}
+      <div className={`cinematic-intro-gold-bloom ${phase === 'ENDING' ? 'bloom-active' : ''}`} aria-hidden="true" />
+
+      {/* Responsive Viewport Video Framing (100% visible, zero crop) */}
       <div className="cinematic-intro-video-wrap">
-        {/* Official Brand Film HTML5 Video Element (Video + Sound) */}
         <video
           ref={videoRef}
-          src="/videos/gemini_generated_video_322f0c29.mp4"
+          src="/videos/kv-gold-intro-final.mp4"
           poster="/videos/kv-gold-intro-poster.jpg"
           className="cinematic-intro-video"
           playsInline
@@ -209,20 +186,25 @@ export default function CinematicSiteIntro({ onComplete }) {
           onLoadedData={handleLoadedData}
           onCanPlay={handleCanPlay}
           onPlaying={handlePlaying}
+          onWaiting={handleWaiting}
+          onStalled={handleStalled}
           onEnded={handleVideoEnded}
           onError={handleVideoError}
         />
       </div>
 
-      {/* Fallback play button if strict mobile browser policy blocks autoplay */}
+      {/* Autoplay Blocked Fallback Action Button */}
       {phase === 'BLOCKED' && (
         <div className="cinematic-intro-blocked-fallback">
           <button
             type="button"
             className="cinematic-intro-play-btn"
-            onClick={attemptPlay}
+            onClick={(e) => {
+              e.stopPropagation();
+              attemptPlay();
+            }}
           >
-            ✦ ENTER KV GOLD WITH SOUND ✦
+            ✦ ENTER KV GOLD ✦
           </button>
         </div>
       )}
