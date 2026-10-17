@@ -11,6 +11,9 @@ const trustPillars = [
     description: 'Understand the value behind your gold.',
     descTamil: 'உங்கள் தங்கத்தின் மதிப்பை தெளிவாக அறிந்துகொள்ளுங்கள்.',
     badge: 'Fair Market Rates',
+    video: '/videos/Weighing_scale_and_gold_coins_20261017093213.mp4',
+    videoAlt: '/videos/kv-gold-transparent-value.mp4',
+    cardClass: 'pillar-card-transparent-value',
   },
   {
     num: '02',
@@ -20,6 +23,9 @@ const trustPillars = [
     description: 'Your preference guides the experience.',
     descTamil: 'உங்கள் விருப்பமே எங்கள் சேவையின் வழிகாட்டி.',
     badge: 'Customer Confidence',
+    video: '/videos/Gold_jewelry_displayed_on_velvet_20261017093222.mp4',
+    videoAlt: '/videos/kv-gold-customer-first.mp4',
+    cardClass: 'pillar-card-customer-first',
   },
   {
     num: '03',
@@ -29,11 +35,15 @@ const trustPillars = [
     description: 'Quality, documentation and clarity at every appropriate step.',
     descTamil: 'ஒவ்வொரு பொருத்தமான கட்டத்திலும் தரம், ஆவணங்கள் மற்றும் தெளிவுக்கு முக்கியத்துவம்.',
     badge: 'Hallmark Guidance',
+    video: '/videos/Gold_ornament_with_tools_20261017093246.mp4',
+    videoAlt: '/videos/kv-gold-trusted-quality.mp4',
+    cardClass: 'pillar-card-trusted-quality',
   },
 ];
 
 export default function GoldTrustPillars() {
   const sectionRef = useRef(null);
+  const videoRefs = useRef([]);
   const [isVisible, setIsVisible] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 768);
 
   useEffect(() => {
@@ -44,17 +54,44 @@ export default function GoldTrustPillars() {
       setIsVisible(true);
     }
 
+    const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const playVideos = () => {
+      if (isReducedMotion) return;
+      videoRefs.current.forEach((v) => {
+        if (v && v.paused) {
+          v.muted = true;
+          v.defaultMuted = true;
+          v.play().catch(() => {});
+        }
+      });
+    };
+
+    const pauseVideos = () => {
+      videoRefs.current.forEach((v) => {
+        if (v && !v.paused) {
+          v.pause();
+        }
+      });
+    };
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
+          playVideos();
+        } else {
+          pauseVideos();
         }
       },
-      { threshold: 0.01, rootMargin: '100px 0px 100px 0px' }
+      { threshold: 0.01, rootMargin: '150px 0px 150px 0px' }
     );
 
     observer.observe(section);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      pauseVideos();
+    };
   }, []);
 
   return (
@@ -88,23 +125,51 @@ export default function GoldTrustPillars() {
           {trustPillars.map((pillar, index) => {
             const IconComponent = pillar.icon;
             return (
-              <div key={pillar.title} className="pillar-card" style={{ transitionDelay: `${index * 0.12}s` }}>
-                <div className="pillar-card-top">
-                  <span className="pillar-num">{pillar.num}</span>
-                  <div className="pillar-icon-ring">
-                    <IconComponent size={24} strokeWidth={1.8} />
-                  </div>
+              <div
+                key={pillar.title}
+                className={`pillar-card pillar-card--has-video ${pillar.cardClass}`}
+                style={{ transitionDelay: `${index * 0.12}s` }}
+              >
+                {/* Layer 2: Edge-to-edge Cinematic Video Background */}
+                <div className="pillar-card-video-wrap" aria-hidden="true">
+                  <video
+                    ref={(el) => (videoRefs.current[index] = el)}
+                    className="pillar-card-bg-video"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    disablePictureInPicture
+                    controls={false}
+                  >
+                    <source src={pillar.video} type="video/mp4" />
+                    <source src={pillar.videoAlt} type="video/mp4" />
+                  </video>
                 </div>
 
-                <h3 className="pillar-card-title">{pillar.title}</h3>
-                <h4 className="pillar-card-title-tamil">{pillar.titleTamil}</h4>
+                {/* Layer 3: Subtle Contrast Overlay for Readability */}
+                <div className="pillar-card-contrast-overlay" aria-hidden="true" />
 
-                <p className="pillar-card-desc">"{pillar.description}"</p>
-                <p className="pillar-card-desc-tamil">"{pillar.descTamil}"</p>
+                {/* Layer 4: Card Foreground Content */}
+                <div className="pillar-card-content">
+                  <div className="pillar-card-top">
+                    <span className="pillar-num">{pillar.num}</span>
+                    <div className="pillar-icon-ring">
+                      <IconComponent size={24} strokeWidth={1.8} />
+                    </div>
+                  </div>
 
-                <div className="pillar-card-badge">
-                  <Check size={14} className="pillar-check-icon" />
-                  <span>{pillar.badge}</span>
+                  <h3 className="pillar-card-title">{pillar.title}</h3>
+                  <h4 className="pillar-card-title-tamil">{pillar.titleTamil}</h4>
+
+                  <p className="pillar-card-desc">"{pillar.description}"</p>
+                  <p className="pillar-card-desc-tamil">"{pillar.descTamil}"</p>
+
+                  <div className="pillar-card-badge">
+                    <Check size={14} className="pillar-check-icon" />
+                    <span>{pillar.badge}</span>
+                  </div>
                 </div>
               </div>
             );

@@ -268,6 +268,98 @@
   transition: all 0.35s ease;
 }
 
+.service-block-card-video {
+  overflow: hidden;
+  isolation: isolate;
+  background: rgba(24, 4, 10, 0.9);
+}
+
+/* ==========================================================================
+   SERVICE CARD VIDEO BACKGROUND LAYERS
+   Layer 1: Base burgundy background (.service-block-card-video)
+   Layer 2: Cinematic background video (.service-card-video-wrap, z-index: 1)
+   Layer 3: Subtle contrast overlay (.service-card-contrast-overlay, z-index: 2)
+   Layer 4: Card content (.service-card-content, z-index: 5)
+   ========================================================================== */
+.service-card-video-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 18px;
+}
+
+.service-card-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.50;
+  display: block;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.6s ease;
+}
+
+.service-card-buy .service-card-video {
+  object-position: center 38%;
+}
+
+.service-card-sell .service-card-video {
+  object-position: center 46%;
+}
+
+.service-card-custom .service-card-video {
+  object-position: center 40%;
+}
+
+.service-card-pricing .service-card-video {
+  object-position: center 45%;
+}
+
+.service-block-card-video:hover .service-card-video {
+  opacity: 0.62;
+  transform: scale(1.04);
+}
+
+.service-card-contrast-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  border-radius: 18px;
+  background: linear-gradient(
+    145deg,
+    rgba(26, 4, 12, 0.68) 0%,
+    rgba(16, 2, 7, 0.48) 50%,
+    rgba(26, 4, 12, 0.72) 100%
+  );
+  transition: background 0.35s ease;
+}
+
+.service-block-card-video:hover .service-card-contrast-overlay {
+  background: linear-gradient(
+    145deg,
+    rgba(26, 4, 12, 0.58) 0%,
+    rgba(16, 2, 7, 0.38) 50%,
+    rgba(26, 4, 12, 0.62) 100%
+  );
+}
+
+.service-card-content {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .service-block-card:hover {
   transform: translateY(-4px);
   border-color: rgba(249, 231, 159, 0.7);

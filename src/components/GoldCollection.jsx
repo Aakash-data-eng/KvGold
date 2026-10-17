@@ -143,7 +143,7 @@ export default function GoldCollection({ onOpenSchemeModal }) {
       ([entry]) => {
         setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.05 }
+      { threshold: 0.01, rootMargin: '100px 0px 100px 0px' }
     );
 
     observer.observe(section);

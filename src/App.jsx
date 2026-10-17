@@ -28,11 +28,14 @@ import { Phone, MessageCircle } from 'lucide-react';
 import './styles/index.css';
 
 export default function App() {
-  const [introDone, setIntroDone] = useState(false);
+  const [introDone, setIntroDone] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.location.search.includes('skipIntro') || window.location.hash.includes('skipIntro');
+    }
+    return false;
+  });
   const [isVisitingCardRoute, setIsVisitingCardRoute] = useState(false);
   const lenisRef = useRef(null);
-
-  // Check for standalone /visiting-card or #visiting-card route on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const isCardPath = window.location.pathname === '/visiting-card' || window.location.hash === '#visiting-card';
@@ -57,6 +60,9 @@ export default function App() {
     });
 
     lenisRef.current = lenis;
+    if (typeof window !== 'undefined') {
+      window.__lenis = lenis;
+    }
 
     // Connect Lenis to ScrollTrigger update
     lenis.on('scroll', ScrollTrigger.update);

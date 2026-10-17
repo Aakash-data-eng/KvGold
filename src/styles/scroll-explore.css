@@ -172,19 +172,30 @@
 
 /* Secondary Heading: TRANSPARENCY */
 .scroll-explore-transparency-wrap {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 1.6rem;
   will-change: transform, opacity;
+  box-sizing: border-box;
 }
 
 .scroll-explore-transparency-title {
   font-family: var(--font-serif, 'Cinzel', serif);
   font-size: clamp(2.8rem, 6.4vw, 5.8rem);
   font-weight: 900;
-  letter-spacing: 0.12em;
+  letter-spacing: clamp(0.04em, 0.9vw, 0.12em);
   line-height: 1.05;
   color: #FFF8E7;
   text-transform: uppercase;
+  text-align: center;
   text-shadow: 0 0 25px rgba(249, 231, 159, 0.45), 0 0 50px rgba(212, 175, 55, 0.25), 0 6px 20px rgba(0, 0, 0, 0.95);
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 
 /* Supporting Text */
@@ -334,6 +345,20 @@
     height: 380px;
   }
 
+  .scroll-explore-main-title {
+    font-size: clamp(1.6rem, 4.2vw, 2.8rem);
+    letter-spacing: 0.05em;
+  }
+
+  .scroll-explore-transparency-wrap {
+    margin-bottom: 1.3rem;
+  }
+
+  .scroll-explore-transparency-title {
+    font-size: clamp(1.8rem, 5.8vw, 3.8rem);
+    letter-spacing: clamp(0.04em, 0.8vw, 0.09em);
+  }
+
   .scroll-explore-supporting {
     max-width: 90%;
   }
@@ -348,30 +373,75 @@
 }
 
 @media (max-width: 480px) {
+  .scroll-explore-section {
+    padding: 4rem 1rem 3rem;
+  }
+
   .scroll-explore-eyebrow {
     font-size: 0.68rem;
     letter-spacing: 0.18em;
     gap: 0.5rem;
+    margin-bottom: 1.1rem;
   }
 
   .scroll-explore-main-title {
-    font-size: 1.85rem;
+    font-size: clamp(1.3rem, 5.2vw, 1.65rem);
+    letter-spacing: 0.03em;
+    line-height: 1.25;
+    margin-bottom: 0.85rem;
+  }
+
+  .scroll-explore-transparency-wrap {
+    margin-bottom: 1.1rem;
   }
 
   .scroll-explore-transparency-title {
-    font-size: 2.25rem;
+    font-size: clamp(1.32rem, 6.4vw, 1.8rem);
+    letter-spacing: 0.04em;
+    line-height: 1.1;
   }
 
   .scroll-explore-supporting {
-    font-size: 0.84rem;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    margin-bottom: 1.8rem;
+    padding: 0 0.5rem;
   }
 
   .scroll-explore-reveal-title {
-    font-size: 1.6rem;
+    font-size: 1.45rem;
+    letter-spacing: 0.06em;
   }
 
   .scroll-explore-reveal-sub {
     font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 340px) {
+  .scroll-explore-section {
+    padding: 3.5rem 0.75rem 2.5rem;
+  }
+
+  .scroll-explore-eyebrow {
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    gap: 0.35rem;
+  }
+
+  .scroll-explore-main-title {
+    font-size: 1.18rem;
+    letter-spacing: 0.02em;
+  }
+
+  .scroll-explore-transparency-title {
+    font-size: 1.22rem;
+    letter-spacing: 0.025em;
+  }
+
+  .scroll-explore-supporting {
+    font-size: 0.78rem;
+    padding: 0;
   }
 }
 

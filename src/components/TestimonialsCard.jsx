@@ -93,9 +93,7 @@ export default function TestimonialsCard({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        setIsVisible(entry.isIntersecting);
       },
       { threshold: 0.01, rootMargin: '100px 0px 100px 0px' }
     );

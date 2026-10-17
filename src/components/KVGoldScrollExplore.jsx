@@ -53,9 +53,13 @@ export default function KVGoldScrollExplore() {
         tl.to(eyebrowRef.current, { y: -18, opacity: 0.75, duration: 0.3 }, 0);
       }
 
+      const isMobile = window.innerWidth <= 768;
+      const transScale = isMobile ? 1.03 : 1.08;
+      const headingScale = isMobile ? 1.02 : 1.06;
+
       // Phase 1 & 2: Main heading scales & Gold Energy Bloom expands
       if (headingRef.current) {
-        tl.to(headingRef.current, { scale: 1.06, y: -20, duration: 0.4 }, 0.1);
+        tl.to(headingRef.current, { scale: headingScale, y: -20, duration: 0.4 }, 0.1);
       }
       if (goldBloomRef.current) {
         tl.to(goldBloomRef.current, { scale: 1.5, opacity: 0.38, duration: 0.5 }, 0.1);
@@ -65,7 +69,7 @@ export default function KVGoldScrollExplore() {
       if (transparencyRef.current) {
         tl.to(
           transparencyRef.current,
-          { scale: 1.08, opacity: 1, textShadow: '0 0 35px rgba(249, 231, 159, 0.75)', duration: 0.45 },
+          { scale: transScale, opacity: 1, textShadow: '0 0 35px rgba(249, 231, 159, 0.75)', duration: 0.45 },
           0.2
         );
       }

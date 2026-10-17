@@ -5,6 +5,7 @@ import '../styles/navbar.css';
 export default function Navbar({ onOpenSchemeModal }) {
   const [scrolled, setScrolled] = useState(false);
   const navWrapperRef = useRef(null);
+  const bannerVideoRef = useRef(null);
 
   // Measure and set --header-height CSS variable dynamically
   useEffect(() => {
@@ -44,12 +45,50 @@ export default function Navbar({ onOpenSchemeModal }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Guarantee background video playback & respect reduced motion
+  useEffect(() => {
+    const video = bannerVideoRef.current;
+    if (!video) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      video.pause();
+      return;
+    }
+
+    video.muted = true;
+    video.defaultMuted = true;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {});
+    }
+  }, []);
+
   return (
     <header className="nav-wrapper" ref={navWrapperRef}>
       {/* Real Dynamic Gold & Silver Market Price Ticker */}
       <GoldPriceTicker />
 
       <nav className={`main-navbar ${scrolled ? 'nav-scrolled' : ''}`}>
+        {/* Layer 2: Full-width cinematic background video */}
+        <div className="nav-video-bg-wrap" aria-hidden="true">
+          <video
+            ref={bannerVideoRef}
+            src="/videos/kv-gold-banner-background.mp4"
+            className="nav-video-bg kv-gold-banner__video"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            disablePictureInPicture
+            controls={false}
+          />
+        </div>
+
+        {/* Layer 3: Subtle contrast overlay */}
+        <div className="nav-contrast-overlay" aria-hidden="true" />
+
+        {/* Layer 4: Original Banner Content (Layered Strictly Above Background Layers) */}
         <div className="container navbar-centered-layout">
           {/* Left Wing: Authentic Royal Tamil Gold Quote */}
           <div className="nav-quote-wing nav-quote-left">
@@ -94,5 +133,3 @@ export default function Navbar({ onOpenSchemeModal }) {
     </header>
   );
 }
-
-

@@ -91,10 +91,10 @@
   margin: 0 auto;
 }
 
-/* 4 Pillars Grid */
+/* 3 Pillars Grid */
 .pillars-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.75rem;
   opacity: 0;
   transform: translateY(25px);
@@ -108,16 +108,19 @@
 }
 
 .pillar-card {
-  background: rgba(26, 6, 12, 0.65);
+  background: rgba(26, 6, 12, 0.75);
   border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 18px;
   padding: 2rem 1.5rem;
   display: flex;
   flex-direction: column;
   position: relative;
+  isolation: isolate;
+  overflow: hidden;
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
 }
 
@@ -126,6 +129,93 @@
   border-color: rgba(249, 231, 159, 0.75);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85), 0 0 25px rgba(212, 175, 55, 0.25);
   background: rgba(35, 7, 16, 0.85);
+}
+
+/* ==========================================================================
+   PILLAR CARD VIDEO BACKGROUND LAYERS
+   Layer 1: Base burgundy background (.pillar-card)
+   Layer 2: Cinematic background video (.pillar-card-video-wrap, z-index: 1)
+   Layer 3: Subtle contrast overlay (.pillar-card-contrast-overlay, z-index: 2)
+   Layer 4: Card content (.pillar-card-content, z-index: 5)
+   ========================================================================== */
+.pillar-card-video-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 18px;
+}
+
+.pillar-card-bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.45;
+  display: block;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.6s ease;
+}
+
+/* Individual Video Framing & Tuning */
+.pillar-card-transparent-value .pillar-card-bg-video {
+  object-position: center 40%;
+  opacity: 0.45;
+}
+
+.pillar-card-customer-first .pillar-card-bg-video {
+  object-position: center 48%;
+  opacity: 0.46;
+}
+
+.pillar-card-trusted-quality .pillar-card-bg-video {
+  object-position: center 42%;
+  opacity: 0.45;
+}
+
+.pillar-card:hover .pillar-card-bg-video {
+  opacity: 0.58;
+  transform: scale(1.04);
+}
+
+.pillar-card-contrast-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  border-radius: 18px;
+  background: linear-gradient(
+    155deg,
+    rgba(22, 4, 10, 0.62) 0%,
+    rgba(14, 2, 6, 0.42) 50%,
+    rgba(22, 4, 10, 0.68) 100%
+  );
+  transition: background 0.35s ease;
+}
+
+.pillar-card:hover .pillar-card-contrast-overlay {
+  background: linear-gradient(
+    155deg,
+    rgba(22, 4, 10, 0.52) 0%,
+    rgba(14, 2, 6, 0.32) 50%,
+    rgba(22, 4, 10, 0.58) 100%
+  );
+}
+
+.pillar-card-content {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex-grow: 1;
 }
 
 .pillar-icon-ring {

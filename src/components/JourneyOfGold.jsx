@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import MurmurationWordmark from './ui/murmuration-wordmark';
 import '../styles/journey.css';
 
 const MILESTONES = [
@@ -192,6 +193,26 @@ export default function JourneyOfGold({ onOpenSchemeModal }) {
       {/* Background Ambience */}
       <div className="journey-ambient-glow" aria-hidden="true" />
       <div className="journey-ambient-orb" aria-hidden="true" />
+
+      {/* Murmuration Wordmark Cinematic Bird Flight Background Layer */}
+      <div className="journey-murmuration-container" aria-hidden="true">
+        <MurmurationWordmark
+          word="GOLD"
+          birds={1800}
+          preset="night"
+          palette={{
+            skyTop: "#100307",
+            skyLow: "#260810",
+            sun: "#9A6A28",
+            ink: "#E4C777",
+          }}
+          flyFor={6}
+          holdFor={2.5}
+          reeds={false}
+          interactive={false}
+          height="100%"
+        />
+      </div>
 
       <div className="journey-wrapper">
         {/* Section Header */}

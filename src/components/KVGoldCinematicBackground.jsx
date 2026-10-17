@@ -196,40 +196,8 @@ export default function KVGoldCinematicBackground() {
       shimmerPhase = (Math.sin(time * 0.003) + 1) * 0.5;
 
       // -----------------------------------------------------------------------
-      // LAYER 1: VOLUMETRIC BURGUNDY VELVET CLOUDS & 5 GOLD LIGHT BLOOMS
-      // -----------------------------------------------------------------------
-      // Top Center Spotlight Bloom
-      const bloom1X = halfW + Math.sin(time * 0.0003) * 80;
-      const bloom1Y = height * 0.08 + Math.cos(time * 0.0004) * 30;
-      const gradBloom1 = ctx.createRadialGradient(bloom1X, bloom1Y, 40, bloom1X, bloom1Y, 550);
-      gradBloom1.addColorStop(0, 'rgba(240, 217, 154, 0.16)');
-      gradBloom1.addColorStop(0.45, 'rgba(122, 0, 25, 0.24)');
-      gradBloom1.addColorStop(1, 'transparent');
-      ctx.fillStyle = gradBloom1;
-      ctx.fillRect(0, 0, width, height);
-
-      // Upper Left Burgundy Volumetric Cloud
-      const cloud1X = halfW * 0.2 + Math.cos(time * 0.00025) * 90;
-      const cloud1Y = halfH * 0.5 + Math.sin(time * 0.0003) * 50;
-      const gradCloud1 = ctx.createRadialGradient(cloud1X, cloud1Y, 30, cloud1X, cloud1Y, 600);
-      gradCloud1.addColorStop(0, 'rgba(69, 17, 23, 0.36)');
-      gradCloud1.addColorStop(0.5, 'rgba(35, 9, 13, 0.22)');
-      gradCloud1.addColorStop(1, 'transparent');
-      ctx.fillStyle = gradCloud1;
-      ctx.fillRect(0, 0, width, height);
-
-      // Lower Right Warm Burgundy Cloud
-      const cloud2X = halfW * 1.6 + Math.sin(time * 0.00035) * 110;
-      const cloud2Y = halfH * 1.4 + Math.cos(time * 0.0002) * 70;
-      const gradCloud2 = ctx.createRadialGradient(cloud2X, cloud2Y, 40, cloud2X, cloud2Y, 650);
-      gradCloud2.addColorStop(0, 'rgba(90, 15, 25, 0.32)');
-      gradCloud2.addColorStop(0.5, 'rgba(35, 7, 13, 0.20)');
-      gradCloud2.addColorStop(1, 'transparent');
-      ctx.fillStyle = gradCloud2;
-      ctx.fillRect(0, 0, width, height);
-
-      // -----------------------------------------------------------------------
       // LAYER 2: 3D MOLTEN GOLD RIVER & MULTI-RIBBON TERRAIN FIELD
+      // (Layer 1 volumetric clouds & spots are rendered natively via high-performance CSS)
       // -----------------------------------------------------------------------
       const projectedGrid = [];
       const waveTime = time * 0.009;
@@ -429,6 +397,8 @@ export default function KVGoldCinematicBackground() {
         ctx.stroke();
         ctx.restore();
       });
+
+      if (prefersReducedMotion) return;
 
       time += 1;
       animFrameId = requestAnimationFrame(render);

@@ -4,6 +4,10 @@ import '../styles/gold-buying.css';
 
 export default function GoldBuyingService({ onOpenSchemeModal }) {
   const sectionRef = useRef(null);
+  const buyVideoRef = useRef(null);
+  const sellVideoRef = useRef(null);
+  const customVideoRef = useRef(null);
+  const pricingVideoRef = useRef(null);
   const [isVisible, setIsVisible] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 768);
   const [activeTab, setActiveTab] = useState('what-we-do');
 
@@ -15,17 +19,51 @@ export default function GoldBuyingService({ onOpenSchemeModal }) {
       setIsVisible(true);
     }
 
+    const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const getVideos = () => [
+      buyVideoRef.current,
+      sellVideoRef.current,
+      customVideoRef.current,
+      pricingVideoRef.current,
+    ];
+
+    const playVideos = () => {
+      if (isReducedMotion) return;
+      getVideos().forEach((v) => {
+        if (v && v.paused) {
+          v.muted = true;
+          v.defaultMuted = true;
+          v.play().catch(() => {});
+        }
+      });
+    };
+
+    const pauseVideos = () => {
+      getVideos().forEach((v) => {
+        if (v && !v.paused) {
+          v.pause();
+        }
+      });
+    };
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
+          playVideos();
+        } else {
+          pauseVideos();
         }
       },
-      { threshold: 0.01, rootMargin: '100px 0px 100px 0px' }
+      { threshold: 0.01, rootMargin: '150px 0px 150px 0px' }
     );
 
     observer.observe(section);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      pauseVideos();
+    };
   }, []);
 
   const valuationSteps = [
@@ -75,94 +113,174 @@ export default function GoldBuyingService({ onOpenSchemeModal }) {
           {/* 6 Elegant Service Blocks Grid */}
           <div className="what-we-do-grid">
             
-            {/* SERVICE 01 */}
-            <div className="service-block-card">
-              <div className="service-block-num">SERVICE 01</div>
-              <div className="service-block-icon">
-                <Gem size={22} />
+            {/* SERVICE 01 - BUY GOLD JEWELLERY */}
+            <div className="service-block-card service-block-card-video service-card-buy">
+              {/* Background Video Layer */}
+              <div className="service-card-video-wrap" aria-hidden="true">
+                <video
+                  ref={buyVideoRef}
+                  src="/videos/kv-gold-buy-jewellery.mp4"
+                  className="service-card-video"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  disablePictureInPicture
+                  controls={false}
+                />
               </div>
-              <h3 className="service-block-title">BUY GOLD JEWELLERY</h3>
-              <p className="service-block-desc">
-                Explore gold jewellery designed for everyday elegance, celebrations and meaningful occasions.
-              </p>
-              <p className="service-block-desc-ta">
-                தினசரி அணிவதற்கும், சிறப்பு நிகழ்வுகளுக்கும், உங்கள் வாழ்க்கையின் முக்கிய தருணங்களுக்கும் ஏற்ற தங்க நகைகளை தேர்வு செய்யுங்கள்.
-              </p>
-              <button
-                type="button"
-                className="service-block-cta"
-                onClick={() => {
-                  const el = document.querySelector('#gold-collection');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }}
-              >
-                <span>EXPLORE GOLD</span>
-                <span className="cta-ta"> • தங்க நகைகளை பார்க்க</span>
-                <ArrowRight size={14} />
-              </button>
+              {/* Contrast Overlay for Text Readability */}
+              <div className="service-card-contrast-overlay" aria-hidden="true" />
+              {/* Content Layer (z-index: 5) */}
+              <div className="service-card-content">
+                <div className="service-block-num">SERVICE 01</div>
+                <div className="service-block-icon">
+                  <Gem size={22} />
+                </div>
+                <h3 className="service-block-title">BUY GOLD JEWELLERY</h3>
+                <p className="service-block-desc">
+                  Explore gold jewellery designed for everyday elegance, celebrations and meaningful occasions.
+                </p>
+                <p className="service-block-desc-ta">
+                  தினசரி அணிவதற்கும், சிறப்பு நிகழ்வுகளுக்கும், உங்கள் வாழ்க்கையின் முக்கிய தருணங்களுக்கும் ஏற்ற தங்க நகைகளை தேர்வு செய்யுங்கள்.
+                </p>
+                <button
+                  type="button"
+                  className="service-block-cta"
+                  onClick={() => {
+                    const el = document.querySelector('#gold-collection');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  <span>EXPLORE GOLD</span>
+                  <span className="cta-ta"> • தங்க நகைகளை பார்க்க</span>
+                  <ArrowRight size={14} />
+                </button>
+              </div>
             </div>
 
-            {/* SERVICE 02 */}
-            <div className="service-block-card">
-              <div className="service-block-num">SERVICE 02</div>
-              <div className="service-block-icon">
-                <Scale size={22} />
+            {/* SERVICE 02 - SELL YOUR GOLD */}
+            <div className="service-block-card service-block-card-video service-card-sell">
+              {/* Background Video Layer */}
+              <div className="service-card-video-wrap" aria-hidden="true">
+                <video
+                  ref={sellVideoRef}
+                  src="/videos/kv-gold-sell-gold.mp4"
+                  className="service-card-video"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  disablePictureInPicture
+                  controls={false}
+                />
               </div>
-              <h3 className="service-block-title">SELL YOUR GOLD</h3>
-              <p className="service-block-desc">
-                Looking to sell your gold? KV GOLD provides a transparent valuation process based on the relevant gold purity, weight and applicable market rates.
-              </p>
-              <p className="service-block-desc-ta">
-                உங்கள் தங்கத்தை விற்க விரும்புகிறீர்களா? தங்கத்தின் தரம், எடை மற்றும் பொருந்தக்கூடிய சந்தை விலையை அடிப்படையாகக் கொண்டு தெளிவான மதிப்பீட்டு முறையை வழங்குகிறோம்.
-              </p>
-              <button
-                type="button"
-                className="service-block-cta"
-                onClick={() => onOpenSchemeModal && onOpenSchemeModal('தங்கம் மதிப்பீடு / விற்பனை')}
-              >
-                <span>GET A GOLD VALUATION</span>
-                <span className="cta-ta"> • தங்க மதிப்பீடு பெற</span>
-                <ArrowRight size={14} />
-              </button>
+              {/* Contrast Overlay for Text Readability */}
+              <div className="service-card-contrast-overlay" aria-hidden="true" />
+              {/* Content Layer (z-index: 5) */}
+              <div className="service-card-content">
+                <div className="service-block-num">SERVICE 02</div>
+                <div className="service-block-icon">
+                  <Scale size={22} />
+                </div>
+                <h3 className="service-block-title">SELL YOUR GOLD</h3>
+                <p className="service-block-desc">
+                  Looking to sell your gold? KV GOLD provides a transparent valuation process based on the relevant gold purity, weight and applicable market rates.
+                </p>
+                <p className="service-block-desc-ta">
+                  உங்கள் தங்கத்தை விற்க விரும்புகிறீர்களா? தங்கத்தின் தரம், எடை மற்றும் பொருந்தக்கூடிய சந்தை விலையை அடிப்படையாகக் கொண்டு தெளிவான மதிப்பீட்டு முறையை வழங்குகிறோம்.
+                </p>
+                <button
+                  type="button"
+                  className="service-block-cta"
+                  onClick={() => onOpenSchemeModal && onOpenSchemeModal('தங்கம் மதிப்பீடு / விற்பனை')}
+                >
+                  <span>GET A GOLD VALUATION</span>
+                  <span className="cta-ta"> • தங்க மதிப்பீடு பெற</span>
+                  <ArrowRight size={14} />
+                </button>
+              </div>
             </div>
 
-            {/* SERVICE 03 */}
-            <div className="service-block-card">
-              <div className="service-block-num">SERVICE 03</div>
-              <div className="service-block-icon">
-                <Palette size={22} />
+            {/* SERVICE 03 - CUSTOM JEWELLERY */}
+            <div className="service-block-card service-block-card-video service-card-custom">
+              {/* Background Video Layer */}
+              <div className="service-card-video-wrap" aria-hidden="true">
+                <video
+                  ref={customVideoRef}
+                  src="/videos/kv-gold-custom-jewellery.mp4"
+                  className="service-card-video"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  disablePictureInPicture
+                  controls={false}
+                />
               </div>
-              <h3 className="service-block-title">CUSTOM JEWELLERY</h3>
-              <p className="service-block-desc">
-                Have a design in mind? We can help turn your idea into a jewellery piece tailored to your preferred design, style and requirements, subject to feasibility.
-              </p>
-              <p className="service-block-desc-ta">
-                உங்கள் மனதில் ஏற்கனவே ஒரு நகை வடிவமைப்பு இருக்கிறதா? உங்கள் விருப்பமான வடிவம், ஸ்டைல் மற்றும் தேவைகளுக்கு ஏற்றவாறு உங்கள் எண்ணத்தை தனிப்பயன் நகையாக உருவாக்க உதவுகிறோம்.
-              </p>
-              <button
-                type="button"
-                className="service-block-cta"
-                onClick={() => onOpenSchemeModal && onOpenSchemeModal('தனிப்பயன் நகை வடிவமைப்பு')}
-              >
-                <span>CREATE YOUR DESIGN</span>
-                <span className="cta-ta"> • உங்கள் வடிவமைப்பு</span>
-                <ArrowRight size={14} />
-              </button>
+              {/* Contrast Overlay for Text Readability */}
+              <div className="service-card-contrast-overlay" aria-hidden="true" />
+              {/* Content Layer (z-index: 5) */}
+              <div className="service-card-content">
+                <div className="service-block-num">SERVICE 03</div>
+                <div className="service-block-icon">
+                  <Palette size={22} />
+                </div>
+                <h3 className="service-block-title">CUSTOM JEWELLERY</h3>
+                <p className="service-block-desc">
+                  Have a design in mind? We can help turn your idea into a jewellery piece tailored to your preferred design, style and requirements, subject to feasibility.
+                </p>
+                <p className="service-block-desc-ta">
+                  உங்கள் மனதில் ஏற்கனவே ஒரு நகை வடிவமைப்பு இருக்கிறதா? உங்கள் விருப்பமான வடிவம், ஸ்டைல் மற்றும் தேவைகளுக்கு ஏற்றவாறு உங்கள் எண்ணத்தை தனிப்பயன் நகையாக உருவாக்க உதவுகிறோம்.
+                </p>
+                <button
+                  type="button"
+                  className="service-block-cta"
+                  onClick={() => onOpenSchemeModal && onOpenSchemeModal('தனிப்பயன் நகை வடிவமைப்பு')}
+                >
+                  <span>CREATE YOUR DESIGN</span>
+                  <span className="cta-ta"> • உங்கள் வடிவமைப்பு</span>
+                  <ArrowRight size={14} />
+                </button>
+              </div>
             </div>
 
-            {/* SERVICE 04 */}
-            <div className="service-block-card">
-              <div className="service-block-num">SERVICE 04</div>
-              <div className="service-block-icon">
-                <DollarSign size={22} />
+            {/* SERVICE 04 - FAIR & TRANSPARENT PRICING */}
+            <div className="service-block-card service-block-card-video service-card-pricing">
+              {/* Background Video Layer */}
+              <div className="service-card-video-wrap" aria-hidden="true">
+                <video
+                  ref={pricingVideoRef}
+                  src="/videos/kv-gold-fair-pricing.mp4"
+                  className="service-card-video"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  disablePictureInPicture
+                  controls={false}
+                />
               </div>
-              <h3 className="service-block-title">FAIR & TRANSPARENT PRICING</h3>
-              <p className="service-block-desc">
-                We believe customers should understand what they are paying for. We aim to provide competitive, market-aligned pricing with clear communication around gold value, making charges and applicable taxes.
-              </p>
-              <p className="service-block-desc-ta">
-                நீங்கள் செலுத்தும் தொகை எதற்காக என்பதை தெளிவாக புரிந்துகொள்ள வேண்டும் என்பதே எங்கள் நோக்கம். தங்கத்தின் மதிப்பு, making charges மற்றும் பொருந்தக்கூடிய வரிகள் குறித்து தெளிவான தகவல்களுடன், போட்டித்தன்மை கொண்ட சந்தை சார்ந்த விலையை வழங்க முயற்சிக்கிறோம்.
-              </p>
+              {/* Contrast Overlay for Text Readability */}
+              <div className="service-card-contrast-overlay" aria-hidden="true" />
+              {/* Content Layer (z-index: 5) */}
+              <div className="service-card-content">
+                <div className="service-block-num">SERVICE 04</div>
+                <div className="service-block-icon">
+                  <DollarSign size={22} />
+                </div>
+                <h3 className="service-block-title">FAIR & TRANSPARENT PRICING</h3>
+                <p className="service-block-desc">
+                  We believe customers should understand what they are paying for. We aim to provide competitive, market-aligned pricing with clear communication around gold value, making charges and applicable taxes.
+                </p>
+                <p className="service-block-desc-ta">
+                  நீங்கள் செலுத்தும் தொகை எதற்காக என்பதை தெளிவாக புரிந்துகொள்ள வேண்டும் என்பதே எங்கள் நோக்கம். தங்கத்தின் மதிப்பு, making charges மற்றும் பொருந்தக்கூடிய வரிகள் குறித்து தெளிவான தகவல்களுடன், போட்டித்தன்மை கொண்ட சந்தை சார்ந்த விலையை வழங்க முயற்சிக்கிறோம்.
+                </p>
+              </div>
             </div>
 
           </div>
